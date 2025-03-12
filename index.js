@@ -1,6 +1,7 @@
 import express from "express"
 import { fileURLToPath } from "url"
 import { dirname } from "path"
+import path from "path"
 import { jobs } from './db/jobs.js';
 // import { pool, connectDb } from './db/db.js'
 import dotenv from 'dotenv';
