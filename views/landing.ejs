@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        .section-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .section-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('partials/nav') %>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-[90vh] bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?q=80&w=2070&auto=format&fit=crop" 
+                 alt="Background pattern" 
+                 class="w-full h-full object-cover mix-blend-overlay opacity-10">
+        </div>
+        
+        <div class="container mx-auto px-4 py-12 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="text-center lg:text-left">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                        Find Your Dream Job Today
+                    </h1>
+                    <p class="text-xl text-indigo-100 mb-8 max-w-lg">
+                        Discover thousands of job opportunities with all the information you need
+                    </p>
+
+                    <!-- Search Section -->
+                    <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-8">
+                        <form action="/search" method="GET" class="grid md:grid-cols-[1fr,auto,auto] gap-4">
+                            <div class="relative">
+                                <i class="absolute left-3 top-3 text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                                </i>
+                                <input
+                                    type="text"
+                                    name="q"
+                                    placeholder="Job title, keywords, or company"
+                                    class="flex h-10 w-full rounded-md border border-white/20 bg-white/10 px-3 py-1 text-sm text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 pl-10"
+                                />
+                            </div>
+                            <div class="relative">
+                                <i class="absolute left-3 top-3 text-gray-400">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                                </i>
+                                <input
+                                    type="text"
+                                    name="location"
+                                    placeholder="Location"
+                                    class="flex h-10 w-full rounded-md border border-white/20 bg-white/10 px-3 py-1 text-sm text-white placeholder:text-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 pl-10"
+                                />
+                            </div>
+                            <button type="submit" class="h-10 rounded-md px-8 bg-amber-500 text-white font-bold text-sm shadow-lg hover:bg-amber-600 transition-colors">
+                                Search Jobs
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Right Image -->
+                <div class="hidden lg:block">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1976&auto=format&fit=crop" 
+                         alt="Professional at work" 
+                         class="rounded-2xl shadow-2xl w-full max-w-lg mx-auto transform -rotate-2 hover:rotate-0 transition-transform duration-300"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Companies Section -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Featured Companies</h2>
+                    <p class="text-gray-600">Join the most innovative companies</p>
+                </div>
+                <a href="/companies" class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                    View all
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                    </svg>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <% const companies = [
+                    { name: 'Google', logo: 'G', color: 'bg-blue-500' },
+                    { name: 'Microsoft', logo: 'M', color: 'bg-emerald-500' },
+                    { name: 'Apple', logo: 'A', color: 'bg-gray-900' },
+                    { name: 'Meta', logo: 'M', color: 'bg-indigo-500' },
+                    { name: 'Amazon', logo: 'A', color: 'bg-orange-500' },
+                    { name: 'Netflix', logo: 'N', color: 'bg-red-600' }
+                ] %>
+
+                <% companies.forEach(function(company) { %>
+                    <div class="section-card p-6 hover:scale-105 transition-all">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 <%= company.color %> rounded-xl flex items-center justify-center">
+                                <span class="text-xl font-bold text-white"><%= company.logo %></span>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900"><%= company.name %></h3>
+                                <p class="text-sm text-gray-500">12 open positions</p>
+                            </div>
+                        </div>
+                    </div>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Categories Section -->
+    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Popular Categories</h2>
+                    <p class="text-gray-600">Explore opportunities by category</p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-6">
+                    <% const categories = [
+                        { name: 'Technology', count: 234, icon: '💻' },
+                        { name: 'Design', count: 156, icon: '🎨' },
+                        { name: 'Marketing', count: 123, icon: '📈' },
+                        { name: 'Finance', count: 98, icon: '💰' },
+                        { name: 'Sales', count: 87, icon: '🤝' },
+                        { name: 'Healthcare', count: 76, icon: '⚕️' }
+                    ] %>
+
+                    <% categories.forEach(function(category) { %>
+                        <a href="/jobs?category=<%= category.name.toLowerCase() %>" 
+                           class="section-card p-6 hover:scale-105 transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-2xl">
+                                    <%= category.icon %>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900"><%= category.name %></h3>
+                                    <p class="text-sm text-gray-500"><%= category.count %> jobs</p>
+                                </div>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Seeker Tools Section -->
+    <div class="container mx-auto px-4 py-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">Tools for Success</h2>
+                <p class="text-gray-600">Everything you need to land your dream job</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="section-card p-6 text-center">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">AI Resume Review</h3>
+                    <p class="text-sm text-gray-500">Get instant feedback on your resume</p>
+                </div>
+
+                <div class="section-card p-6 text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Interview Prep</h3>
+                    <p class="text-sm text-gray-500">Practice with AI-powered mock interviews</p>
+                </div>
+
+                <div class="section-card p-6 text-center">
+                    <div class="w-16 h-16 bg-amber-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                        </svg>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 mb-2">Salary Insights</h3>
+                    <p class="text-sm text-gray-500">Compare salaries and benefits</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="bg-gradient-to-r from-indigo-600 to-purple-600 py-16">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-white mb-4">Ready to Start Your Journey?</h2>
+                <p class="text-indigo-100 mb-8">Join thousands of professionals who've found their dream jobs</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="/register" class="px-8 py-3 bg-white text-indigo-600 rounded-xl font-semibold hover:bg-indigo-50 transition-colors">
+                        Create Account
+                    </a>
+                    <a href="/jobs" class="px-8 py-3 bg-indigo-500 text-white rounded-xl font-semibold hover:bg-indigo-400 transition-colors">
+                        Browse Jobs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+</body>
+</html>

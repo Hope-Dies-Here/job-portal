@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('partials/nav') %>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Hero Section -->
+        <div class="max-w-4xl mx-auto text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">
+                Find Your Dream Job Today
+            </h1>
+            <p class="text-xl text-gray-600">
+                Discover thousands of job opportunities with all the information you need
+            </p>
+        </div>
+
+        <!-- Search Section -->
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-4 mb-8">
+            <form action="/jobs/search" method="GET" class="grid md:grid-cols-[1fr,auto,auto] gap-4">
+                <div class="relative">
+                    <i class="absolute left-3 top-3 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                    </i>
+                    <input
+                        type="text"
+                        name="q"
+                        placeholder="Job title, keywords, or company"
+                        class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 pl-10"
+                    />
+                </div>
+                <div class="relative">
+                    <i class="absolute left-3 top-3 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+                    </i>
+                    <input
+                        type="text"
+                        name="location"
+                        placeholder="Location"
+                        class="flex h-10 w-full rounded-md border border-gray-200 bg-white px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 pl-10"
+                    />
+                </div>
+                <button type="submit" class="h-10 rounded-md px-8 bg-white text-indigo-600 font-bold text-sm shadow hover:bg-indigo-700 hover:text-white w-full md:w-auto">
+                    Search Jobs
+                </button>
+            </form>
+        </div>
+
+        <!-- Jobs List Section -->
+        <div class="max-w-4xl mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Recent Job Postings</h2>
+                <%- include('partials/filter.ejs')%>
+            </div>
+
+            <div class="space-y-4">
+                <% jobs.forEach(function(job) { %>
+                    <%- include('partials/job-card', {job: job}); %>
+                <% }); %>
+            </div>
+        </div>
+    </div>
+
+    <div x-data="{count: 0, errMsg: false}" class="relative p-8">
+        <button @click="count++; errMsg = false ">Increase</button>
+        <span class="text-2xl font-bold p-4" x-text="count"></span>
+        <button @click="
+            count--; 
+            if(count < 0) {
+                count = 0;
+                errMsg = true
+            } else {
+                errMsg = false
+            }">
+                Decrease
+            </button><br/>
+        <template x-if="errMsg">
+            <span class="text-red-300 absolute bottom-0">You can't go below 0 
+                <span class="pl-4 cursor-pointer" @click="errMsg = false">x</span>
+            </span>
+        </template> 
+    </div>
+    <div x-data="{ open: true }" class="">
+    <button @click="open = !open" x-text="count">beyene</button>
+    <p x-show="open">Hello, Alpine.js!</p>
+</div>
+    <%- include('partials/footer') %>
+</body>
+</html>
+

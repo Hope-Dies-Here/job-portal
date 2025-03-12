@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        .section-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+        .tab-button {
+            transition: all 0.2s ease;
+        }
+        .tab-button.active {
+            color: #4f46e5;
+            border-color: #4f46e5;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50/50">
+    <%- include('partials/nav') %>
+
+    <div class="container mx-auto px-4 py-12">
+        <!-- Profile Header -->
+        <div class="section-card p-8 mb-8">
+            <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+                <div class="relative">
+                    <div class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=1000&auto=format&fit=crop" 
+                             alt="Profile Picture"
+                             class="w-full h-full object-cover"
+                             onerror="this.src='https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff&size=128'">
+                    </div>
+                    <button class="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </button>
+                </div>
+                <div class="flex-1 text-center md:text-left">
+                    <h1 class="text-2xl font-bold text-gray-900 mb-2">John Doe</h1>
+                    <p class="text-gray-600 mb-4">Software Engineer</p>
+                    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+                        <div class="flex items-center text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            San Francisco, CA
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            5+ years experience
+                        </div>
+                        <div class="flex items-center text-gray-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
+                            john.doe@example.com
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Tabs -->
+        <div class="mb-8 border-b">
+            <div class="flex overflow-x-auto">
+                <button class="tab-button active px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap">
+                    Personal Information
+                </button>
+                <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+                    Experience & Education
+                </button>
+                <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+                    Skills & Expertise
+                </button>
+                <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+                    Resume & Portfolio
+                </button>
+                <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+                    Job Preferences
+                </button>
+            </div>
+        </div>
+
+        <!-- Profile Content -->
+        <div class="grid md:grid-cols-[3fr,1fr] gap-8">
+            <!-- Main Content -->
+            <div class="space-y-8">
+                <!-- Personal Information Section -->
+                <div class="section-card p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Personal Information</h2>
+                        <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            Edit
+                        </button>
+                    </div>
+
+                    <form class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">First Name</label>
+                                <input type="text" value="John" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Last Name</label>
+                                <input type="text" value="Doe" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Email</label>
+                                <input type="email" value="john.doe@example.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Phone</label>
+                                <input type="tel" value="+1 (555) 123-4567" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Date of Birth</label>
+                                <input type="date" value="1990-01-15" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Gender</label>
+                                <select class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                    <option>Male</option>
+                                    <option>Female</option>
+                                    <option>Non-binary</option>
+                                    <option>Prefer not to say</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Address</label>
+                            <input type="text" value="123 Main Street" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                        </div>
+
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">City</label>
+                                <input type="text" value="San Francisco" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">State</label>
+                                <input type="text" value="California" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-sm font-medium text-gray-700">Zip Code</label>
+                                <input type="text" value="94105" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-gray-700">Bio</label>
+                            <textarea rows="4" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">Experienced software engineer with a passion for building scalable web applications. Proficient in JavaScript, React, and Node.js.</textarea>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Social Profiles Section -->
+                <div class="section-card p-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-semibold text-gray-900">Social Profiles</h2>
+                        <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                            Edit
+                        </button>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                            <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt="LinkedIn" class="w-8 h-8 mr-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">LinkedIn</h3>
+                                <p class="text-sm text-gray-600">linkedin.com/in/johndoe</p>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                            <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-8 h-8 mr-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">GitHub</h3>
+                                <p class="text-sm text-gray-600">github.com/johndoe</p>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png" alt="Instagram" class="w-8 h-8 mr-4">
+                            <div class="flex-1">
+                                <h3 class="font-medium text-gray-900">Instagram</h3>
+                                <p class="text-sm text-gray-600">instagram.com/johndoe</p>
+                            </div>
+                            <button class="text-indigo-600 hover:text-indigo-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-8">
+                <!-- Profile Completion -->
+                <div class="section-card p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Profile Completion</h3>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="text-gray-600">Overall Completion</span>
+                            <span class="text-indigo-600 font-semibold">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-100 rounded-full h-2.5">
+                            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 h-2.5 rounded-full" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Personal Info</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Experience</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Education</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Skills</span>
+                            <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">Partial</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Resume</span>
+                            <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600">Job Preferences</span>
+                            <span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">Incomplete</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Stats -->
+                <div class="section-card p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Profile Stats</h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-gray-600">Profile Views</span>
+                            <span class="font-semibold text-indigo-600">156</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-gray-600">Applications</span>
+                            <span class="font-semibold text-indigo-600">12</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-gray-600">Job Matches</span>
+                            <span class="font-semibold text-indigo-600">24</span>
+                        </div>
+                        <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+                            <span class="text-gray-600">Saved Jobs</span>
+                            <span class="font-semibold text-indigo-600">8</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Settings -->
+                <div class="section-card p-6">
+                    <h3 class="font-semibold text-gray-900 mb-4">Account Settings</h3>
+                    <div class="space-y-3">
+                        <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span class="group-hover:text-indigo-600">Change Password</span>
+                        </a>
+                        <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                            </svg>
+                            <span class="group-hover:text-indigo-600">Notification Settings</span>
+                        </a>
+                        <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span class="group-hover:text-indigo-600">Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Here you would typically show/hide content based on the selected tab
+                    // For demonstration purposes, we're just changing the button styles
+                });
+            });
+        });
+    </script>
+</body>
+</html>

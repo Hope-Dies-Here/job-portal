@@ -1,0 +1,49 @@
+/* Custom styles beyond Tailwind */
+body {
+  font-family: "Inter", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
+.text-primary {
+  color: #3490dc;
+}
+
+.bg-primary {
+  background-color: #3490dc;
+}
+
+.hover\:bg-primary-dark:hover {
+  background-color: #2779bd;
+}
+
+.hover\:text-primary-dark:hover {
+  color: #2779bd;
+}
+
+/* Custom scrollbar for job listings */
+.overflow-auto::-webkit-scrollbar {
+  height: 6px;
+}
+
+.overflow-auto::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 10px;
+}
+
+.overflow-auto::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+

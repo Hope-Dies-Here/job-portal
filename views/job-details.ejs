@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <%- include('partials/nav') %>
+
+  <div class="container mx-auto px-8 py-8">
+    <!-- Job Details Section -->
+    <section class="job-details-section">
+      <div class="grid grid-cols-1 md:grid-cols-[1fr,350px] gap-8">
+        <!-- Main Content -->
+        <div class="job-details-main bg-white rounded-lg shadow p-6">
+          <!-- Job Header -->
+          <div class="flex justify-between items-center mb-6">
+            <div class="job-title-section">
+              <h1 class="text-2xl font-bold text-gray-900 mb-2"><%= job.title %></h1>
+              <div class="flex flex-col md:flex-row md:items-center gap-4">
+                <div class="company-info flex items-center gap-2">
+                  <% if (job.logo) { %>
+                    <img src="https://loremflickr.com/200/200?random=1" alt="<%= job.company %> logo" class="w-10 h-10 object-contain rounded">
+                  <% } %>
+                  <span class="company-name text-lg text-blue-600 font-medium">
+                    <%= job.company %>
+                  </span>
+                </div>
+                <div class="job-tags flex gap-2">
+                  <% if (job.premium) { %>
+                    <span class="bg-yellow-100 text-yellow-600 text-xs font-medium px-2 py-1 rounded">Premium</span>
+                  <% } %>
+                  <% if (job.featured) { %>
+                    <span class="bg-green-100 text-green-600 text-xs font-medium px-2 py-1 rounded">New</span>
+                  <% } %>
+                  <% if (job.easyApply) { %>
+                    <span class="bg-blue-100 text-blue-600 text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
+                      <i class="fas fa-bolt"></i> Easy Apply
+                    </span>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+            <div class="job-actions flex gap-2">
+              <button class="text-gray-500 hover:text-blue-600">
+                <i class="far fa-bookmark"></i>
+              </button>
+              <button class="text-gray-500 hover:text-blue-600">
+                <i class="fas fa-share-alt"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Job Info -->
+          <div class="job-details-info flex flex-wrap gap-6 mb-6 border-b pb-4 text-sm text-gray-500">
+            <div class="job-detail flex items-center gap-2">
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5 7 13 7 13s7-8 7-13c0-3.87-3.13-7-7-7z"/>
+                <circle cx="12" cy="9" r="3"/>
+              </svg>
+              <span><%= job.location %></span>
+            </div>
+            <div class="job-detail flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="16" rx="2"/>
+                <path d="M16 2v4M8 2v4M3 10h18M12 14v4M12 14h4"/>
+              </svg>
+
+              <span><%= job.date %></span>
+            </div>
+            <div class="job-detail flex items-center gap-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="7" width="18" height="14" rx="2" ry="2"/>
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+                <path d="M12 12v4"/>
+                <path d="M10 14h4"/>
+              </svg>
+              <span><%= job.type %></span>
+            </div>
+            <% if (job.dutyStation) { %>
+              <div class="job-detail flex items-center gap-2">
+                <i class="fas fa-map-pin"></i>
+                <span>Duty Station: <%= job.dutyStation %></span>
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Job Description -->
+          <div class="job-description mb-6">
+            <h2 class="text-xl font-semibold text-gray-900 mb-3">Job Description</h2>
+            <p class="text-gray-700"><%= job.description %></p>
+          </div>
+
+          <!-- Responsibilities -->
+          <% if (job.responsibilities && job.responsibilities.length > 0) { %>
+            <div class="job-responsibilities mb-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-3">Responsibilities</h2>
+              <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <% job.responsibilities.forEach(responsibility => { %>
+                  <li><%= responsibility %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <!-- Requirements -->
+          <% if (job.requirements && job.requirements.length > 0) { %>
+            <div class="job-requirements mb-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-3">Requirements</h2>
+              <ul class="list-disc list-inside text-gray-700 space-y-1">
+                <% job.requirements.forEach(requirement => { %>
+                  <li><%= requirement %></li>
+                <% }) %>
+              </ul>
+            </div>
+          <% } %>
+
+          <!-- Apply Section -->
+          <div class="apply-section text-center mt-8">
+            <a href="/jobs/<%= job.id %>/apply" class="inline-block px-6 py-3 rounded bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-md font-semibold hover:from-indigo-700 hover:to-purple-700 transition-colors shadow-lg">
+              Apply Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="job-details-sidebar space-y-6">
+          <!-- Similar Jobs Widget -->
+          <div class="sidebar-widget bg-white rounded-lg shadow p-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Similar Jobs</h3>
+            <div class="similar-jobs space-y-4">
+              <% similarJobs.forEach(similarJob => { %>
+                <div class="similar-job-card pb-4 border-b last:border-0 last:pb-0">
+                  <h4 class="text-md font-medium text-gray-900 mb-1">
+                    <a href="/jobs/<%= similarJob.id %>" class="hover:text-blue-600"><%= similarJob.title %></a>
+                  </h4>
+                  <p class="company-name text-sm text-blue-600 mb-1"><%= similarJob.company %></p>
+                  <div class="job-meta text-xs text-gray-500 flex flex-col gap-1">
+                    <span class="flex items-center gap-1"><i class="fas fa-map-marker-alt"></i> <%= similarJob.location %></span>
+                    <span class="flex items-center gap-1"><i class="far fa-clock"></i> <%= similarJob.postedTime %></span>
+                  </div>
+                </div>
+              <% }) %>
+            </div>
+          </div>
+
+          <!-- Sign Up Widget -->
+          <div class="sidebar-widget bg-white rounded-lg shadow p-4 text-center">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Sign Up</h3>
+            <p class="text-sm text-gray-600 mb-4">Get personalized recommendations and apply for jobs</p>
+            <div class="social-signup flex justify-center gap-4 mb-4">
+              <a href="/auth/google" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200">
+                <img src="/images/google-icon.png" alt="Google" class="w-6 h-6">
+              </a>
+              <a href="/auth/linkedin" class="w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200">
+                <img src="/images/linkedin-icon.png" alt="LinkedIn" class="w-6 h-6">
+              </a>
+            </div>
+            <div class="signup-divider relative my-4">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-200"></div>
+              </div>
+              <span class="relative bg-white px-3 text-sm text-gray-500">or</span>
+            </div>
+            <p class="login-text text-sm">Already have an account? <a href="/login" class="text-blue-600 hover:underline font-medium">LOGIN</a></p>
+          </div>
+
+          <!-- Job Search Tips Widget -->
+          <div class="sidebar-widget bg-white rounded-lg shadow p-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4 border-b pb-2">Level up your job search</h3>
+            <div class="job-search-tips space-y-4">
+              <div class="tip flex items-start gap-3">
+                <i class="fas fa-star text-blue-600 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900">Unique jobs in niche industries</h4>
+                  <p class="text-xs text-gray-500">Discover opportunities in specialized fields</p>
+                </div>
+              </div>
+              <div class="tip flex items-start gap-3">
+                <i class="fas fa-bell text-blue-600 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900">Job alerts</h4>
+                  <p class="text-xs text-gray-500">Get notified about new opportunities</p>
+                </div>
+              </div>
+              <div class="tip flex items-start gap-3">
+                <i class="fas fa-file-alt text-blue-600 mt-1"></i>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900">Resume builder</h4>
+                  <p class="text-xs text-gray-500">Create a professional resume</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

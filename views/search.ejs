@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>	
+	<%- include('partials/nav')%>
+
+	<div class="max-w-4xl mx-auto py-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-semibold">Job Postings for <span class="text-indigo-600 italic">"<%=queryData.q%>"</span></h2>
+                <%- include('partials/filter.ejs')%>
+            </div>
+
+            <div class="space-y-4">
+                <% jobs.forEach(function(job) { %>
+                    <%- include('partials/job-card', {job: job}); %>
+                <% }); %>
+            </div>
+        </div>
+</body>
+</html>
