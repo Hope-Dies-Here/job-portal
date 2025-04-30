@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('partials/nav') %>
+
+<!-- Add Education Form -->
+<div class="section-card p-8">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900">Add Education</h2>
+      <button onclick="window.history.back()" class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        Cancel
+      </button>
+    </div>
+  
+    <form action="/profile/education/add" method="POST" class="space-y-6">
+      <!-- School/Institution -->
+      <div class="space-y-2">
+        <label for="school" class="text-sm font-medium text-gray-700">School/Institution <span class="text-red-500">*</span></label>
+        <input 
+          type="text" 
+          id="school" 
+          name="school" 
+          required
+          placeholder="e.g. Stanford University"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Degree -->
+      <div class="space-y-2">
+        <label for="degree" class="text-sm font-medium text-gray-700">Degree <span class="text-red-500">*</span></label>
+        <input 
+          type="text" 
+          id="degree" 
+          name="degree" 
+          required
+          placeholder="e.g. Bachelor of Science in Computer Science"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Field of Study -->
+      <div class="space-y-2">
+        <label for="field-of-study" class="text-sm font-medium text-gray-700">Field of Study</label>
+        <input 
+          type="text" 
+          id="field-of-study" 
+          name="fieldOfStudy" 
+          placeholder="e.g. Computer Science"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Location -->
+      <div class="space-y-2">
+        <label for="edu-location" class="text-sm font-medium text-gray-700">Location</label>
+        <input 
+          type="text" 
+          id="edu-location" 
+          name="location" 
+          placeholder="e.g. Stanford, CA"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Date Range -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="edu-start-date" class="text-sm font-medium text-gray-700">Start Date <span class="text-red-500">*</span></label>
+          <input 
+            type="month" 
+            id="edu-start-date" 
+            name="startDate" 
+            required
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          >
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <label for="edu-end-date" class="text-sm font-medium text-gray-700">End Date</label>
+            <div class="flex items-center">
+              <input 
+                type="checkbox" 
+                id="current-education" 
+                name="currentEducation" 
+                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              >
+              <label for="current-education" class="ml-2 text-sm text-gray-600">I'm currently studying here</label>
+            </div>
+          </div>
+          <input 
+            type="month" 
+            id="edu-end-date" 
+            name="endDate" 
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          >
+        </div>
+      </div>
+  
+      <!-- Grade/GPA -->
+      <div class="space-y-2">
+        <label for="grade" class="text-sm font-medium text-gray-700">Grade/GPA</label>
+        <input 
+          type="text" 
+          id="grade" 
+          name="grade" 
+          placeholder="e.g. 3.8/4.0"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Activities and Societies -->
+      <div class="space-y-2">
+        <label for="activities" class="text-sm font-medium text-gray-700">Activities and Societies</label>
+        <input 
+          type="text" 
+          id="activities" 
+          name="activities" 
+          placeholder="e.g. Computer Science Club, Robotics Team"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Description -->
+      <div class="space-y-2">
+        <label for="edu-description" class="text-sm font-medium text-gray-700">Description</label>
+        <textarea 
+          id="edu-description" 
+          name="description" 
+          rows="4" 
+          placeholder="Describe your studies, achievements, projects, or thesis..."
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        ></textarea>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3">
+        <a 
+          href="/profile" 
+          class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          Cancel
+        </a>
+        <button 
+          type="submit" 
+          class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          Save Education
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+      // Disable end date input when "I'm currently studying here" checkbox is checked
+      const currentEducationCheckbox = document.getElementById('current-education');
+      const eduEndDateInput = document.getElementById('edu-end-date');
+      
+      if (currentEducationCheckbox && eduEndDateInput) {
+        currentEducationCheckbox.addEventListener('change', function() {
+          if (this.checked) {
+            eduEndDateInput.value = '';
+            eduEndDateInput.disabled = true;
+          } else {
+            eduEndDateInput.disabled = false;
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

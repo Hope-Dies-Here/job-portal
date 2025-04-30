@@ -1,0 +1,191 @@
+
+<!-- Add Experience Form -->
+<div class="section-card p-8">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-xl font-semibold text-gray-900">Add Work Experience</h2>
+      <button onclick="closeExperienceForm()" class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        Cancel
+      </button>
+    </div>
+  
+    <form action="/profile/add-experience" method="POST" id="add-experience" class="space-y-6">
+      <!-- Job Title -->
+      <div class="space-y-2">
+        <label for="job-title" class="text-sm font-medium text-gray-700">Job Title <span class="text-red-500">*</span></label>
+        <input 
+          type="text" 
+          id="job-title" 
+          name="title" 
+          required
+          placeholder="e.g. Senior Frontend Developer"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Company -->
+      <div class="space-y-2">
+        <label for="company" class="text-sm font-medium text-gray-700">Company <span class="text-red-500">*</span></label>
+        <input 
+          type="text" 
+          id="company" 
+          name="company" 
+          required
+          placeholder="e.g. Tech Solutions Inc."
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Location -->
+      <div class="space-y-2">
+        <label for="location" class="text-sm font-medium text-gray-700">Location</label>
+        <input 
+          type="text" 
+          id="location" 
+          name="location" 
+          placeholder="e.g. San Francisco, CA"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+      </div>
+  
+      <!-- Employment Type -->
+      <div class="space-y-2">
+        <label for="employment-type" class="text-sm font-medium text-gray-700">Employment Type</label>
+        <select 
+          id="employment-type" 
+          name="employment_type" 
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+          <option value="Full-time">Full-time</option>
+          <option value="Part-time">Part-time</option>
+          <option value="Contract">Contract</option>
+          <option value="Freelance">Freelance</option>
+          <option value="Internship">Internship</option>
+          <option value="Volunteer">Volunteer</option>
+        </select>
+      </div>
+  
+      <!-- Date Range -->
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="space-y-2">
+          <label for="start-date" class="text-sm font-medium text-gray-700">Start Date <span class="text-red-500">*</span></label>
+          <input 
+            type="month" 
+            id="start-date" 
+            name="start_date" 
+            required
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          >
+        </div>
+        <div class="space-y-2">
+          <div class="flex justify-between">
+            <label for="end-date" class="text-sm font-medium text-gray-700">End Date</label>
+            <div class="flex items-center">
+              <input 
+                type="checkbox" 
+                id="current-job" 
+                name="current_job" 
+                class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+              >
+              <label for="current-job" class="ml-2 text-sm text-gray-600">I currently work here</label>
+            </div>
+          </div>
+          <input 
+            type="month" 
+            id="end-date" 
+            name="end_date" 
+            class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          >
+        </div>
+      </div>
+  
+      <!-- Description -->
+      <div class="space-y-2">
+        <label for="description" class="text-sm font-medium text-gray-700">Description</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          rows="5" 
+          placeholder="Describe your responsibilities, achievements, and the technologies you worked with..."
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        ></textarea>
+        <p class="text-xs text-gray-500">Tip: Use bullet points to highlight key achievements and responsibilities.</p>
+      </div>
+  
+      <!-- Skills Used -->
+      <div class="space-y-2">
+        <label for="skills" class="text-sm font-medium text-gray-700">Skills Used</label>
+        <input 
+          type="text" 
+          id="skills" 
+          name="skills_used" 
+          placeholder="e.g. JavaScript, React, Node.js (comma separated)"
+          class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+        >
+        <p class="text-xs text-gray-500">Enter skills separated by commas. These will be added to your overall skills profile.</p>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3">
+        <button
+        onclick="closeExperienceForm()"
+        type="button" 
+        class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+        >
+          Cancel
+        </button>
+        <button 
+          type="submit" 
+          class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+        >
+          Save Experience
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // For Experience Form
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('input[type=text]').forEach(input => {
+        input.value = 'beyene';
+      });
+      
+      const currentJobCheckbox = document.getElementById('current-job');
+      const endDateInput = document.getElementById('end-date');
+      
+      if (currentJobCheckbox && endDateInput) {
+        currentJobCheckbox.addEventListener('change', function() {
+          if (this.checked) {
+            endDateInput.value = '';
+            endDateInput.disabled = true;
+          } else {
+            endDateInput.disabled = false;
+          }
+        });
+      }
+
+      document.querySelector("#add-experience").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const form = e.target;
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        console.log(data);
+
+        fetch("/users/profile/add-experience", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data)
+        })
+      });
+    });
+  </script>

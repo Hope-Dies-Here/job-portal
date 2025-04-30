@@ -1,24 +1,47 @@
 <nav class="bg-white border-b">
-    <div class="container mx-auto px-4">
-        <div class="flex items-center justify-between h-16">
-            <div class="flex items-center">
-                <a href="/" class="text-2xl font-bold text-blue-600">JobHub</a>
-            </div>
-            <div class="hidden md:flex items-center space-x-4">
-                <a href="/jobs" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Find Jobs</a>
-                <a href="/companies" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Companies</a>
-                <a href="/resources" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">Resources</a>
-                <%if(user) { %> 
-                 <a href="/user/profile" class="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-semibold border border-gray-200 flex justify-between gap-4">
-                    <%=user.name%>
-                        <img src="<%=user.picture%>" class="w-5 h-5 rounded-full"/>
-                    </a>
-                <%} else { %>
-                <a href="/login" class="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-semibold border border-gray-200">Sign In</a>
-                <%} %>
-                <a href="/companies/post-job" class="text-indigo-600 shadow px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 hover:text-white hover:transition-colors">Post a Job</a>
-            </div>
-        </div>
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <div class="flex items-center">
+        <a href="/" class="text-2xl font-bold text-blue-600">JobHub</a>
+      </div>
+      <div class="hidden md:flex items-center space-x-4">
+        <a
+          href="/jobs"
+          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+          >Find Jobs</a
+        >
+        <a
+          href="/companies"
+          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+          >Companies</a
+        >
+        <a
+          href="/resources"
+          class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+          >Resources</a
+        >
+        <%if(user) { %>
+        <a
+          href="/users/profile"
+          class="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-semibold border border-gray-200 flex justify-between gap-4"
+        >
+          <%=user.name%>
+          <img src="<%= user.picture %>" class="w-5 h-5 rounded-full" /> <%=
+          user.first_name %>
+        </a>
+        <%} else { %>
+        <a
+          href="/users/login"
+          class="text-gray-700 hover:text-gray-900 px-4 py-2 rounded-md text-sm font-semibold border border-gray-200"
+          >Sign In</a
+        >
+        <%} %>
+        <a
+          href="/companies/post-job"
+          class="text-indigo-600 shadow px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 hover:text-white hover:transition-colors"
+          >Post a Job</a
+        >
+      </div>
     </div>
+  </div>
 </nav>
-
