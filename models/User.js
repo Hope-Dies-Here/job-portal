@@ -31,13 +31,28 @@ const User = {
 
   async create(user) {
     const { first_name, last_name, email, password } = user;
+    const picture = "/images/emp.png";
+
     const [rows] = await pool.execute(
-      "INSERT INTO users (first_name, last_name, email, password) values(?, ?, ?, ?)",
-      [first_name, last_name, email, password]
+      "INSERT INTO users (first_name, last_name, email, password, picture) values(?, ?, ?, ?, ?)",
+      [first_name, last_name, email, password, picture]
     );
     return rows;
   },
 
+  async findByIdAndUpdate(id, user) {
+    const { first_name, last_name, email, } = user;
+    const [rows] = await pool.execute(
+      "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?",
+      [first_name, last_name, email, id]
+    );
+
+    const [rows2] = await pool.execute(
+      "UPDATE address SET country = ?, region = ?, zone = ?, city = ? WHERE user_id = ?",
+      [user.country, user.region, user.zone, user.city, id]
+    )
+    return {...rows, ...rows2};
+  },
   async update(user) {},
 
   async delete(user) {},
@@ -67,7 +82,7 @@ const Skill = {
   async delete(skill) {},
 };
 
-const Experiance = {
+const Experience = {
   async findAll(userId) {
     const [rows] = await pool.execute(
       "SELECT * FROM experiences WHERE user_id = ?",
@@ -77,10 +92,10 @@ const Experiance = {
   },
 
   async create(experience) {
-    const { title, description, user_id } = experience;
+    const { title, company, location, type, start_date, end_date, description, user_id } = experience;
     const [rows] = await pool.execute(
-      "INSERT INTO experiences (title, description, user_id) values(?, ?, ?)",
-      [title, description, user_id]
+      "INSERT INTO experiences (title, company, location, type, start_date, end_date, description, user_id) values(?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, company, location, type, start_date, end_date, description, user_id]
     );
     return rows;
   },
@@ -136,4 +151,4 @@ const Resume = {
   async delete(resume) {},
 };
 
-export default User;
+export { User, Skill, Experience, Education, Resume };

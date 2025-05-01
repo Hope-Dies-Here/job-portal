@@ -19,13 +19,14 @@ import jobsRoute from "./routes/jobs.js";
 import indexRoute from "./routes/index.js";
 import usersRoute from "./routes/users.js";
 import companiesRoute from "./routes/companies.js";
-import User from "./models/User.js";
+import {User} from "./models/User.js";
+import bodyParser from "body-parser";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3002;
 
 // Middleware
 
@@ -33,6 +34,7 @@ const port = process.env.PORT || 3001;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 

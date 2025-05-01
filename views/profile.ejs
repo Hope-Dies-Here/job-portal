@@ -143,7 +143,7 @@
       <div class="mb-8 border-b">
         <div class="flex overflow-x-auto">
           <button
-            class="tab-button active px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap"
+            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap"
             data-tab="profile"
           >
             Personal Information
@@ -176,7 +176,7 @@
       </div>
 
       <!-- Profile Content -->
-      <div class="grid md:grid-cols-[3fr,1fr] gap-8 current" id="profile">
+      <div class="grid md:grid-cols-[3fr,1fr] gap-8 hidden" id="profile">
         <!-- Main Content -->
         <div class="space-y-8">
           <!-- Personal Information Section -->
@@ -206,7 +206,7 @@
               </button>
             </div>
 
-            <form class="space-y-6">
+            <form class="space-y-6" id="personal-info-form">
               <div class="grid md:grid-cols-2 gap-6">
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700"
@@ -215,6 +215,7 @@
                   <input
                     type="text"
                     value="<%= user.first_name %>"
+                    name="first_name"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
                 </div>
@@ -224,6 +225,7 @@
                   >
                   <input
                     type="text"
+                    name="last_name"
                     value="<%= user.last_name %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -232,6 +234,7 @@
                   <label class="text-sm font-medium text-gray-700">Email</label>
                   <input
                     type="email"
+                    name="email"
                     value="<%= user.email %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -240,6 +243,7 @@
                   <label class="text-sm font-medium text-gray-700">Phone</label>
                   <input
                     type="tel"
+                    name="phone"
                     value="<%= user.phone %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -250,6 +254,7 @@
                   >
                   <input
                     type="date"
+                    name="birth_date"
                     value="1990-01-15"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -259,6 +264,7 @@
                     >Gender</label
                   >
                   <select
+                    name="gender"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   >
                     <option>Male</option>
@@ -271,6 +277,7 @@
                 <label class="text-sm font-medium text-gray-700">Country</label>
                 <input
                   type="text"
+                  name="country"
                   value="<%= user.country %>"
                   class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 />
@@ -283,6 +290,7 @@
                   >
                   <input
                     type="text"
+                    name="region"
                     value="<%= user.region %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -291,6 +299,7 @@
                   <label class="text-sm font-medium text-gray-700">Zone</label>
                   <input
                     type="text"
+                    name="zone"
                     value="<%= user.zone %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -299,6 +308,7 @@
                   <label class="text-sm font-medium text-gray-700">City</label>
                   <input
                     type="text"
+                    name="city"
                     value="<%= user.city %>"
                     class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                   />
@@ -309,6 +319,7 @@
                 <label class="text-sm font-medium text-gray-700">Bio</label>
                 <textarea
                   rows="4"
+                  name="bio"
                   class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                 >
 Experienced software engineer with a passion for building scalable web applications. Proficient in JavaScript, React, and Node.js.</textarea
@@ -1147,7 +1158,7 @@ Experienced software engineer with a passion for building scalable web applicati
 
     </div>
     <div id="popup" class="fixed top-0 left-0 right-0 bottom-0 h-[100vh] w-[100vw] opacity-0 pointer-events-none duration-300">
-      <div id="experienceForm" class="rounded-lg z-20 absolute top-10 left-1/2 transform -translate-x-1/2 w-[90vw] h-[90svh] overflow-y-auto">
+      <div id="experienceForm" class="rounded-lg z-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto">
         <%- include('add-experience') %>
       </div>
       <div id="overlay" class="bg-black opacity-55 h-full w-full absolute left-0 top-0 right-0 hover:cursor-pointer"></div>
@@ -1156,6 +1167,31 @@ Experienced software engineer with a passion for building scalable web applicati
     <script>
       // Tab switching functionality
       document.addEventListener("DOMContentLoaded", function () {
+        const tab = new URLSearchParams(window.location.search).get('tab');
+        
+        let targetTab = document.getElementById(tab);
+        let targetButton = document.querySelector(`.tab-button[data-tab="${tab}"]`);
+        
+        if (!targetTab) {
+          targetTab = document.querySelector('#profile');
+          window.history.replaceState({}, "", window.location.pathname);
+        }
+
+        if (!targetButton) {
+          targetButton = document.querySelector('.tab-button');
+        }
+        targetButton.classList.add("active");
+        
+        
+      if(!targetTab) {
+        targetTab = document.querySelector('#profile');
+      }
+
+      targetTab.classList.add('current');
+      targetTab.classList.remove("hidden");
+
+
+
         const tabButtons = document.querySelectorAll(".tab-button");
 
         tabButtons.forEach((button) => {
@@ -1174,11 +1210,50 @@ Experienced software engineer with a passion for building scalable web applicati
 
             tabContent.classList.remove("hidden");
             tabContent.classList.add("current");
+
+            const url = new URL(window.location);
+            url.searchParams.set("tab", id);
+            window.history.pushState({}, "", url);
+
             // Here you would typically show/hide content based on the selected tab
             // For demonstration purposes, we're just changing the button styles
           });
         });
 
+        const form = document.getElementById("personal-info-form");
+        form.addEventListener("submit", async(e) => {
+          e.preventDefault();
+          
+          const formData = new FormData(form);
+          const formDataObject = {};
+          formData.forEach((value, key) => {
+            formDataObject[key] = value; // convert to plain object
+          });
+          
+        const response = await fetch("http://localhost:3002/users/profile/personal", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+        const data = await response.json();
+
+        console.log(data);
+        location.reload();
+      })
+
+      const experianceForm = document.getElementById("add-experience");
+      experianceForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        
+        const formData = new FormData(experianceForm);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+          formDataObject[key] = value; // convert to plain object
+        });
+        console.log(formDataObject);
+        })
       });
       const showExperienceForm = () => {
         document.querySelector("#popup").classList.add("opacity-100")
@@ -1191,6 +1266,8 @@ Experienced software engineer with a passion for building scalable web applicati
       }
 
       document.querySelector("#overlay").addEventListener("click", closeExperienceForm);
-    </script>
+      
+      
+      </script>
   </body>
 </html>

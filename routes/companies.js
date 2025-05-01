@@ -18,4 +18,11 @@ router.get('/post-job', (req, res) => {
 		title: "Post Job - JobHub"
 	})
 })
+
+router.get('/post', (req, res) => {
+	res.render('companies/post-job-test', {
+		user: req.isAuthenticated() ? req.user: null,
+		title: "Jobs - JobHub"
+	})
+})
 export default router

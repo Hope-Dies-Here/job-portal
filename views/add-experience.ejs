@@ -55,7 +55,7 @@
         <label for="employment-type" class="text-sm font-medium text-gray-700">Employment Type</label>
         <select 
           id="employment-type" 
-          name="employment_type" 
+          name="type" 
           class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
         >
           <option value="Full-time">Full-time</option>
@@ -72,7 +72,7 @@
         <div class="space-y-2">
           <label for="start-date" class="text-sm font-medium text-gray-700">Start Date <span class="text-red-500">*</span></label>
           <input 
-            type="month" 
+            type="date" 
             id="start-date" 
             name="start_date" 
             required
@@ -93,7 +93,7 @@
             </div>
           </div>
           <input 
-            type="month" 
+            type="date" 
             id="end-date" 
             name="end_date" 
             class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
@@ -149,9 +149,9 @@
   <script>
     // For Experience Form
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('input[type=text]').forEach(input => {
-        input.value = 'beyene';
-      });
+      // document.querySelectorAll('input[type=text]').forEach(input => {
+      //   input.value = 'beyene';
+      // });
       
       const currentJobCheckbox = document.getElementById('current-job');
       const endDateInput = document.getElementById('end-date');
