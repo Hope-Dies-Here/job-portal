@@ -2,7 +2,7 @@ import express from "express";
 import checkLogin from "../middlewares/checkLogin.js";
 import passport from "passport";
 import { jobs } from "../db/jobs.js";
-import { User, Experience } from "../models/User.js";
+import { User, Experience, Education } from "../models/User.js";
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -59,48 +59,94 @@ router.post("/register", async (req, res) => {
 
 router.get("/profile", checkLogin, async (req, res) => {
   const user = await User.findById(req.user.id);
+  const experiences = await Experience.findAll(user.id);
+  const educations = await Education.findAll(user.id);
   console.log(user);
   res.render("profile", {
     user: req.isAuthenticated() ? user : null,
+    experiences,
+    educations,
     title: "Profile - JobHub",
   });
 });
 
-router.get("/profile/add-experience", async(req, res) => {
-  
-  res.render("add-experience", {
-    user: req.isAuthenticated() ? req.user : null,
-    title: "Add Experience - JobHub",
-  });
+router.get("/profile/experience", async(req, res) => {
+  try {
+    const experience = await Experience.findAll(req.user.id);
+    res.status(200).json({ data: experience })
+  } catch(err) {
+    console.log(err)
+    res.status(500).json({ error: err, message: err.message })
+  }
 })
 
-router.post("/profile/add-experience", async(req, res) => {
+router.delete("/profile/experience/:id", async(req, res) => {
   try {
-    console.log(req.body, "body");
-    const updatedExp = await Experience.create({
+    await Experience.delete(req.params.id);
+    const experiences = await Experience.findAll(req.user.id);
+
+    res.status(200).render("partials/experiences",{
+      experiences,
+      success: true,
+      message: "Experience deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting experience",
+    });
+    console.log(error);
+  }
+})
+
+router.post("/profile/experience", async(req, res) => {
+  try {
+    
+    await Experience.create({
       ...req.body,
       user_id: req.user.id
-    })
-    res.status(200).json({
-      success: true,
-      message: "Experience added successfully",
-      data: updatedExp
+    });
+
+    const experiences = await Experience.findAll(req.user.id);  
+
+    res.status(200).render("partials/experiences", {
+      experiences, 
+    }, (err, html) => {
+      res.json({ html, success: true, message: "Experience added successfully" });
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "Error adding experience",
+      message: "error.message",
     });
   }
 })
 
-router.get("/profile/add-education", async(req, res) => {
+router.post("/profile/education", async(req, res) => {
+  try {
+    
+    console.log(req.body, "body");
+    await Education.create({
+      ...req.body,
+      user_id: req.user.id
+    });
+    const educations = await Education.findAll(req.user.id);
+    
+    res.render("partials/educations-list", {
+      educations,
+    }, (err, html) => {
+      res.json({ html, success: true, message: "Education added successfully" });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "error.message",
+    });
+    
+  }
   
-  res.render("add-education", {
-    user: req.isAuthenticated() ? req.user : null,
-    title: "Add Education - JobHub",
-  });
 })
 
 router.get("/saved-jobs", (req, res) => {

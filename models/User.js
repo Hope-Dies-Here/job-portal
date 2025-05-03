@@ -41,10 +41,10 @@ const User = {
   },
 
   async findByIdAndUpdate(id, user) {
-    const { first_name, last_name, email, } = user;
+    const { first_name, last_name, email, birth_date, phone, bio } = user;
     const [rows] = await pool.execute(
-      "UPDATE users SET first_name = ?, last_name = ?, email = ? WHERE id = ?",
-      [first_name, last_name, email, id]
+      "UPDATE users SET first_name = ?, last_name = ?, email = ?, birth_date = ?, phone = ?, bio = ? WHERE id = ?",
+      [first_name, last_name, email, birth_date, phone, bio, id]
     );
 
     const [rows2] = await pool.execute(
@@ -102,7 +102,21 @@ const Experience = {
 
   async update(experience) {},
 
-  async delete(experience) {},
+  async delete(id) {
+    try {
+      const [rows] = await pool.execute(
+        "DELETE FROM experiences WHERE id = ?",
+        [id]
+      );
+      if (rows.affectedRows === 0) {
+        return { error: "Experience not found" };
+      }
+      return { message: "Experience deleted successfully" };
+    } catch (error) {
+      console.log(error);
+      return { error: error.message };
+    }
+  },
 };
 
 const Education = {
@@ -115,10 +129,13 @@ const Education = {
   },
 
   async create(education) {
-    const { title, description, user_id } = education;
+    // columns 
+    // id	institution	degree field_of_study	location	start_year	end_year	grade	description	user_id	
+
+    const { institution, degree, field_of_study, location, start_year, end_year, grade, description, user_id } = education;
     const [rows] = await pool.execute(
-      "INSERT INTO educations (title, description, user_id) values(?, ?, ?)",
-      [title, description, user_id]
+      "INSERT INTO educations (institution, degree, field_of_study, location, start_year, end_year, grade, description, user_id) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [institution, degree, field_of_study, location, start_year, end_year, grade, description, user_id]
     );
     return rows;
   },
