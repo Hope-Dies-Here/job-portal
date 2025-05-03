@@ -167,7 +167,7 @@
         });
       }
 
-      document.querySelector("#add-experience").addEventListener("submit", (e) => {
+      document.querySelector("#add-experience").addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const form = e.target;
@@ -175,17 +175,22 @@
         const data = Object.fromEntries(formData);
         console.log(data);
 
-        fetch("/users/profile/add-experience", {
+        const response = await fetch("/users/profile/experience", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(data),
         })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data)
+        const { html, success, message } = await response.json();
+        console.log(html, success);
+        if (!success) {
+          alert(message);
+          return;
+        }
+        closeExperienceForm();
+        document.querySelector("#experience-list").innerHTML = html;
         })
-      });
+        
     });
   </script>
