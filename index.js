@@ -6,7 +6,7 @@ import { jobs } from "./db/jobs.js";
 import { pool, connectDb } from "./db/db.js";
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
-
+import cors from "cors";
 import passport from "passport";
 import flash from "connect-flash";
 import session from "express-session";
@@ -29,6 +29,7 @@ const app = express();
 const port = process.env.PORT || 3002;
 
 // Middleware
+app.use(cors());
 
 // Set EJS as templating engine
 app.set("view engine", "ejs");
