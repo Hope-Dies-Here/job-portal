@@ -1,179 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('partials/head') %>
-    <style>
-      .section-card {
-        background: white;
-        border-radius: 1rem;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-        border: 1px solid rgba(0, 0, 0, 0.05);
-        transition: all 0.2s ease;
-      }
-      .tab-button {
-        transition: all 0.2s ease;
-      }
-      .tab-button.active {
-        color: #4f46e5;
-        border-color: #4f46e5;
-      }
-    </style>
-  </head>
-  <body class="min-h-screen bg-gray-50/50">
-    <%- include('partials/nav') %>
 
-    <div class="container mx-auto px-4 py-12">
-      <!-- Profile Header -->
-      <div class="section-card p-8 mb-8">
-        <div
-          class="flex flex-col md:flex-row items-center md:items-start gap-8"
-        >
-          <div class="relative">
-            <div
-              class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center overflow-hidden"
-            >
-              <img
-                src="/images/user.png"
-                alt="Profile Picture"
-                class="w-full h-full object-cover"
-                onerror="this.src='https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff&size=128'"
-              />
-            </div>
-            <button
-              class="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5 text-gray-600"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
-                />
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
-                />
+<head>
+  <%- include('partials/head') %>
+  <style>
+    .section-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
+
+    .tab-button {
+      transition: all 0.2s ease;
+    }
+
+    .tab-button.active {
+      color: #4f46e5;
+      border-color: #4f46e5;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gray-50/50">
+  <%- include('partials/nav') %>
+
+  <div class="container mx-auto px-4 py-12">
+    <!-- Profile Header -->
+    <div class="section-card p-8 mb-8">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        <div class="relative">
+          <div class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center overflow-hidden">
+            <img src="/images/user.png" alt="Profile Picture" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=John+Doe&background=6366f1&color=fff&size=128'" />
+          </div>
+          <button class="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md hover:bg-gray-50 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </button>
+        </div>
+        <div class="flex-1 text-center md:text-left">
+          <h1 class="text-2xl font-bold text-gray-900 mb-2">
+            <%= user.first_name + ' ' + user.last_name %>
+          </h1>
+          <p class="text-gray-600 mb-4">Software Engineer</p>
+          <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
-            </button>
-          </div>
-          <div class="flex-1 text-center md:text-left">
-            <h1 class="text-2xl font-bold text-gray-900 mb-2">
-              <%= user.first_name + ' ' + user.last_name %>
-            </h1>
-            <p class="text-gray-600 mb-4">Software Engineer</p>
-            <div class="flex flex-wrap gap-4 justify-center md:justify-start">
-              <div class="flex items-center text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                </svg>
-                <%= user.city %>
-              </div>
-              <div class="flex items-center text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-                5+ years experience
-              </div>
-              <div class="flex items-center text-gray-600">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-2"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-                <%= user.email %>
-              </div>
+              <%= user.city %>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              5+ years experience
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <%= user.email %>
             </div>
           </div>
-          <div>
-            <button
-              class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-            >
-              Edit Profile
-            </button>
-          </div>
+        </div>
+        <div>
+          <button class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+            Edit Profile
+          </button>
         </div>
       </div>
+    </div>
 
-      <!-- Profile Tabs -->
-      <div class="mb-8 border-b">
-        <div class="flex overflow-x-auto">
-          <button
-            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap"
-            data-tab="profile"
-          >
-            Personal Information
-          </button>
-          <button
-            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap"
-            data-tab="exp"
-          >
-            Experience & Education
-          </button>
-          <button
-          data-tab="skills"
-            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap"
-          >
-            Skills & Expertise
-          </button>
-          <button
-          data-tab="resume"
-            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap"
-          >
-            Resume & Portfolio
-          </button>
-          <button
-          data-tab="job-preferences"
-            class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap"
-          >
-            Job Preferences
-          </button>
-        </div>
+    <!-- Profile Tabs -->
+    <div class="mb-8 border-b">
+      <div class="flex overflow-x-auto">
+        <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap" data-tab="profile">
+          Personal Information
+        </button>
+        <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap" data-tab="exp">
+          Experience & Education
+        </button>
+        <button data-tab="skills" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+          Skills & Expertise
+        </button>
+        <button data-tab="resume" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+          Resume & Portfolio
+        </button>
+        <button data-tab="job-preferences" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+          Job Preferences
+        </button>
       </div>
+    </div>
+
+    <div class="min-h-[50svh]">
 
       <!-- Profile Content -->
       <div class="grid md:grid-cols-[3fr,1fr] gap-8 hidden" id="profile">
@@ -185,22 +109,9 @@
               <h2 class="text-xl font-semibold text-gray-900">
                 Personal Information
               </h2>
-              <button
-                class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
+              <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
                 Edit
               </button>
@@ -209,64 +120,28 @@
             <form class="space-y-6" id="personal-info-form">
               <div class="grid md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="text-sm font-medium text-gray-700"
-                    >First Name</label
-                  >
-                  <input
-                    type="text"
-                    value="<%= user.first_name %>"
-                    name="first_name"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <label class="text-sm font-medium text-gray-700">First Name</label>
+                  <input type="text" value="<%= user.first_name %>" name="first_name" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
-                  <label class="text-sm font-medium text-gray-700"
-                    >Last Name</label
-                  >
-                  <input
-                    type="text"
-                    name="last_name"
-                    value="<%= user.last_name %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <label class="text-sm font-medium text-gray-700">Last Name</label>
+                  <input type="text" name="last_name" value="<%= user.last_name %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">Email</label>
-                  <input
-                    type="email"
-                    name="email"
-                    value="<%= user.email %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <input type="email" name="email" value="<%= user.email %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">Phone</label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    value="<%= user.phone %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <input type="tel" name="phone" value="<%= user.phone %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
-                  <label class="text-sm font-medium text-gray-700"
-                    >Date of Birth</label
-                  >
-                  <input
-                    type="date"
-                    name="birth_date"
-                    value="1990-01-15"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <label class="text-sm font-medium text-gray-700">Date of Birth</label>
+                  <input type="date" name="birth_date" value="<%= user.birth_date %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
-                  <label class="text-sm font-medium text-gray-700"
-                    >Gender</label
-                  >
-                  <select
-                    name="gender"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  >
+                  <label class="text-sm font-medium text-gray-700">Gender</label>
+                  <select name="gender" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                     <option>Male</option>
                     <option>Female</option>
                   </select>
@@ -275,62 +150,32 @@
 
               <div class="space-y-2">
                 <label class="text-sm font-medium text-gray-700">Country</label>
-                <input
-                  type="text"
-                  name="country"
-                  value="<%= user.country %>"
-                  class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                />
+                <input type="text" name="country" value="<%= user.country %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
               </div>
 
               <div class="grid md:grid-cols-3 gap-6">
                 <div class="space-y-2">
-                  <label class="text-sm font-medium text-gray-700"
-                    >Region</label
-                  >
-                  <input
-                    type="text"
-                    name="region"
-                    value="<%= user.region %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <label class="text-sm font-medium text-gray-700">Region</label>
+                  <input type="text" name="region" value="<%= user.region %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">Zone</label>
-                  <input
-                    type="text"
-                    name="zone"
-                    value="<%= user.zone %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <input type="text" name="zone" value="<%= user.zone %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">City</label>
-                  <input
-                    type="text"
-                    name="city"
-                    value="<%= user.city %>"
-                    class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
+                  <input type="text" name="city" value="<%= user.city %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" />
                 </div>
               </div>
 
               <div class="space-y-2">
                 <label class="text-sm font-medium text-gray-700">Bio</label>
-                <textarea
-                  rows="4"
-                  name="bio"
-                  class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                >
-Experienced software engineer with a passion for building scalable web applications. Proficient in JavaScript, React, and Node.js.</textarea
-                >
+                <textarea rows="4" name="bio" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+Experienced software engineer with a passion for building scalable web applications. Proficient in JavaScript, React, and Node.js.</textarea>
               </div>
 
               <div class="flex justify-end">
-                <button
-                  type="submit"
-                  class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-                >
+                <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
                   Save Changes
                 </button>
               </div>
@@ -338,135 +183,56 @@ Experienced software engineer with a passion for building scalable web applicati
           </div>
 
           <!-- Social Profiles Section -->
-          <div class="section-card p-8" >
+          <div class="section-card p-8">
             <div class="flex justify-between items-center mb-6">
               <h2 class="text-xl font-semibold text-gray-900">
                 Social Profiles
               </h2>
-              <button
-                class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                  />
+              <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                 </svg>
                 Edit
               </button>
             </div>
 
             <div class="space-y-4">
-              <div
-                class="flex items-center p-4 border border-gray-200 rounded-lg"
-              >
-                <img
-                  src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg"
-                  alt="LinkedIn"
-                  class="w-8 h-8 mr-4"
-                />
+              <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                <img src="https://content.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg" alt="LinkedIn" class="w-8 h-8 mr-4" />
                 <div class="flex-1">
                   <h3 class="font-medium text-gray-900">LinkedIn</h3>
                   <p class="text-sm text-gray-600">linkedin.com/in/johndoe</p>
                 </div>
                 <button class="text-indigo-600 hover:text-indigo-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
                   </svg>
                 </button>
               </div>
-              <div
-                class="flex items-center p-4 border border-gray-200 rounded-lg"
-              >
-                <img
-                  src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-                  alt="GitHub"
-                  class="w-8 h-8 mr-4"
-                />
+              <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" class="w-8 h-8 mr-4" />
                 <div class="flex-1">
                   <h3 class="font-medium text-gray-900">GitHub</h3>
                   <p class="text-sm text-gray-600">github.com/johndoe</p>
                 </div>
                 <button class="text-indigo-600 hover:text-indigo-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
                   </svg>
                 </button>
               </div>
-              <div
-                class="flex items-center p-4 border border-gray-200 rounded-lg"
-              >
-                <img
-                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png"
-                  alt="Instagram"
-                  class="w-8 h-8 mr-4"
-                />
+              <div class="flex items-center p-4 border border-gray-200 rounded-lg">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/768px-Instagram_logo_2016.svg.png" alt="Instagram" class="w-8 h-8 mr-4" />
                 <div class="flex-1">
                   <h3 class="font-medium text-gray-900">Instagram</h3>
                   <p class="text-sm text-gray-600">instagram.com/johndoe</p>
                 </div>
                 <button class="text-indigo-600 hover:text-indigo-700">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    class="h-5 w-5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101"
-                    />
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.172 13.828a4 4 0 015.656 0l4 4a4 4 0 01-5.656 5.656l-1.102-1.101" />
                   </svg>
                 </button>
               </div>
@@ -485,54 +251,33 @@ Experienced software engineer with a passion for building scalable web applicati
                 <span class="text-indigo-600 font-semibold">85%</span>
               </div>
               <div class="w-full bg-gray-100 rounded-full h-2.5">
-                <div
-                  class="bg-gradient-to-r from-indigo-600 to-purple-600 h-2.5 rounded-full"
-                  style="width: 85%"
-                ></div>
+                <div class="bg-gradient-to-r from-indigo-600 to-purple-600 h-2.5 rounded-full" style="width: 85%"></div>
               </div>
             </div>
             <div class="space-y-3">
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Personal Info</span>
-                <span
-                  class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
-                  >Complete</span
-                >
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Experience</span>
-                <span
-                  class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
-                  >Complete</span
-                >
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Education</span>
-                <span
-                  class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
-                  >Complete</span
-                >
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Skills</span>
-                <span
-                  class="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full"
-                  >Partial</span
-                >
+                <span class="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">Partial</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Resume</span>
-                <span
-                  class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full"
-                  >Complete</span
-                >
+                <span class="text-xs bg-green-100 text-green-800 px-2 py-0.5 rounded-full">Complete</span>
               </div>
               <div class="flex justify-between items-center">
                 <span class="text-sm text-gray-600">Job Preferences</span>
-                <span
-                  class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full"
-                  >Incomplete</span
-                >
+                <span class="text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">Incomplete</span>
               </div>
             </div>
           </div>
@@ -541,27 +286,19 @@ Experienced software engineer with a passion for building scalable web applicati
           <div class="section-card p-6">
             <h3 class="font-semibold text-gray-900 mb-4">Profile Stats</h3>
             <div class="space-y-4">
-              <div
-                class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-              >
+              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-600">Profile Views</span>
                 <span class="font-semibold text-indigo-600">156</span>
               </div>
-              <div
-                class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-              >
+              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-600">Applications</span>
                 <span class="font-semibold text-indigo-600">12</span>
               </div>
-              <div
-                class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-              >
+              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-600">Job Matches</span>
                 <span class="font-semibold text-indigo-600">24</span>
               </div>
-              <div
-                class="flex justify-between items-center p-3 bg-gray-50 rounded-lg"
-              >
+              <div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <span class="text-gray-600">Saved Jobs</span>
                 <span class="font-semibold text-indigo-600">8</span>
               </div>
@@ -572,65 +309,21 @@ Experienced software engineer with a passion for building scalable web applicati
           <div class="section-card p-6">
             <h3 class="font-semibold text-gray-900 mb-4">Account Settings</h3>
             <div class="space-y-3">
-              <a
-                href="#"
-                class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                  />
+              <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <span class="group-hover:text-indigo-600">Change Password</span>
               </a>
-              <a
-                href="#"
-                class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                  />
+              <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
-                <span class="group-hover:text-indigo-600"
-                  >Notification Settings</span
-                >
+                <span class="group-hover:text-indigo-600">Notification Settings</span>
               </a>
-              <a
-                href="#"
-                class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
+              <a href="#" class="flex items-center p-3 hover:bg-gray-50 rounded-lg group transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400 group-hover:text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                 </svg>
                 <span class="group-hover:text-indigo-600">Logout</span>
               </a>
@@ -639,311 +332,218 @@ Experienced software engineer with a passion for building scalable web applicati
         </div>
       </div>
 
-      
-       <!-- Experience & Education Section -->
-<div class="section-card p-8 hidden" id="exp">
-    <div class="flex justify-between items-center mb-6">
-      <h2 class="text-xl font-semibold text-gray-900">Experience & Education</h2>
-      <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+      <!-- Experience & Education Section -->
+      <div class="section-card p-8 hidden" id="exp">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-900">Experience & Education</h2>
+          <!-- <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
         </svg>
         Edit
-      </button>
-    </div>
-  
-    <!-- Work Experience -->
-    <div class="mb-8">
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Work Experience</h3>
-        <button onclick="showExperienceForm()" href="/users/profile/add-experience" type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Add Experience
-        </button>
-      </div>
-  
-      <% const experiences = [
-        {
-          id: 1,
-          title: "Senior Frontend Developer",
-          company: "Tech Solutions Inc.",
-          location: "San Francisco, CA",
-          startDate: "Jan 2020",
-          endDate: "Present",
-          description: "Led the frontend development team in building responsive web applications using React and TypeScript. Implemented CI/CD pipelines and improved site performance by 40%."
-        },
-        {
-          id: 2,
-          title: "Frontend Developer",
-          company: "Digital Innovations",
-          location: "Boston, MA",
-          startDate: "Mar 2017",
-          endDate: "Dec 2019",
-          description: "Developed and maintained client websites using JavaScript, HTML, and CSS. Collaborated with designers to implement UI/UX improvements."
-        }
-      ] %>
-  
-      <div class="space-y-6">
-        <% experiences.forEach(function(exp) { %>
-          <div class="border border-gray-200 rounded-lg p-6">
-            <div class="flex justify-between">
-              <div>
-                <h4 class="font-semibold text-gray-900"><%= exp.title %></h4>
-                <p class="text-indigo-600"><%= exp.company %></p>
-                <p class="text-sm text-gray-600"><%= exp.location %> • <%= exp.startDate %> - <%= exp.endDate %></p>
-              </div>
-              <div class="flex gap-2">
-                <button class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500" title="Edit">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500" title="Delete">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <p class="mt-3 text-gray-600"><%= exp.description %></p>
-          </div>
-        <% }); %>
-      </div>
-    </div>
-  
-    <!-- Education -->
-    <div>
-      <div class="flex justify-between items-center mb-4">
-        <h3 class="text-lg font-medium text-gray-900">Education</h3>
-        <a href="/users/profile/add-education" type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-          </svg>
-          Add Education
-        </a>
-      </div>
-  
-      <% const education = [
-        {
-          id: 1,
-          degree: "Master of Science in Computer Science",
-          school: "Stanford University",
-          location: "Stanford, CA",
-          graduationYear: "2016",
-          description: "Specialized in Human-Computer Interaction and Web Technologies."
-        },
-        {
-          id: 2,
-          degree: "Bachelor of Science in Computer Engineering",
-          school: "MIT",
-          location: "Cambridge, MA",
-          graduationYear: "2014",
-          description: "Graduated with honors. Participated in multiple hackathons and coding competitions."
-        }
-      ] %>
-  
-      <div class="space-y-6">
-        <% education.forEach(function(edu) { %>
-          <div class="border border-gray-200 rounded-lg p-6">
-            <div class="flex justify-between">
-              <div>
-                <h4 class="font-semibold text-gray-900"><%= edu.degree %></h4>
-                <p class="text-indigo-600"><%= edu.school %></p>
-                <p class="text-sm text-gray-600"><%= edu.location %> • Graduated <%= edu.graduationYear %></p>
-              </div>
-              <div class="flex gap-2">
-                <button class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500" title="Edit">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                  </svg>
-                </button>
-                <button class="p-1.5 hover:bg-gray-100 rounded-lg text-gray-500" title="Delete">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-            <p class="mt-3 text-gray-600"><%= edu.description %></p>
-          </div>
-        <% }); %>
-      </div>
-    </div>
-  </div>
+      </button> -->
+        </div>
 
-  <!-- Skills & Expertise Section -->
-<div class="section-card p-8 hidden" id="skills">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-semibold text-gray-900">Skills & Expertise</h2>
-    <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-      </svg>
-      Edit
-    </button>
-  </div>
+        <!-- Work Experience -->
+        <div class="mb-8">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Work Experience</h3>
+            <button onclick="showExperienceForm()" href="/users/profile/add-experience" type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Experience
+            </button>
+          </div>
+          <%- include('partials/experiences') %>
+        </div>
 
-  <!-- Technical Skills -->
-  <div class="mb-8">
-    <h3 class="text-lg font-medium text-gray-900 mb-4">Technical Skills</h3>
-    
-    <div class="flex flex-wrap gap-3 mb-6">
-      <% const technicalSkills = ["JavaScript", "React", "TypeScript", "Node.js", "HTML5", "CSS3", "Tailwind CSS", "Git", "RESTful APIs", "GraphQL", "MongoDB", "PostgreSQL"] %>
-      
-      <% technicalSkills.forEach(function(skill) { %>
-        <div class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full flex items-center gap-2">
-          <%= skill %>
-          <button class="text-indigo-600 hover:text-indigo-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <!-- Education -->
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Education</h3>
+            <button onclick="showEducationForm()" type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Education
+            </button>
+          </div>
+
+          <%- include('partials/educations-list') %>
+        </div>
+      </div>
+      <!-- Skills & Expertise Section -->
+      <div class="section-card p-8 hidden" id="skills">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-900">Skills & Expertise</h2>
+          <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
             </svg>
+            Edit
           </button>
         </div>
-      <% }); %>
-      
-      <button class="border border-dashed border-gray-300 text-gray-500 px-4 py-2 rounded-full hover:bg-gray-50 flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Add Skill
-      </button>
-    </div>
-    
-    <div class="flex gap-2">
-      <input type="text" placeholder="Add a new skill" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-      <button class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-        Add
-      </button>
-    </div>
-  </div>
 
-  <!-- Soft Skills -->
-  <div class="mb-8">
-    <h3 class="text-lg font-medium text-gray-900 mb-4">Soft Skills</h3>
-    
-    <div class="flex flex-wrap gap-3">
-      <% const softSkills = ["Communication", "Teamwork", "Problem Solving", "Time Management", "Leadership", "Adaptability", "Critical Thinking"] %>
-      
-      <% softSkills.forEach(function(skill) { %>
-        <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full flex items-center gap-2">
-          <%= skill %>
-          <button class="text-purple-600 hover:text-purple-800">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
+        <!-- Technical Skills -->
+        <div class="mb-8">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Technical Skills</h3>
+
+          <div class="flex flex-wrap gap-3 mb-6">
+            <% const technicalSkills = ["JavaScript", "React", "TypeScript", "Node.js", "HTML5", "CSS3", "Tailwind CSS", "Git", "RESTful APIs", "GraphQL", "MongoDB", "PostgreSQL"] %>
+
+            <% technicalSkills.forEach(function(skill) { %>
+            <div class="bg-indigo-100 text-indigo-800 px-4 py-2 rounded-full flex items-center gap-2">
+              <%= skill %>
+              <button class="text-indigo-600 hover:text-indigo-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <% }); %>
+
+            <button class="border border-dashed border-gray-300 text-gray-500 px-4 py-2 rounded-full hover:bg-gray-50 flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Skill
+            </button>
+          </div>
+
+          <div class="flex gap-2">
+            <input type="text" placeholder="Add a new skill" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <button class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+              Add
+            </button>
+          </div>
         </div>
-      <% }); %>
-    </div>
-  </div>
 
-  <!-- Languages -->
-  <div>
-    <h3 class="text-lg font-medium text-gray-900 mb-4">Languages</h3>
-    
-    <div class="space-y-4">
-      <% const languages = [
+        <!-- Soft Skills -->
+        <div class="mb-8">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Soft Skills</h3>
+
+          <div class="flex flex-wrap gap-3">
+            <% const softSkills = ["Communication", "Teamwork", "Problem Solving", "Time Management", "Leadership", "Adaptability", "Critical Thinking"] %>
+
+            <% softSkills.forEach(function(skill) { %>
+            <div class="bg-purple-100 text-purple-800 px-4 py-2 rounded-full flex items-center gap-2">
+              <%= skill %>
+              <button class="text-purple-600 hover:text-purple-800">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <% }); %>
+          </div>
+        </div>
+
+        <!-- Languages -->
+        <div>
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Languages</h3>
+
+          <div class="space-y-4">
+            <% const languages = [
         { name: "English", proficiency: "Native", level: 100 },
         { name: "Spanish", proficiency: "Fluent", level: 85 },
         { name: "French", proficiency: "Intermediate", level: 60 }
       ] %>
-      
-      <% languages.forEach(function(language) { %>
-        <div class="flex items-center justify-between">
-          <div>
-            <h4 class="font-medium text-gray-900"><%= language.name %></h4>
-            <p class="text-sm text-gray-600"><%= language.proficiency %></p>
-          </div>
-          <div class="w-1/2">
-            <div class="w-full bg-gray-200 rounded-full h-2">
-              <div class="bg-indigo-600 h-2 rounded-full" style="width: <%= language.level %>%"></div>
+
+            <% languages.forEach(function(language) { %>
+            <div class="flex items-center justify-between">
+              <div>
+                <h4 class="font-medium text-gray-900"><%= language.name %></h4>
+                <p class="text-sm text-gray-600"><%= language.proficiency %></p>
+              </div>
+              <div class="w-1/2">
+                <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="bg-indigo-600 h-2 rounded-full" style="width: <%= language.level %>%"></div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      <% }); %>
-      
-      <button class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center mt-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Add Language
-      </button>
-    </div>
-  </div>
-</div>
+            <% }); %>
 
-<!-- Resume & Portfolio Section -->
-<div class="section-card p-8 hidden" id="resume">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-semibold text-gray-900">Resume & Portfolio</h2>
-    <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-      </svg>
-      Edit
-    </button>
-  </div>
-
-  <!-- Resume -->
-  <div class="mb-8">
-    <h3 class="text-lg font-medium text-gray-900 mb-4">Resume</h3>
-    
-    <div class="border border-gray-200 rounded-lg p-6 mb-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center">
-          <div class="p-3 bg-indigo-100 rounded-lg mr-4">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
+            <button class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center mt-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Language
+            </button>
           </div>
-          <div>
-            <h4 class="font-medium text-gray-900">John_Doe_Resume.pdf</h4>
-            <p class="text-sm text-gray-600">Uploaded on May 15, 2023 • 2.4 MB</p>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-500" title="Download">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-          </button>
-          <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-500" title="Delete">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
         </div>
       </div>
-    </div>
-    
-    <div class="border-2 border-dashed border-gray-200 rounded-lg p-6">
-      <input type="file" class="hidden" id="resume-upload">
-      <label for="resume-upload" class="cursor-pointer flex flex-col items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-        </svg>
-        <span class="text-indigo-600 hover:text-indigo-700">Upload New Resume</span>
-        <span class="text-sm text-gray-500 mt-1">or drag and drop</span>
-        <span class="text-xs text-gray-500 mt-1">PDF, DOC, DOCX up to 10MB</span>
-      </label>
-    </div>
-  </div>
 
-  <!-- Portfolio Projects -->
-  <div>
-    <div class="flex justify-between items-center mb-4">
-      <h3 class="text-lg font-medium text-gray-900">Portfolio Projects</h3>
-      <button type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-        </svg>
-        Add Project
-      </button>
-    </div>
-    
-    <% const projects = [
+      <!-- Resume & Portfolio Section -->
+      <div class="section-card p-8 hidden" id="resume">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-900">Resume & Portfolio</h2>
+          <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Edit
+          </button>
+        </div>
+
+        <!-- Resume -->
+        <div class="mb-8">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">Resume</h3>
+
+          <div class="border border-gray-200 rounded-lg p-6 mb-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <div class="p-3 bg-indigo-100 rounded-lg mr-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <h4 class="font-medium text-gray-900">John_Doe_Resume.pdf</h4>
+                  <p class="text-sm text-gray-600">Uploaded on May 15, 2023 • 2.4 MB</p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-500" title="Download">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                  </svg>
+                </button>
+                <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-500" title="Delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="border-2 border-dashed border-gray-200 rounded-lg p-6">
+            <input type="file" class="hidden" id="resume-upload">
+            <label for="resume-upload" class="cursor-pointer flex flex-col items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-indigo-600 hover:text-indigo-700">Upload New Resume</span>
+              <span class="text-sm text-gray-500 mt-1">or drag and drop</span>
+              <span class="text-xs text-gray-500 mt-1">PDF, DOC, DOCX up to 10MB</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Portfolio Projects -->
+        <div>
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-medium text-gray-900">Portfolio Projects</h3>
+            <button type="button" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Add Project
+            </button>
+          </div>
+
+          <% const projects = [
       {
         id: 1,
         title: "E-commerce Platform",
@@ -961,229 +561,236 @@ Experienced software engineer with a passion for building scalable web applicati
         tags: ["React", "Firebase", "Material UI"]
       }
     ] %>
-    
-    <div class="grid md:grid-cols-2 gap-6">
-      <% projects.forEach(function(project) { %>
-        <div class="border border-gray-200 rounded-lg overflow-hidden">
-          <img src="<%= project.image %>" alt="<%= project.title %>" class="w-full h-40 object-cover">
-          <div class="p-4">
-            <div class="flex justify-between items-start mb-2">
-              <h4 class="font-semibold text-gray-900"><%= project.title %></h4>
-              <div class="flex gap-1">
-                <button class="p-1 hover:bg-gray-100 rounded text-gray-500" title="Edit">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+
+          <div class="grid md:grid-cols-2 gap-6">
+            <% projects.forEach(function(project) { %>
+            <div class="border border-gray-200 rounded-lg overflow-hidden">
+              <img src="<%= project.image %>" alt="<%= project.title %>" class="w-full h-40 object-cover">
+              <div class="p-4">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="font-semibold text-gray-900"><%= project.title %></h4>
+                  <div class="flex gap-1">
+                    <button class="p-1 hover:bg-gray-100 rounded text-gray-500" title="Edit">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                    </button>
+                    <button class="p-1 hover:bg-gray-100 rounded text-gray-500" title="Delete">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <p class="text-sm text-gray-600 mb-3"><%= project.description %></p>
+                <div class="flex flex-wrap gap-2 mb-3">
+                  <% project.tags.forEach(function(tag) { %>
+                  <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
+                    <%= tag %>
+                  </span>
+                  <% }); %>
+                </div>
+                <a href="<%= project.link %>" target="_blank" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
-                </button>
-                <button class="p-1 hover:bg-gray-100 rounded text-gray-500" title="Delete">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                  </svg>
-                </button>
+                  View Project
+                </a>
               </div>
             </div>
-            <p class="text-sm text-gray-600 mb-3"><%= project.description %></p>
-            <div class="flex flex-wrap gap-2 mb-3">
-              <% project.tags.forEach(function(tag) { %>
-                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded">
-                  <%= tag %>
-                </span>
+            <% }); %>
+          </div>
+        </div>
+      </div>
+
+      <!-- Job Preferences Section -->
+      <div class="section-card p-8 hidden" id="job-preferences">
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-900">Job Preferences</h2>
+          <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            </svg>
+            Edit
+          </button>
+        </div>
+
+        <form class="space-y-6">
+          <!-- Job Types -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Job Types</label>
+            <div class="flex flex-wrap gap-3">
+              <% const jobTypes = ["Full-time", "Part-time", "Contract", "Freelance", "Internship"] %>
+              <% const selectedJobTypes = ["Full-time", "Contract"] %>
+
+              <% jobTypes.forEach(function(type) { %>
+              <label class="flex items-center p-3 border <%= selectedJobTypes.includes(type) ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200' %> rounded-lg cursor-pointer">
+                <input type="checkbox" <%= selectedJobTypes.includes(type) ? 'checked' : '' %> class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                <span class="ml-2 text-sm <%= selectedJobTypes.includes(type) ? 'text-indigo-700' : 'text-gray-700' %>"><%= type %></span>
+              </label>
               <% }); %>
             </div>
-            <a href="<%= project.link %>" target="_blank" class="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
-              View Project
-            </a>
           </div>
-        </div>
-      <% }); %>
-    </div>
-  </div>
-</div>
 
-<!-- Job Preferences Section -->
-<div class="section-card p-8 hidden" id="job-preferences">
-  <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-semibold text-gray-900">Job Preferences</h2>
-    <button class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-      </svg>
-      Edit
-    </button>
-  </div>
+          <!-- Work Location -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Work Location Preference</label>
+            <div class="flex flex-wrap gap-3">
+              <% const locationTypes = ["Remote", "On-site", "Hybrid"] %>
+              <% const selectedLocationType = "Remote" %>
 
-  <form class="space-y-6">
-    <!-- Job Types -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Job Types</label>
-      <div class="flex flex-wrap gap-3">
-        <% const jobTypes = ["Full-time", "Part-time", "Contract", "Freelance", "Internship"] %>
-        <% const selectedJobTypes = ["Full-time", "Contract"] %>
-        
-        <% jobTypes.forEach(function(type) { %>
-          <label class="flex items-center p-3 border <%= selectedJobTypes.includes(type) ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200' %> rounded-lg cursor-pointer">
-            <input type="checkbox" <%= selectedJobTypes.includes(type) ? 'checked' : '' %> class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-            <span class="ml-2 text-sm <%= selectedJobTypes.includes(type) ? 'text-indigo-700' : 'text-gray-700' %>"><%= type %></span>
-          </label>
-        <% }); %>
-      </div>
-    </div>
+              <% locationTypes.forEach(function(type) { %>
+              <label class="flex items-center p-3 border <%= selectedLocationType === type ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200' %> rounded-lg cursor-pointer">
+                <input type="radio" name="location" value="<%= type %>" <%= selectedLocationType === type ? 'checked' : '' %> class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                <span class="ml-2 text-sm <%= selectedLocationType === type ? 'text-indigo-700' : 'text-gray-700' %>"><%= type %></span>
+              </label>
+              <% }); %>
+            </div>
+          </div>
 
-    <!-- Work Location -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Work Location Preference</label>
-      <div class="flex flex-wrap gap-3">
-        <% const locationTypes = ["Remote", "On-site", "Hybrid"] %>
-        <% const selectedLocationType = "Remote" %>
-        
-        <% locationTypes.forEach(function(type) { %>
-          <label class="flex items-center p-3 border <%= selectedLocationType === type ? 'border-indigo-500 bg-indigo-50' : 'border-gray-200' %> rounded-lg cursor-pointer">
-            <input type="radio" name="location" value="<%= type %>" <%= selectedLocationType === type ? 'checked' : '' %> class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300">
-            <span class="ml-2 text-sm <%= selectedLocationType === type ? 'text-indigo-700' : 'text-gray-700' %>"><%= type %></span>
-          </label>
-        <% }); %>
-      </div>
-    </div>
+          <!-- Preferred Locations -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Preferred Locations</label>
+            <div class="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-lg mb-2">
+              <% const preferredLocations = ["San Francisco, CA", "New York, NY", "Remote"] %>
 
-    <!-- Preferred Locations -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Preferred Locations</label>
-      <div class="flex flex-wrap gap-2 p-3 border border-gray-200 rounded-lg mb-2">
-        <% const preferredLocations = ["San Francisco, CA", "New York, NY", "Remote"] %>
-        
-        <% preferredLocations.forEach(function(location) { %>
-          <span class="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full flex items-center">
-            <%= location %>
-            <button type="button" class="ml-1 text-indigo-600 hover:text-indigo-800">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <% preferredLocations.forEach(function(location) { %>
+              <span class="bg-indigo-100 text-indigo-800 text-sm px-3 py-1 rounded-full flex items-center">
+                <%= location %>
+                <button type="button" class="ml-1 text-indigo-600 hover:text-indigo-800">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </span>
+              <% }); %>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" placeholder="Add a location" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              <button type="button" class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
+                Add
+              </button>
+            </div>
+          </div>
+
+          <!-- Salary Expectations -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Salary Expectations (Annual)</label>
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="space-y-1">
+                <label class="text-xs text-gray-500">Minimum</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                  <input type="number" value="90000" class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+              </div>
+              <div class="space-y-1">
+                <label class="text-xs text-gray-500">Maximum</label>
+                <div class="relative">
+                  <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
+                  <input type="number" value="120000" class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500">This information will be kept private and only used to match you with appropriate job opportunities.</p>
+          </div>
+
+          <!-- Job Categories -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Job Categories</label>
+            <select multiple class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              <option selected>Frontend Development</option>
+              <option selected>Web Development</option>
+              <option>Backend Development</option>
+              <option>Full Stack Development</option>
+              <option>UI/UX Design</option>
+              <option>Mobile Development</option>
+              <option>DevOps</option>
+              <option>Data Science</option>
+              <option>Machine Learning</option>
+              <option>Product Management</option>
+            </select>
+            <p class="text-xs text-gray-500">Hold Ctrl (or Cmd) to select multiple options</p>
+          </div>
+
+          <!-- Availability -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-700">Availability</label>
+            <select class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              <option>Immediately</option>
+              <option selected>2 weeks notice</option>
+              <option>1 month notice</option>
+              <option>2+ months notice</option>
+              <option>Not actively looking</option>
+            </select>
+          </div>
+
+          <!-- Job Alerts -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-sm font-medium text-gray-700">Job Alerts</label>
+              <label class="inline-flex items-center cursor-pointer">
+                <input type="checkbox" checked class="sr-only peer">
+                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              </label>
+            </div>
+            <p class="text-sm text-gray-600">Receive notifications when new jobs match your preferences</p>
+
+            <div class="mt-4 space-y-2">
+              <label class="text-sm font-medium text-gray-700">Alert Frequency</label>
+              <select class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option>Daily</option>
+                <option selected>Weekly</option>
+                <option>Bi-weekly</option>
+                <option>Monthly</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Save Button -->
+          <div class="flex justify-end">
+            <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+              Save Preferences
             </button>
-          </span>
-        <% }); %>
-      </div>
-      <div class="flex gap-2">
-        <input type="text" placeholder="Add a location" class="flex-1 px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-        <button type="button" class="px-4 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">
-          Add
-        </button>
-      </div>
-    </div>
-
-    <!-- Salary Expectations -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Salary Expectations (Annual)</label>
-      <div class="grid md:grid-cols-2 gap-4">
-        <div class="space-y-1">
-          <label class="text-xs text-gray-500">Minimum</label>
-          <div class="relative">
-            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-            <input type="number" value="90000" class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
           </div>
-        </div>
-        <div class="space-y-1">
-          <label class="text-xs text-gray-500">Maximum</label>
-          <div class="relative">
-            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">$</span>
-            <input type="number" value="120000" class="w-full pl-8 pr-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-          </div>
-        </div>
-      </div>
-      <p class="text-xs text-gray-500">This information will be kept private and only used to match you with appropriate job opportunities.</p>
-    </div>
-
-    <!-- Job Categories -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Job Categories</label>
-      <select multiple class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-        <option selected>Frontend Development</option>
-        <option selected>Web Development</option>
-        <option>Backend Development</option>
-        <option>Full Stack Development</option>
-        <option>UI/UX Design</option>
-        <option>Mobile Development</option>
-        <option>DevOps</option>
-        <option>Data Science</option>
-        <option>Machine Learning</option>
-        <option>Product Management</option>
-      </select>
-      <p class="text-xs text-gray-500">Hold Ctrl (or Cmd) to select multiple options</p>
-    </div>
-
-    <!-- Availability -->
-    <div class="space-y-2">
-      <label class="text-sm font-medium text-gray-700">Availability</label>
-      <select class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-        <option>Immediately</option>
-        <option selected>2 weeks notice</option>
-        <option>1 month notice</option>
-        <option>2+ months notice</option>
-        <option>Not actively looking</option>
-      </select>
-    </div>
-
-    <!-- Job Alerts -->
-    <div class="space-y-2">
-      <div class="flex items-center justify-between">
-        <label class="text-sm font-medium text-gray-700">Job Alerts</label>
-        <label class="inline-flex items-center cursor-pointer">
-          <input type="checkbox" checked class="sr-only peer">
-          <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
-        </label>
-      </div>
-      <p class="text-sm text-gray-600">Receive notifications when new jobs match your preferences</p>
-      
-      <div class="mt-4 space-y-2">
-        <label class="text-sm font-medium text-gray-700">Alert Frequency</label>
-        <select class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-          <option>Daily</option>
-          <option selected>Weekly</option>
-          <option>Bi-weekly</option>
-          <option>Monthly</option>
-        </select>
+        </form>
       </div>
     </div>
 
-    <!-- Save Button -->
-    <div class="flex justify-end">
-      <button type="submit" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
-        Save Preferences
-      </button>
+  </div>
+  <div id="popup" class="fixed top-0 left-0 right-0 bottom-0 h-[100vh] w-[100vw] opacity-0 pointer-events-none duration-300">
+    <div id="experienceForm" class="rounded-lg z-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto">
+      <%- include('add-experience') %>
     </div>
-  </form>
-</div>
+    <div id="overlay" class="bg-black opacity-55 h-full w-full absolute left-0 top-0 right-0 hover:cursor-pointer"></div>
+  </div>
+  <div id="education-popup" class="fixed top-0 left-0 right-0 bottom-0 h-[100vh] w-[100vw] opacity-0 pointer-events-none duration-300">
+    <div id="educationForm" class="rounded-lg z-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto">
+      <%- include('add-education') %>
+    </div>
+    <div id="education-overlay" class="bg-black opacity-55 h-full w-full absolute left-0 top-0 right-0 hover:cursor-pointer"></div>
+  </div>
+  <%- include('partials/footer') %>
+  <script>
+    // Tab switching functionality
+    document.addEventListener("DOMContentLoaded", function() {
+      const tab = new URLSearchParams(window.location.search).get('tab');
 
-    </div>
-    <div id="popup" class="fixed top-0 left-0 right-0 bottom-0 h-[100vh] w-[100vw] opacity-0 pointer-events-none duration-300">
-      <div id="experienceForm" class="rounded-lg z-20 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto">
-        <%- include('add-experience') %>
-      </div>
-      <div id="overlay" class="bg-black opacity-55 h-full w-full absolute left-0 top-0 right-0 hover:cursor-pointer"></div>
-    </div>
-    <%- include('partials/footer') %>
-    <script>
-      // Tab switching functionality
-      document.addEventListener("DOMContentLoaded", function () {
-        const tab = new URLSearchParams(window.location.search).get('tab');
-        
-        let targetTab = document.getElementById(tab);
-        let targetButton = document.querySelector(`.tab-button[data-tab="${tab}"]`);
-        
-        if (!targetTab) {
-          targetTab = document.querySelector('#profile');
-          window.history.replaceState({}, "", window.location.pathname);
-        }
+      let targetTab = document.getElementById(tab);
+      let targetButton = document.querySelector(`.tab-button[data-tab="${tab}"]`);
 
-        if (!targetButton) {
-          targetButton = document.querySelector('.tab-button');
-        }
-        targetButton.classList.add("active");
-        
-        
-      if(!targetTab) {
+      if (!targetTab) {
+        targetTab = document.querySelector('#profile');
+        window.history.replaceState({}, "", window.location.pathname);
+      }
+
+      if (!targetButton) {
+        targetButton = document.querySelector('.tab-button');
+      }
+      targetButton.classList.add("active");
+
+
+      if (!targetTab) {
         targetTab = document.querySelector('#profile');
       }
 
@@ -1192,44 +799,44 @@ Experienced software engineer with a passion for building scalable web applicati
 
 
 
-        const tabButtons = document.querySelectorAll(".tab-button");
+      const tabButtons = document.querySelectorAll(".tab-button");
 
-        tabButtons.forEach((button) => {
-          button.addEventListener("click", function () {
-            // Remove active class from all buttons
-            tabButtons.forEach((btn) => btn.classList.remove("active"));
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", function() {
+          // Remove active class from all buttons
+          tabButtons.forEach((btn) => btn.classList.remove("active"));
 
-            // Add active class to clicked button
-            this.classList.add("active");
-            const id = this.getAttribute("data-tab");
-            const tabContent = document.getElementById(id);
-            const oldContent = document.getElementsByClassName("current")[0];
+          // Add active class to clicked button
+          this.classList.add("active");
+          const id = this.getAttribute("data-tab");
+          const tabContent = document.getElementById(id);
+          const oldContent = document.getElementsByClassName("current")[0];
 
-            oldContent.classList.add("hidden");
-            oldContent.classList.remove("current");
+          oldContent.classList.add("hidden");
+          oldContent.classList.remove("current");
 
-            tabContent.classList.remove("hidden");
-            tabContent.classList.add("current");
+          tabContent.classList.remove("hidden");
+          tabContent.classList.add("current");
 
-            const url = new URL(window.location);
-            url.searchParams.set("tab", id);
-            window.history.pushState({}, "", url);
+          const url = new URL(window.location);
+          url.searchParams.set("tab", id);
+          window.history.pushState({}, "", url);
 
-            // Here you would typically show/hide content based on the selected tab
-            // For demonstration purposes, we're just changing the button styles
-          });
+          // Here you would typically show/hide content based on the selected tab
+          // For demonstration purposes, we're just changing the button styles
+        });
+      });
+
+      const form = document.getElementById("personal-info-form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const formDataObject = {};
+        formData.forEach((value, key) => {
+          formDataObject[key] = value; // convert to plain object
         });
 
-        const form = document.getElementById("personal-info-form");
-        form.addEventListener("submit", async(e) => {
-          e.preventDefault();
-          
-          const formData = new FormData(form);
-          const formDataObject = {};
-          formData.forEach((value, key) => {
-            formDataObject[key] = value; // convert to plain object
-          });
-          
         const response = await fetch("http://localhost:3002/users/profile/personal", {
           method: "POST",
           headers: {
@@ -1243,31 +850,57 @@ Experienced software engineer with a passion for building scalable web applicati
         location.reload();
       })
 
-      const experianceForm = document.getElementById("add-experience");
-      experianceForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        
-        const formData = new FormData(experianceForm);
-        const formDataObject = {};
-        formData.forEach((value, key) => {
-          formDataObject[key] = value; // convert to plain object
-        });
-        console.log(formDataObject);
-        })
-      });
-      const showExperienceForm = () => {
-        document.querySelector("#popup").classList.add("opacity-100")
-        document.querySelector("#popup").classList.add("pointer-events-auto")
-      } 
+    });
+    const showExperienceForm = () => {
+      document.querySelector("#popup").classList.remove("pointer-events-none")
+      document.querySelector("#popup").classList.add("opacity-100")
+    }
 
-      const closeExperienceForm = () => {
-        document.querySelector("#popup").classList.remove("opacity-100")
-        document.querySelector("#popup").classList.remove("pointer-events-auto")
+    const closeExperienceForm = () => {
+      document.querySelector("#popup").classList.remove("opacity-100")
+      document.querySelector("#popup").classList.add("pointer-events-none")
+    }
+
+    document.querySelector("#overlay").addEventListener("click", closeExperienceForm);
+
+
+    // delete experience
+    const deleteExperience = async (expId) => {
+      try {
+        const confirmDelete = confirm("Are you sure you want to delete this experience?");
+        if (!confirmDelete) {
+          return;
+        }
+
+        const id = parseInt(expId);
+        const response = await fetch(`http://localhost:3002/users/profile/experience/${id}`, {
+          method: "DELETE"
+        })
+        const data = await response.text();
+        console.log(data)
+        document.querySelector("#experience-list").innerHTML = data;
+      } catch (error) {
+        console.log(error);
       }
 
-      document.querySelector("#overlay").addEventListener("click", closeExperienceForm);
-      
-      
-      </script>
-  </body>
+    }
+
+    // Education Section
+    const showEducationForm = () => {
+      document.querySelector("#education-popup").classList.remove("pointer-events-none")
+      document.querySelector("#education-popup").classList.add("opacity-100")
+    }
+
+    const closeEducationForm = () => {
+      document.querySelector("#education-popup").classList.remove("opacity-100")
+      document.querySelector("#education-popup").classList.add("pointer-events-none")
+    }
+
+    document.querySelector("#education-overlay").addEventListener("click", closeEducationForm);
+
+    
+   
+  </script>
+</body>
+
 </html>
