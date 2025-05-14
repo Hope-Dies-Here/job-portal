@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <style>
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-new {
+            background-color: #E0E7FF;
+            color: #4338CA;
+        }
+        .status-reviewed {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        .status-interview {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .status-rejected {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .status-shortlisted {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .applicant-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .applicant-details.expanded {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('../partials/nav') %>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Page Header with Job Info -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div class="flex items-start gap-4">
+                        <div class="w-16 h-16 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                            <span class="text-xl font-bold text-indigo-600">GD</span>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 mb-1">Senior Frontend Developer</h1>
+                            <p class="text-gray-600 mb-2">Google • San Francisco, CA • Full-time</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Active</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Posted 14 days ago</span>
+                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">42 Applicants</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <a href="/jobs/1/edit" class="inline-flex items-center px-4 py-2 border border-gray-200 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                            </svg>
+                            Edit Job
+                        </a>
+                        <button class="inline-flex items-center px-4 py-2 border border-gray-200 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                            </svg>
+                            Export Applicants
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applicant Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Total</div>
+                    <div class="text-2xl font-bold text-gray-900">42</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">New</div>
+                    <div class="text-2xl font-bold text-indigo-600">12</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Reviewed</div>
+                    <div class="text-2xl font-bold text-blue-600">18</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Shortlisted</div>
+                    <div class="text-2xl font-bold text-yellow-600">8</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Interviews</div>
+                    <div class="text-2xl font-bold text-green-600">4</div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <!-- Search -->
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            placeholder="Search applicants..." 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        >
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="">All Statuses</option>
+                            <option value="new">New</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="shortlisted">Shortlisted</option>
+                            <option value="interview">Interview</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                    </div>
+
+                    <!-- Skills Filter -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="">All Skills</option>
+                            <option value="javascript">JavaScript</option>
+                            <option value="react">React</option>
+                            <option value="vue">Vue</option>
+                            <option value="angular">Angular</option>
+                            <option value="node">Node.js</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="recent">Most Recent</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Name</option>
+                            <option value="match">Best Match</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applicants List -->
+            <div class="space-y-4 mb-8">
+                <!-- Applicant 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <!-- Applicant Summary -->
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Applicant Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-blue-600">JD</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">John Doe</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Senior Frontend Developer at Facebook</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">React</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">TypeScript</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Redux</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">+4 more</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Match -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-interview mb-2">Interview Scheduled</span>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                                        <span class="text-sm font-bold text-green-600">92%</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500">Match</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3 justify-between">
+                            <div class="flex flex-wrap gap-3">
+                                <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                    View Profile
+                                </button>
+                                <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                    Send Email
+                                </button>
+                                <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                    Schedule Interview
+                                </button>
+                            </div>
+                            <button class="toggle-details px-4 py-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center" data-applicant="1">
+                                Show Details
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Applicant Details (Hidden by Default) -->
+                    <div class="applicant-details border-t border-gray-100" id="applicant-details-1">
+                        <div class="p-6">
+                            <div class="grid md:grid-cols-3 gap-8">
+                                <!-- Personal Information -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="text-sm text-gray-500">Full Name</div>
+                                            <div class="text-sm font-medium text-gray-900">John Michael Doe</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Email</div>
+                                            <div class="text-sm font-medium text-gray-900">john.doe@example.com</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Phone</div>
+                                            <div class="text-sm font-medium text-gray-900">+1 (555) 123-4567</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Location</div>
+                                            <div class="text-sm font-medium text-gray-900">San Francisco, CA</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">LinkedIn</div>
+                                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">linkedin.com/in/johndoe</a>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Portfolio</div>
+                                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">johndoe.dev</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Experience & Education -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Experience & Education</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">Senior Frontend Developer</div>
+                                            <div class="text-sm text-gray-600">Facebook • 2019 - Present</div>
+                                            <div class="text-sm text-gray-500 mt-1">Led the development of multiple key features for Facebook's business platform, improving performance by 35%.</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">Frontend Developer</div>
+                                            <div class="text-sm text-gray-600">Twitter • 2016 - 2019</div>
+                                            <div class="text-sm text-gray-500 mt-1">Developed and maintained core components of Twitter's web application.</div>
+                                        </div>
+                                        <div class="border-t border-gray-100 pt-4 mt-4">
+                                            <div class="text-sm font-medium text-gray-900">M.S. Computer Science</div>
+                                            <div class="text-sm text-gray-600">Stanford University • 2014 - 2016</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">B.S. Computer Science</div>
+                                            <div class="text-sm text-gray-600">University of California, Berkeley • 2010 - 2014</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Skills & Resume -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Skills & Resume</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="text-sm text-gray-500 mb-2">Skills</div>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">JavaScript</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">TypeScript</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">React</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Redux</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Next.js</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">GraphQL</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Node.js</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500 mb-2">Languages</div>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">English (Native)</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Spanish (Fluent)</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">French (Basic)</span>
+                                            </div>
+                                        </div>
+                                        <div class="pt-4">
+                                            <div class="text-sm text-gray-500 mb-2">Resume</div>
+                                            <a href="#" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                                Download Resume
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Cover Letter -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <h4 class="text-lg font-semibold text-gray-900 mb-4">Cover Letter</h4>
+                                <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700">
+                                    <p class="mb-3">Dear Hiring Manager,</p>
+                                    <p class="mb-3">I am writing to express my interest in the Senior Frontend Developer position at Google. With over 7 years of experience in frontend development, including 4 years at Facebook working on large-scale applications, I believe I have the skills and experience necessary to make a significant contribution to your team.</p>
+                                    <p class="mb-3">Throughout my career, I have focused on building performant, accessible, and maintainable web applications. At Facebook, I led the development of several key features that improved user engagement by 25% and reduced load times by 40%. I am particularly proud of my work on the business platform, where I implemented a component library that is now used across multiple teams.</p>
+                                    <p class="mb-3">I am excited about the opportunity to bring my expertise in React, TypeScript, and state management to Google, and to work on products that impact millions of users worldwide. I am particularly interested in the challenges of building complex UIs that remain performant at scale.</p>
+                                    <p>Thank you for considering my application. I look forward to the opportunity to discuss how my skills and experience align with your needs.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Application Notes -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-lg font-semibold text-gray-900">Internal Notes</h4>
+                                    <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                                        Add Note
+                                    </button>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div class="font-medium text-gray-900">Sarah Johnson (Recruiter)</div>
+                                            <div class="text-xs text-gray-500">May 10, 2023</div>
+                                        </div>
+                                        <p class="text-sm text-gray-700">Strong candidate with excellent technical skills. First interview went very well. Recommend moving forward to technical assessment with the engineering team.</p>
+                                    </div>
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div class="font-medium text-gray-900">Michael Chen (Engineering Manager)</div>
+                                            <div class="text-xs text-gray-500">May 12, 2023</div>
+                                        </div>
+                                        <p class="text-sm text-gray-700">Technical assessment completed. John demonstrated strong knowledge of React, state management, and performance optimization. His solution to the coding challenge was elegant and well-structured. Highly recommend for final interview.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status Update -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <h4 class="text-lg font-semibold text-gray-900 mb-4">Update Application Status</h4>
+                                <div class="flex items-center gap-4">
+                                    <select class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                        <option value="interview">Interview Scheduled</option>
+                                        <option value="new">New</option>
+                                        <option value="reviewed">Reviewed</option>
+                                        <option value="shortlisted">Shortlisted</option>
+                                        <option value="offer">Offer</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                    <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                        Update Status
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Applicant 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <!-- Applicant Summary -->
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Applicant Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-purple-600">ES</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">Emily Smith</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Frontend Developer at Airbnb</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">JavaScript</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Vue.js</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">CSS</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">+3 more</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Match -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-reviewed mb-2">Application Reviewed</span>
+                                <div class="flex items-center">
+                                    <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center mr-2">
+                                        <span class="text-sm font-bold text-yellow-600">78%</span>
+                                    </div>
+                                    <span class="text-sm text-gray-500">Match</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3 justify-between">
+                            <div class="flex flex-wrap gap-3">
+                                <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                    View Profile
+                                </button>
+                                <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                    Send Email
+                                </button>
+                                <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                    Schedule Interview
+                                </button>
+                            </div>
+                            <button class="toggle-details px-4 py-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center" data-applicant="2">
+                                Show Details
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Applicant Details (Hidden by Default) -->
+                    <div class="applicant-details border-t border-gray-100" id="applicant-details-2">
+                        <div class="p-6">
+                            <div class="grid md:grid-cols-3 gap-8">
+                                <!-- Personal Information -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Personal Information</h4>
+                                    <div class="space-y-3">
+                                        <div>
+                                            <div class="text-sm text-gray-500">Full Name</div>
+                                            <div class="text-sm font-medium text-gray-900">Emily Jane Smith</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Email</div>
+                                            <div class="text-sm font-medium text-gray-900">emily.smith@example.com</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Phone</div>
+                                            <div class="text-sm font-medium text-gray-900">+1 (555) 987-6543</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Location</div>
+                                            <div class="text-sm font-medium text-gray-900">Portland, OR</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">LinkedIn</div>
+                                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">linkedin.com/in/emilysmith</a>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500">Portfolio</div>
+                                            <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">emilysmith.design</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Experience & Education -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Experience & Education</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">Frontend Developer</div>
+                                            <div class="text-sm text-gray-600">Airbnb • 2018 - Present</div>
+                                            <div class="text-sm text-gray-500 mt-1">Developed and maintained key components of Airbnb's booking experience, focusing on accessibility and performance.</div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-900">UI Developer</div>
+                                            <div class="text-sm text-gray-600">Dropbox • 2016 - 2018</div>
+                                            <div class="text-sm text-gray-500 mt-1">Built responsive interfaces and implemented design systems.</div>
+                                        </div>
+                                        <div class="border-t border-gray-100 pt-4 mt-4">
+                                            <div class="text-sm font-medium text-gray-900">B.A. Computer Science</div>
+                                            <div class="text-sm text-gray-600">University of Washington • 2012 - 2016</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Skills & Resume -->
+                                <div>
+                                    <h4 class="text-lg font-semibold text-gray-900 mb-4">Skills & Resume</h4>
+                                    <div class="space-y-4">
+                                        <div>
+                                            <div class="text-sm text-gray-500 mb-2">Skills</div>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">JavaScript</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Vue.js</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">CSS/SCSS</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">HTML5</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Webpack</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Jest</span>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm text-gray-500 mb-2">Languages</div>
+                                            <div class="flex flex-wrap gap-2">
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">English (Native)</span>
+                                                <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">German (Intermediate)</span>
+                                            </div>
+                                        </div>
+                                        <div class="pt-4">
+                                            <div class="text-sm text-gray-500 mb-2">Resume</div>
+                                            <a href="#" class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 text-sm rounded-lg hover:bg-gray-200 transition-colors">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                                </svg>
+                                                Download Resume
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Cover Letter -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <h4 class="text-lg font-semibold text-gray-900 mb-4">Cover Letter</h4>
+                                <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700">
+                                    <p class="mb-3">Dear Hiring Team,</p>
+                                    <p class="mb-3">I am excited to apply for the Senior Frontend Developer position at Google. With my experience at Airbnb and Dropbox, I've developed a strong foundation in building scalable and accessible web applications.</p>
+                                    <p class="mb-3">At Airbnb, I've been responsible for improving the booking experience, focusing on performance optimizations that reduced load times by 30% and implementing accessibility features that brought our WCAG compliance score from 65% to 98%.</p>
+                                    <p class="mb-3">I'm particularly interested in joining Google because of your commitment to creating products that are both powerful and accessible to all users. I believe my experience in performance optimization and accessibility would be valuable to your team.</p>
+                                    <p>Thank you for considering my application. I look forward to the possibility of contributing to Google's mission.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Application Notes -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <div class="flex justify-between items-center mb-4">
+                                    <h4 class="text-lg font-semibold text-gray-900">Internal Notes</h4>
+                                    <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                                        Add Note
+                                    </button>
+                                </div>
+                                <div class="space-y-4">
+                                    <div class="bg-gray-50 rounded-lg p-4">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <div class="font-medium text-gray-900">Sarah Johnson (Recruiter)</div>
+                                            <div class="text-xs text-gray-500">May 8, 2023</div>
+                                        </div>
+                                        <p class="text-sm text-gray-700">Good candidate with strong Vue.js experience, though we're looking for more React experience. Worth considering for the interview stage as her fundamentals seem solid.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status Update -->
+                            <div class="mt-8 pt-6 border-t border-gray-100">
+                                <h4 class="text-lg font-semibold text-gray-900 mb-4">Update Application Status</h4>
+                                <div class="flex items-center gap-4">
+                                    <select class="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                                        <option value="reviewed">Reviewed</option>
+                                        <option value="new">New</option>
+                                        <option value="shortlisted">Shortlisted</option>
+                                        <option value="interview">Interview</option>
+                                        <option value="offer">Offer</option>
+                                        <option value="rejected">Rejected</option>
+                                    </select>
+                                    <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                        Update Status
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- More applicants would follow the same pattern -->
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    Showing <span class="font-medium">1-2</span> of <span class="font-medium">42</span> applicants
+                </div>
+                <div class="flex space-x-1">
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                        Previous
+                    </button>
+                    <button class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        1
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        2
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        3
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        4
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        5
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+
+    <script>
+        // Toggle applicant details visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.toggle-details');
+            
+            toggleButtons.forEach(button => {
+                const applicantId = button.getAttribute('data-applicant');
+                const detailsSection = document.getElementById(`applicant-details-${applicantId}`);
+                
+                button.addEventListener('click', function() {
+                    if (detailsSection.classList.contains('expanded')) {
+                        detailsSection.classList.remove('expanded');
+                        button.innerHTML = `Show Details <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
+                    } else {
+                        detailsSection.classList.add('expanded');
+                        button.innerHTML = `Hide Details <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>`;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

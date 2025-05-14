@@ -150,9 +150,24 @@ router.post("/profile/education", async(req, res) => {
 })
 
 router.get("/saved-jobs", (req, res) => {
+  const user = req.user;
   res.render("saved-jobs", {
     user: req.isAuthenticated() ? user : null,
     title: "Saved Jobs - JobHub",
   });
 });
+
+router.get("/applied-jobs", (req, res) => {
+  const user = req.user;
+  res.render("applied-jobs", {
+    user: req.isAuthenticated() ? user : null,
+    title: "Applied Jobs - JobHub",
+  });
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/users/login");
+});
+
 export default router;

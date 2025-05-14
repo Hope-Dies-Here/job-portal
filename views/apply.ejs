@@ -146,7 +146,8 @@
                                     <span class="bg-indigo-50 text-indigo-700 text-sm px-4 py-1.5 rounded font-medium">
                                         <%= job.type %>
                                     </span>
-                                    <% job.categories.forEach(function(category) { %>
+                                    <% const categories = job.categories === null ? [] : job.categories.split(', '); %>
+                                    <% categories.forEach(function(category) { %>
                                     <span class="bg-purple-50 text-gray-700 text-sm px-4 py-1.5 rounded font-medium">
                                         <%= category %>
                                     </span>
@@ -156,7 +157,7 @@
                         </div>
                     </div>
                     <!-- Profile Match -->
-                    <div class="section-card p-8">
+                    <div class="section-card p-8 hidden">
                         <h2 class="text-xl font-semibold text-gray-900 mb-6">
                             Profile Match
                         </h2>

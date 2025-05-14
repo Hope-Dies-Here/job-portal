@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <style>
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .status-reviewed {
+            background-color: #E0E7FF;
+            color: #4338CA;
+        }
+        .status-interview {
+            background-color: #DBEAFE;
+            color: #1E40AF;
+        }
+        .status-offer {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .status-rejected {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+        .status-withdrawn {
+            background-color: #F3F4F6;
+            color: #4B5563;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #E5E7EB;
+            z-index: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: -4px;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background-color: #6366F1;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('partials/nav') %>
+
+    <div class="container mx-auto px-4 py-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Page Header -->
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900 mb-1">My Applications</h1>
+                    <p class="text-gray-600">Track and manage all your job applications</p>
+                </div>
+                <div class="mt-4 md:mt-0">
+                    <a href="/jobs/search" class="inline-flex items-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Browse New Jobs
+                    </a>
+                </div>
+            </div>
+
+            <!-- Application Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Total Applications</div>
+                    <div class="text-2xl font-bold text-gray-900">24</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Active Applications</div>
+                    <div class="text-2xl font-bold text-indigo-600">18</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Interviews</div>
+                    <div class="text-2xl font-bold text-green-600">5</div>
+                </div>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+                    <div class="text-sm text-gray-500 mb-1">Response Rate</div>
+                    <div class="text-2xl font-bold text-gray-900">42%</div>
+                </div>
+            </div>
+
+            <!-- Filters and Search -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+                <div class="flex flex-col md:flex-row md:items-center gap-4">
+                    <!-- Search -->
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            placeholder="Search applications..." 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        >
+                    </div>
+
+                    <!-- Status Filter -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="">All Statuses</option>
+                            <option value="pending">Pending</option>
+                            <option value="reviewed">Reviewed</option>
+                            <option value="interview">Interview</option>
+                            <option value="offer">Offer</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="withdrawn">Withdrawn</option>
+                        </select>
+                    </div>
+
+                    <!-- Date Filter -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="3months">Last 3 Months</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+
+                    <!-- Sort -->
+                    <div class="w-full md:w-48">
+                        <select class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                            <option value="recent">Most Recent</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="company">Company Name</option>
+                            <option value="status">Status</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications List -->
+            <div class="space-y-4 mb-8">
+                <!-- Application Item 1 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Job Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-indigo-600">GD</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">Senior Frontend Developer</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Google • San Francisco, CA</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Full-time</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Remote</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">$120k-$150k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Date -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-interview mb-2">Interview Scheduled</span>
+                                <span class="text-sm text-gray-500">Applied on May 2, 2023</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Preview -->
+                        <div class="mt-6 border-t border-gray-100 pt-4">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-sm font-medium text-gray-900">Application Timeline</h4>
+                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="toggle-timeline-1">
+                                    Show Details
+                                </button>
+                            </div>
+                            
+                            <!-- Timeline (Hidden by Default) -->
+                            <div class="mt-4 pl-6 relative hidden" id="timeline-1">
+                                <div class="space-y-4">
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Interview Scheduled</h5>
+                                                <p class="text-sm text-gray-600">Technical interview with the engineering team</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 10, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Reviewed</h5>
+                                                <p class="text-sm text-gray-600">Your application has been reviewed by the hiring team</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 5, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Submitted</h5>
+                                                <p class="text-sm text-gray-600">Your application has been successfully submitted</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 2, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                View Details
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Contact Recruiter
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Withdraw Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Item 2 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Job Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-blue-600">FB</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">Product Designer</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Facebook • Menlo Park, CA</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Full-time</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">On-site</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">$130k-$160k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Date -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-reviewed mb-2">Application Reviewed</span>
+                                <span class="text-sm text-gray-500">Applied on Apr 28, 2023</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Preview -->
+                        <div class="mt-6 border-t border-gray-100 pt-4">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-sm font-medium text-gray-900">Application Timeline</h4>
+                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="toggle-timeline-2">
+                                    Show Details
+                                </button>
+                            </div>
+                            
+                            <!-- Timeline (Hidden by Default) -->
+                            <div class="mt-4 pl-6 relative hidden" id="timeline-2">
+                                <div class="space-y-4">
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Reviewed</h5>
+                                                <p class="text-sm text-gray-600">Your application has been reviewed by the hiring team</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 3, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Submitted</h5>
+                                                <p class="text-sm text-gray-600">Your application has been successfully submitted</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 28, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                View Details
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Contact Recruiter
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Withdraw Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Item 3 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Job Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-green-600">SP</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">Full Stack Developer</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Spotify • New York, NY</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Full-time</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Hybrid</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">$110k-$140k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Date -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-offer mb-2">Offer Received</span>
+                                <span class="text-sm text-gray-500">Applied on Apr 15, 2023</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Preview -->
+                        <div class="mt-6 border-t border-gray-100 pt-4">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-sm font-medium text-gray-900">Application Timeline</h4>
+                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="toggle-timeline-3">
+                                    Show Details
+                                </button>
+                            </div>
+                            
+                            <!-- Timeline (Hidden by Default) -->
+                            <div class="mt-4 pl-6 relative hidden" id="timeline-3">
+                                <div class="space-y-4">
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Offer Received</h5>
+                                                <p class="text-sm text-gray-600">Congratulations! You've received a job offer</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 8, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Final Interview</h5>
+                                                <p class="text-sm text-gray-600">Interview with the VP of Engineering</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 3, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Technical Interview</h5>
+                                                <p class="text-sm text-gray-600">Completed technical assessment and interview</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 25, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Phone Screening</h5>
+                                                <p class="text-sm text-gray-600">Initial phone interview with recruiter</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 20, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Submitted</h5>
+                                                <p class="text-sm text-gray-600">Your application has been successfully submitted</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 15, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors">
+                                Review Offer
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Contact Recruiter
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                View Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Item 4 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Job Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-red-600">NF</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">UI/UX Designer</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Netflix • Los Angeles, CA</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Full-time</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">On-site</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">$100k-$130k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Date -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-rejected mb-2">Not Selected</span>
+                                <span class="text-sm text-gray-500">Applied on Apr 10, 2023</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Preview -->
+                        <div class="mt-6 border-t border-gray-100 pt-4">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-sm font-medium text-gray-900">Application Timeline</h4>
+                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="toggle-timeline-4">
+                                    Show Details
+                                </button>
+                            </div>
+                            
+                            <!-- Timeline (Hidden by Default) -->
+                            <div class="mt-4 pl-6 relative hidden" id="timeline-4">
+                                <div class="space-y-4">
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Not Selected</h5>
+                                                <p class="text-sm text-gray-600">Thank you for your interest, but we've decided to move forward with other candidates</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 25, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4 pb-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Reviewed</h5>
+                                                <p class="text-sm text-gray-600">Your application has been reviewed by the hiring team</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 15, 2023</div>
+                                        </div>
+                                    </div>
+                                    <div class="relative timeline-item pl-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Submitted</h5>
+                                                <p class="text-sm text-gray-600">Your application has been successfully submitted</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">Apr 10, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                View Details
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                View Similar Jobs
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Archive
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Item 5 -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            <!-- Job Info -->
+                            <div class="flex items-start gap-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                    <span class="text-lg font-bold text-yellow-600">AM</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 mb-1">Software Development Engineer</h3>
+                                    <p class="text-gray-600 text-sm mb-2">Amazon • Seattle, WA</p>
+                                    <div class="flex flex-wrap gap-2">
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Full-time</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">Remote</span>
+                                        <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">$125k-$155k</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Status and Date -->
+                            <div class="flex flex-col items-end">
+                                <span class="status-badge status-pending mb-2">Application Pending</span>
+                                <span class="text-sm text-gray-500">Applied on May 1, 2023</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Timeline Preview -->
+                        <div class="mt-6 border-t border-gray-100 pt-4">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-sm font-medium text-gray-900">Application Timeline</h4>
+                                <button class="text-indigo-600 hover:text-indigo-800 text-sm font-medium" id="toggle-timeline-5">
+                                    Show Details
+                                </button>
+                            </div>
+                            
+                            <!-- Timeline (Hidden by Default) -->
+                            <div class="mt-4 pl-6 relative hidden" id="timeline-5">
+                                <div class="space-y-4">
+                                    <div class="relative timeline-item pl-4">
+                                        <div class="timeline-dot top-1"></div>
+                                        <div class="flex justify-between">
+                                            <div>
+                                                <h5 class="text-sm font-medium text-gray-900">Application Submitted</h5>
+                                                <p class="text-sm text-gray-600">Your application has been successfully submitted</p>
+                                            </div>
+                                            <div class="text-sm text-gray-500">May 1, 2023</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Actions -->
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <button class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors">
+                                View Details
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Contact Recruiter
+                            </button>
+                            <button class="px-4 py-2 border border-gray-200 text-gray-700 text-sm rounded-lg hover:bg-gray-50 transition-colors">
+                                Withdraw Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="flex justify-between items-center">
+                <div class="text-sm text-gray-600">
+                    Showing <span class="font-medium">1-5</span> of <span class="font-medium">24</span> applications
+                </div>
+                <div class="flex space-x-1">
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-500 hover:bg-gray-50 disabled:opacity-50" disabled>
+                        Previous
+                    </button>
+                    <button class="px-3 py-1 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+                        1
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        2
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        3
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        4
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        5
+                    </button>
+                    <button class="px-3 py-1 border border-gray-200 rounded-md text-gray-700 hover:bg-gray-50">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>
+
+    <script>
+        // Toggle timeline visibility
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('[id^="toggle-timeline-"]');
+            
+            toggleButtons.forEach(button => {
+                const timelineId = button.id.replace('toggle-', '');
+                const timeline = document.getElementById(timelineId);
+                
+                button.addEventListener('click', function() {
+                    if (timeline.classList.contains('hidden')) {
+                        timeline.classList.remove('hidden');
+                        button.textContent = 'Hide Details';
+                    } else {
+                        timeline.classList.add('hidden');
+                        button.textContent = 'Show Details';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

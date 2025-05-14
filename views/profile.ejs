@@ -26,9 +26,9 @@
 <body class="min-h-screen bg-gray-50/50">
   <%- include('partials/nav') %>
 
-  <div class="container mx-auto px-4 py-12">
+  <div class="container mx-auto px-4 py-12 ">
     <!-- Profile Header -->
-    <div class="section-card p-8 mb-8">
+    <div class="section-card p-8 mb-8 max-w-6xl mx-auto">
       <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
         <div class="relative">
           <div class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-600 to-purple-600 flex items-center justify-center overflow-hidden">
@@ -77,27 +77,39 @@
     </div>
 
     <!-- Profile Tabs -->
-    <div class="mb-8 border-b">
-      <div class="flex overflow-x-auto">
-        <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap" data-tab="profile">
-          Personal Information
+    <div class="mb-8 border-b max-w-6xl mx-auto">
+      <div class="flex justify-evenly overflow-x-auto ">
+        <button class="flex flex-1 items-center space-x-2 hover:bg-blue-50 tab-button px-6 py-3 font-medium border-b-2 border-transparent whitespace-nowrap" data-tab="profile">
+          <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.39 0 4.63.594 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="hidden sm:block">Personal Info</span>
         </button>
-        <button class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap" data-tab="exp">
-          Experience & Education
+        <button class="flex flex-1 items-center space-x-2 hover:bg-blue-50 tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap" data-tab="exp">
+          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 7v-6m0 6H4a2 2 0 01-2-2v-5" />
+          </svg>
+          <span class="hidden sm:block">Experience & Education</span>
         </button>
-        <button data-tab="skills" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
-          Skills & Expertise
+        <button data-tab="skills" class="flex flex-1 items-center space-x-2 hover:bg-blue-50 tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+          <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M7 8h10M7 12h4m1 8h-2a2 2 0 01-2-2v-6h6v6a2 2 0 01-2 2z" />
+          </svg>
+          <span class="hidden sm:block">Skills & Experties</span>
         </button>
-        <button data-tab="resume" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
-          Resume & Portfolio
+        <button data-tab="resume" class="flex flex-1 items-center space-x-2 hover:bg-blue-50 tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+          </svg>
+          <span class="hidden sm:block">Resume & Portfolio </span>
         </button>
-        <button data-tab="job-preferences" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
+        <!-- <button data-tab="job-preferences" class="tab-button px-6 py-3 font-medium border-b-2 border-transparent text-gray-600 whitespace-nowrap">
           Job Preferences
-        </button>
+        </button> -->
       </div>
     </div>
 
-    <div class="min-h-[50svh]">
+    <div class="min-h-[50svh] max-w-6xl mx-auto">
 
       <!-- Profile Content -->
       <div class="grid md:grid-cols-[3fr,1fr] gap-8 hidden" id="profile">
@@ -759,7 +771,7 @@ Experienced software engineer with a passion for building scalable web applicati
 
   </div>
   <div id="popup" class="fixed top-0 left-0 right-0 bottom-0 h-[100vh] w-[100vw] opacity-0 pointer-events-none duration-300">
-    <div id="experienceForm" class="rounded-lg z-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto">
+    <div id="experienceForm" class="rounded-lg z-40 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[90vw] h-[90vh] overflow-y-auto max-w-6xl mx-auto">
       <%- include('add-experience') %>
     </div>
     <div id="overlay" class="bg-black opacity-55 h-full w-full absolute left-0 top-0 right-0 hover:cursor-pointer"></div>
@@ -774,14 +786,25 @@ Experienced software engineer with a passion for building scalable web applicati
   <script>
     // Tab switching functionality
     document.addEventListener("DOMContentLoaded", function() {
-      const tab = new URLSearchParams(window.location.search).get('tab');
+      let tab = "profile";
+      const navEntries = performance.getEntriesByType("navigation");
+      if (navEntries.length > 0) {
+        const navEntry = navEntries[0];
+        if (navEntry.type === "reload") {
+          tab = localStorage.getItem("tab") || "profile"
+        } else {
+          localStorage.removeItem("tab");
+          tab = "profile";
+        }
+      }
 
       let targetTab = document.getElementById(tab);
       let targetButton = document.querySelector(`.tab-button[data-tab="${tab}"]`);
 
       if (!targetTab) {
         targetTab = document.querySelector('#profile');
-        window.history.replaceState({}, "", window.location.pathname);
+        // window.history.replaceState({}, "", window.location.pathname);
+        localStorage.setItem("tab", "profile");
       }
 
       if (!targetButton) {
@@ -818,9 +841,10 @@ Experienced software engineer with a passion for building scalable web applicati
           tabContent.classList.remove("hidden");
           tabContent.classList.add("current");
 
-          const url = new URL(window.location);
-          url.searchParams.set("tab", id);
-          window.history.pushState({}, "", url);
+          localStorage.setItem("tab", id);
+          // const url = new URL(window.location.href);
+          // url.searchParams.set("tab", id);
+          // window.history.pushState({}, "", url);
 
           // Here you would typically show/hide content based on the selected tab
           // For demonstration purposes, we're just changing the button styles
@@ -897,9 +921,6 @@ Experienced software engineer with a passion for building scalable web applicati
     }
 
     document.querySelector("#education-overlay").addEventListener("click", closeEducationForm);
-
-    
-   
   </script>
 </body>
 

@@ -6,8 +6,8 @@ import saveReturnTo from "../middlewares/saveReturnTo.js";
 
 const db = [];
 router.get("/", (req, res) => {
-  console.log(req.user);
-  res.render("index", {
+  
+  res.render("landing", {
     jobs,
     user: req.isAuthenticated() ? req.user : null,
     title: "JobHub - Find Your Dream Job",
@@ -15,7 +15,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/home", (req, res) => {
-  res.render("landing", {
+  res.render("index", {
     job: jobs[0],
     jobs,
     user: req.isAuthenticated() ? req.user : null,
@@ -24,6 +24,7 @@ router.get("/home", (req, res) => {
 });
 
 router.get("/test", (req, res) => {
+  
   res.render("test", {
     job: jobs[0],
     jobs,

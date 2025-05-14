@@ -40,6 +40,7 @@ const User = {
     return rows;
   },
 
+  // update user data
   async findByIdAndUpdate(id, user) {
     const { first_name, last_name, email, birth_date, phone, bio } = user;
     const [rows] = await pool.execute(

@@ -5,7 +5,7 @@
                 <div>
                     <h3 class="text-lg font-semibold text-gray-900">
                         <a href="/jobs/<%= job.id %>" class="hover:text-indigo-600">
-                            <%= job.title %>
+                            <%= job.location %>
                         </a>
                     </h3>
                     <p class="text-gray-600"><%= job.company %></p>
@@ -32,7 +32,9 @@
                 </div>
             </div>
             <div class="flex flex-wrap gap-2 mt-4">
-                <% job.categories.forEach(function(tag) { %>
+                <% console.log(job) %>
+                <% const categories = job.categories === null ? [] : job.categories.split(', '); %>
+                <% categories.forEach(function(tag) { %>
                     <span class="bg-gray-100 text-indigo-800 text-xs px-2.5 py-1 rounded-md font-semibold">
                         <%= tag %>
                     </span>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('../partials/head') %>
+    <style>
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .status-active {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .status-inactive {
+            background-color: #FEE2E2;
+            color: #B91C1C;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <%- include('../partials/nav') %>
+
+    
+    <!-- Companies List Section -->
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-7xl mx-auto">
+      <!-- Header with actions -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Companies</h1>
+          <p class="text-gray-500 mt-1">Manage and monitor all registered companies</p>
+        </div>
+        
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-white border border-gray-200 text-gray-700 shadow-sm hover:bg-gray-50">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+            Export Data
+          </button>
+          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            Add Company
+          </button>
+        </div>
+      </div>
+      
+      <!-- Search and filters -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-[1fr,auto] gap-4">
+          <div class="relative">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+            <input
+              type="text"
+              placeholder="Search companies..."
+              class="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            />
+          </div>
+          <div class="flex gap-2">
+            <select class="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              <option>All Industries</option>
+              <option>Technology</option>
+              <option>Healthcare</option>
+              <option>Finance</option>
+              <option>Education</option>
+            </select>
+            <select class="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              <option>All Status</option>
+              <option>Active</option>
+              <option>Pending</option>
+              <option>Suspended</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Stats overview -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Total Companies</p>
+              <h3 class="text-2xl font-bold text-gray-900">128</h3>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-600"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Active Jobs</p>
+              <h3 class="text-2xl font-bold text-gray-900">543</h3>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-amber-600"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">New This Month</p>
+              <h3 class="text-2xl font-bold text-gray-900">24</h3>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+          <div class="flex items-center">
+            <div class="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center mr-4">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-rose-600"><path d="M12 20v-6M6 20V10M18 20V4"/></svg>
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Total Applications</p>
+              <h3 class="text-2xl font-bold text-gray-900">2,156</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% const companies = [
+        { id: 1, name: 'Google', logo: '/images/companies/google.png', cover: '/images/companies/google-cover.png', location: 'Mountain View, CA', jobCount: 12, applicantCount: 345, hireCount: 5, industries: ['Technology', 'AI'], verified: true },
+        { id: 2, name: 'Commercial Bank of Ethiopia', logo: '/images/companies/cbe.png', cover: '/images/companies/cbe-cover.png', location: 'Redmond, WA', jobCount: 8, applicantCount: 200, hireCount: 3, industries: ['Technology'], verified: false },
+        { id: 3, name: 'Coca Cola', logo: '/images/companies/coca-cola.png', cover: '/images/companies/coca-cola-cover.png', location: 'Seattle, WA', jobCount: 15, applicantCount: 500, hireCount: 10, industries: ['E-commerce'], verified: true },
+        { id: 4, name: 'Netflix', location: 'Los Gatos, CA', jobCount: 5, applicantCount: 100, hireCount: 2, industries: ['Entertainment'], verified: false },
+        { id: 5, name: 'Facebook', location: 'Menlo Park, CA', jobCount: 20, applicantCount: 600, hireCount: 8, industries: ['Social Media'], verified: true },
+        { id: 6, name: 'Apple', location: 'Cupertino, CA', jobCount: 0, applicantCount: 0, hireCount: 0, industries: ['Technology'], verified: false }
+      ]; %>
+      <!-- Companies grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% companies.forEach(function(company) { %>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow group">
+            <!-- Company header with logo -->
+            <div class="relative h-32 bg-gradient-to-r from-indigo-500 to-purple-600 p-4">
+                <img src="<%= company.cover %>" alt="<%= company.name %>" class="absolute inset-0 w-full h-full object-cover opacity-50" />
+              <div class="absolute bottom-0 left-4 transform translate-y-1/2">
+                <% if (company.logo) { %>
+                  <img src="<%= company.logo %>" alt="<%= company.name %>" class="w-16 h-16 rounded-lg border-2 border-white bg-white object-cover shadow-sm" />
+                <% } else { %>
+                  <div class="w-16 h-16 rounded-lg border-2 border-white bg-white flex items-center justify-center shadow-sm">
+                    <span class="text-xl font-bold text-indigo-600"><%= company.name.charAt(0) %></span>
+                  </div>
+                <% } %>
+              </div>
+              
+              <% if (company.verified) { %>
+                <div class="absolute top-4 right-4 bg-white bg-opacity-90 rounded-full px-2 py-1 text-xs font-medium text-emerald-700 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                  Verified
+                </div>
+              <% } %>
+            </div>
+            
+            <!-- Company details -->
+            <div class="p-4 pt-12">
+              <h3 class="text-lg font-bold text-gray-900 mb-1"><%= company.name %></h3>
+              <p class="text-gray-500 text-sm mb-4"><%= company.location %></p>
+              
+              <!-- Company metrics -->
+              <div class="grid grid-cols-3 gap-2 mb-4">
+                <div class="text-center p-2 bg-gray-50 rounded-lg">
+                  <p class="text-xs text-gray-500">Jobs</p>
+                  <p class="font-bold text-gray-900"><%= company.jobCount %></p>
+                </div>
+                <div class="text-center p-2 bg-gray-50 rounded-lg">
+                  <p class="text-xs text-gray-500">Applicants</p>
+                  <p class="font-bold text-gray-900"><%= company.applicantCount %></p>
+                </div>
+                <div class="text-center p-2 bg-gray-50 rounded-lg">
+                  <p class="text-xs text-gray-500">Hires</p>
+                  <p class="font-bold text-gray-900"><%= company.hireCount || 0 %></p>
+                </div>
+              </div>
+              
+              <!-- Industry tags -->
+              <div class="flex flex-wrap gap-2 mb-4">
+                <% (company.industries || []).slice(0, 2).forEach(function(industry) { %>
+                  <span class="inline-flex items-center rounded-full bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700">
+                    <%= industry %>
+                  </span>
+                <% }); %>
+                <% if ((company.industries || []).length > 2) { %>
+                  <span class="inline-flex items-center rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700">
+                    +<%= company.industries.length - 2 %> more
+                  </span>
+                <% } %>
+              </div>
+              
+              <!-- Actions -->
+              <div class="flex justify-between items-center">
+                <a href="/companies/<%= company.id %>/jobs" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                  Manage Jobs
+                </a>
+                <div class="flex gap-2">
+                  <button class="p-2 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                  </button>
+                  <button class="p-2 text-gray-400 hover:text-gray-700 rounded-full hover:bg-gray-100">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }); %>
+      </div>
+      
+      <!-- Empty state (shown when no companies) -->
+      <% if (companies.length === 0) { %>
+        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gray-400"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-gray-900 mb-1">No companies found</h3>
+          <p class="text-gray-500 mb-4">Get started by adding your first company</p>
+          <button class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-indigo-600 text-white shadow hover:bg-indigo-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><line x1="12" x2="12" y1="5" y2="19"/><line x1="5" x2="19" y1="12" y2="12"/></svg>
+            Add Company
+          </button>
+        </div>
+      <% } %>
+      
+      <!-- Pagination -->
+      <% if (companies.length > 0) { %>
+        <div class="mt-8 flex items-center justify-between">
+          <div class="text-sm text-gray-500">
+            Showing <span class="font-medium">1</span> to <span class="font-medium"><%= Math.min(companies.length, 12) %></span> of <span class="font-medium"><%= companies.length %></span> companies
+          </div>
+          <div class="flex gap-1">
+            <button class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-white border border-gray-200 text-gray-700 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Previous
+            </button>
+            <button class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-white border border-gray-200 text-gray-700 shadow-sm hover:bg-gray-50">
+              Next
+            </button>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
+  
+    <%- include('../partials/footer') %>
+
+    <script>
+        // Add any JavaScript functionality here
+        document.addEventListener('DOMContentLoaded', function() {
+            // Example: Confirm before deleting a company
+            const deleteButtons = document.querySelectorAll('button.text-red-600');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!confirm('Are you sure you want to delete this company? This action cannot be undone.')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

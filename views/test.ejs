@@ -112,7 +112,9 @@
                     <div class="section-card p-8">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">Qualification</h2>
                         <ul class="space-y-3 text-gray-600">
-                            <% job.requirements.forEach(req => { %>
+                            <% const requirements = job.requirements?.split(', ') || []; %>
+                            <% const responsibilities = job.responsibilities?.split(', ') || []; %>
+                            <% requirements.forEach(req => { %>
                               <li class="flex items-start">
                                 <svg class="h-5 w-5 text-indigo-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -127,7 +129,7 @@
                     <div class="section-card p-8">
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">Responsibility</h2>
                         <ul class="space-y-3 text-gray-600">
-                          <% job.responsibilities.forEach(res => { %>
+                          <% responsibilities.forEach(res => { %>
                               <li class="flex items-start">
                                 <svg class="h-5 w-5 text-indigo-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>

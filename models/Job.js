@@ -1,26 +1,85 @@
-import { pool } from "../db/db";
+import { pool } from "../db/db.js";
 
 const Job = {
   async findAll() {
-    const [rows] = await pool.execute("SELECT * FROM jobs");
+    const [rows] = await pool.execute(`
+      SELECT 
+        jobs.*, 
+        GROUP_CONCAT(categories.name SEPARATOR ', ') AS categories
+        FROM jobs
+        LEFT JOIN job_categories ON jobs.id = job_categories.job_id
+        LEFT JOIN categories ON job_categories.cat_id = categories.id
+        GROUP BY jobs.id
+    `);
+
+    console.log("RPWS", rows)
     return rows;
   },
   async findById(id) {
     const [rows] = await pool.execute("SELECT * FROM jobs WHERE id = ?", [id]);
     return rows[0];
   },
+
+  async findSimilarJobs(jobId) {
+    const [rows] = await pool.execute(
+      `SELECT DISTINCT j.*
+        FROM job_categories jc1
+        JOIN job_categories jc2 ON jc1.cat_id = jc2.cat_id
+        JOIN jobs j ON jc2.job_id = j.id
+        WHERE jc1.job_id = ? AND jc2.job_id != ?`, [jobId, jobId]
+    );
+    
+  return rows;
+  },
   async create(job) {
-    const { title, description, categories, company } = job;
-    const [rows] = await pool.execute("", [
-      title,
-      description,
-      categories,
-      company,
-    ]);
+      const { title, type, description, company = 0, location, salary = 0, responsibilities, requirements, end_date = '12-04-1900', posted_date } = job;
+
+    const [rows] = await pool.execute(
+      "INSERT INTO jobs (title, type, location, salary, description, responsibilities, requirements, posted_date, end_date, company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, type, location, salary, description, responsibilities, requirements, posted_date, end_date, company]
+    );
+    
     return rows;
   },
 };
 
+const Category = {
+  async findAll() {
+    const [rows] = await pool.execute("SELECT * FROM categories");
+    return rows;
+  },
+  async findById(id) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM categories WHERE id = ?",
+      [id]
+    );
+    return rows[0];
+  }
+}
+
+const JobCategory = {
+  async findAll() {
+    const [rows] = await pool.execute("SELECT * FROM job_categories");
+    return rows;
+  },
+  async findByJobId(id) {
+    const [rows] = await pool.execute("SELECT * FROM job_categories WHERE job_id = ?", [
+      id,
+    ]);
+    return rows[0];
+  },
+
+  async create(tag) {
+    const { job_id, cat_id } = tag;
+    const [rows] = await pool.execute(
+      "INSERT INTO job_categories (job_id, cat_id) VALUES (?, ?)",
+      [job_id, cat_id]
+    );
+    return rows;
+  }
+}
+
+export { Job, Category, JobCategory };
 const query = `CREATE TABLE IF NOT EXISTS jobs (
     id INT PRIMARY KEY,
     title VARCHAR(255),

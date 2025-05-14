@@ -1,11 +1,14 @@
-import { pool } from "../db/db";
+import { pool } from "../db/db.js";
 
 const Company = {
+  // COMPANY COLUMNS
+  // 	id	name	email	password	website	phone	logo	industry	location	size	description	 
   async create(company) {
-    const { name, email, password } = company;
+    const { name, email, website, phone = null, logo = null, industry = null, location = null, size = null, description = null } = company;
+    const password = 1234
     const [rows] = await pool.execute(
-      "INSERT INTO companies (name, email, password) values(?, ?, ?)",
-      [name, email, password]
+      "INSERT INTO companies (name, email, password, website, phone, logo, industry, location, size, description) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [name, email, password, website, phone, logo, industry, location, size, description]
     );
     return rows;
   },
@@ -22,3 +25,5 @@ const Company = {
     return rows[0];
   },
 };
+
+export default Company;

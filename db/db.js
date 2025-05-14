@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+// database configuration
 const pool_ = mysql.createPool({
   host: process.env.DB_HOST || "localhost",
   user: process.env.DB_USER || "root",
@@ -15,6 +16,7 @@ const pool_ = mysql.createPool({
 
 async function connectDb() {
   try {
+    // database connection starts here
     const conn = await pool.getConnection();
     console.log("Connected to Database");
     conn.release();
