@@ -36,11 +36,15 @@
           >Sign In</a
         >
         <%} %>
+        <%if(typeof(admin) !== 'undefined') { %>
+
         <a
           href="/companies/post-job"
           class="text-indigo-600 shadow px-4 py-2 rounded-md text-sm font-semibold hover:bg-indigo-700 hover:text-white hover:transition-colors"
           >Post a Job</a
         >
+        <%} %>
+
       </div>
     </div>
   </div>

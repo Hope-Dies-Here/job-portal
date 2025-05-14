@@ -1,650 +1,604 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <%- include('../partials/head') %>
-    <style>
-        .section-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.2s ease;
-        }
-        
-        /* Modal Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 50;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-        }
-        
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 1rem;
-            width: 100%;
-            max-width: 600px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
-        }
-        
-        .modal-overlay.active .modal-content {
-            transform: translateY(0);
-        }
+  <%- include('../partials/head') %>
+  <style>
+    .section-card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.2s ease;
+    }
 
-        /* Category checklist styles */
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.75rem;
-        }
-        
-        @media (max-width: 768px) {
-            .category-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .category-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        .category-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .category-item input[type="checkbox"] {
-            margin-right: 0.5rem;
-        }
-    </style>
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 1rem;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: translateY(0);
+    }
+
+    /* Category checklist styles */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 768px) {
+      .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .category-item {
+      display: flex;
+      align-items: center;
+    }
+
+    .category-item input[type="checkbox"] {
+      margin-right: 0.5rem;
+    }
+  </style>
 </head>
+
 <body class="min-h-screen bg-gray-50/50">
-    <%- include('../partials/nav') %>
+  <%- include('../partials/nav') %>
 
-    <div class="container mx-auto px-4 py-12">
-        <div class="max-w-4xl mx-auto">
-            <!-- Page Header -->
-            <div class="text-center mb-10">
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">Post a New Job</h1>
-                <p class="text-gray-600 max-w-2xl mx-auto">Reach thousands of qualified candidates and find the perfect match for your team</p>
+  <div class="container mx-auto px-4 py-12">
+    <div class="max-w-4xl mx-auto">
+      <!-- Page Header -->
+      <div class="text-center mb-10">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Post a New Job</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">Reach thousands of qualified candidates and find the perfect match for your team</p>
+      </div>
+      <form action="/jobs/post" method="POST" id="post-job-form">
+        <!-- Company Selector with Search -->
+        <div class="section-card p-6 mb-8">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+              </svg>
             </div>
+            <div class="flex-1">
+              <label class="text-sm font-medium text-gray-700 mb-1 block">Posting as</label>
 
-            <!-- Company Selector with Search -->
-            <div class="section-card p-6 mb-8">
-                <div class="flex items-center gap-4">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <div class="flex-1">
-                        <label class="text-sm font-medium text-gray-700 mb-1 block">Posting as</label>
-                        
-                        <!-- Company Search Input - Fixed positioning -->
-                        <div class="relative mb-2">
-                            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
-                            <input 
-                                type="text" 
-                                id="company-search" 
-                                placeholder="Search companies..." 
-                                class="w-full px-4 py-2 pl-10 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                            >
-                        </div>
-                        
-                        <!-- Company Dropdown -->
-                        <select 
-                            id="company-select" 
-                            name="company" 
-                            class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        >
-                            <option value="" disabled selected hidden>Select a company</option>
-                            <% companies.forEach(company => { %>
-                                <option value="<%= company.id %>"><%= company.name %></option>
-                            <% }) %>
-                            <option value="new">Add New Company</option>
-                        </select>
-                    </div>
+              <!-- Company Search Input - Fixed positioning -->
+              <div class="relative mb-2">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
                 </div>
+                <input type="text" id="company-search" placeholder="Search companies..." class="w-full px-4 py-2 pl-10 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              </div>
+
+              <!-- Company Dropdown -->
+              <select id="company-select" name="company" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                <option value="" disabled selected hidden>Select a company</option>
+                <% companies.forEach(company => { %>
+                <option value="<%= company.id %>"><%= company.name %></option>
+                <% }) %>
+                <option value="new">Add New Company</option>
+              </select>
             </div>
-
-            <!-- Job Posting Form -->
-            <div class="section-card p-8">
-                <form action="/jobs/post" method="POST" class="space-y-8" id="post-job-form">
-                    <!-- Job Details -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Details</h2>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <!-- Update the job title input -->
-                            <div class="space-y-2 md:col-span-2">
-                                <label class="text-sm font-medium text-gray-700">Job Title *</label>
-                                <input type="text" name="title" required placeholder="e.g. Senior Frontend Developer" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-
-                            <!-- Update the job type select -->
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Job Type *</label>
-                                <select required name="type" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                    <option value="">Select Job Type</option>
-                                    <option>Full-time</option>
-                                    <option>Part-time</option>
-                                    <option>Contract</option>
-                                    <option>Freelance</option>
-                                    <option>Internship</option>
-                                </select>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Duty Station *</label>
-                                <input type="text" name="duty_station" required placeholder="e.g. Headquarters, Remote" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Location & Compensation -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Location & Compensation</h2>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Location Type *</label>
-                                <select required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                    <option value="">Select Location Type</option>
-                                    <option>On-site</option>
-                                    <option>Remote</option>
-                                    <option>Hybrid</option>
-                                </select>
-                            </div>
-                            <!-- Update the location input -->
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Location *</label>
-                                <input type="text" name="location" required placeholder="e.g. New York, NY" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Salary Range (Min) *</label>
-                                <input type="number" required placeholder="e.g. 80000" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Salary Range (Max) *</label>
-                                <input type="number" required placeholder="e.g. 120000" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Currency *</label>
-                                <select required class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                                    <option value="">Select Currency</option>
-                                    <option>USD</option>
-                                    <option>EUR</option>
-                                    <option>GBP</option>
-                                    <option>CAD</option>
-                                    <option>AUD</option>
-                                    <option>JPY</option>
-                                    <option>INR</option>
-                                    <option>SGD</option>
-                                    <option>IDR</option>
-                                </select>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Benefits</label>
-                                <input type="text" placeholder="e.g. Health insurance, 401k, Remote work" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Description -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Description</h2>
-                        <!-- Update the textareas -->
-                        <div class="space-y-6">
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Description *</label>
-                                <textarea name="description" required rows="4" placeholder="Describe the role and responsibilities" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Responsibilities *</label>
-                                <textarea name="responsibilities" required rows="4" placeholder="List the key responsibilities for this role" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Requirements *</label>
-                                <textarea name="requirements" required rows="4" placeholder="List the skills, experience, and qualifications required" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Application Settings -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Application Settings</h2>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <!-- Update the deadline field -->
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Application Deadline</label>
-                                <input type="date" name="deadline" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Posted Date</label>
-                                <input type="date" name="posted_date" value="<%= new Date().toISOString().split('T')[0] %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Posted Time</label>
-                                <input type="time" name="posted_time" value="<%= new Date().toTimeString().split(' ')[0] %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-sm font-medium text-gray-700">Easy Apply</label>
-                                <div class="flex items-center mt-2">
-                                    <input type="checkbox" name="easy_apply" value="1" id="easy-apply" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <label for="easy-apply" class="ml-2 text-sm text-gray-700">Enable one-click applications</label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Job Categories - CHANGED TO CHECKLIST -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Categories</h2>
-                        <div class="space-y-2">
-                            <label class="text-sm font-medium text-gray-700">Select Categories *</label>
-                            <div class="category-grid mt-2 border border-gray-200 rounded-lg p-4 bg-white">
-                               
-                                
-                                <% categories.forEach(category => { %>
-                                <div class="category-item">
-                                    <input 
-                                        type="checkbox" 
-                                        id="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" 
-                                        name="categories[]" 
-                                        value="<%= category.id %>"
-                                        class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                                    >
-                                    <label for="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" class="ml-2 text-sm text-gray-700">
-                                        <%= category.name %>
-                                    </label>
-                                </div>
-                                <% }) %>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1">Select all that apply</p>
-                        </div>
-                    </div>
-
-                    <!-- Featured and Premium Options -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Listing Options</h2>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" name="featured" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <span class="text-sm text-gray-700">Featured Listing (+$49)</span>
-                                </label>
-                                <p class="text-xs text-gray-500 ml-6">Highlight your job at the top of search results</p>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="flex items-center space-x-2">
-                                    <input type="checkbox" name="premium" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <span class="text-sm text-gray-700">Premium Listing (+$99)</span>
-                                </label>
-                                <p class="text-xs text-gray-500 ml-6">Featured listing + social media promotion</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Company Image (renamed from Logo Upload) -->
-                    <div class="space-y-6">
-                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Company Image</h2>
-                        <div class="space-y-2">
-                            <label class="text-sm font-medium text-gray-700">Upload Company Image (Optional)</label>
-                            <div class="border-2 border-dashed border-gray-200 rounded-lg p-4">
-                                <input type="file" class="hidden" id="company-image" name="company_image" accept="image/*">
-                                <label for="company-image" class="cursor-pointer flex flex-col items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                    </svg>
-                                    <span class="text-indigo-600 hover:text-indigo-700">Upload Image</span>
-                                    <span class="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-4">
-                        <button type="submit" name="action" value="draft" class="flex-1 px-8 py-4 border border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
-                            Save as Draft
-                        </button>
-                        <button type="submit" name="action" value="publish" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-colors shadow-lg">
-                            Publish Job
-                        </button>
-                    </div>
-                </form>
-            </div>
+          </div>
         </div>
-    </div>
 
-    <!-- Add Company Modal -->
-    <div id="company-modal" class="modal-overlay">
-        <div class="modal-content p-8 max-w-6xl">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-semibold text-gray-900">Add New Company</h3>
-                <button id="close-modal" class="text-gray-500 hover:text-gray-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        <!-- Job Posting Form -->
+        <div class="section-card p-8">
+          <div class="space-y-8">
+            <!-- Job Details -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Details</h2>
+              <div class="grid md:grid-cols-1 gap-6">
+                <!-- Update the job title input -->
+                <div class="space-y-2 col-span-2">
+                  <label class="text-sm font-medium text-gray-700">Job Title *</label>
+                  <input type="text" name="title" required placeholder="e.g. Senior Frontend Developer" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+
+                <!-- Update the job type select -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Job Type *</label>
+                  <select required name="type" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <option value="">Select Job Type</option>
+                    <option>Full-time</option>
+                    <option>Part-time</option>
+                    <option>Contract</option>
+                    <option>Freelance</option>
+                    <option>Internship</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Location & Compensation -->
+            <div class="space-y-6">
+              <!-- <h2 class="text-xl font-semibold text-gray-900 mb-4">Location & Compensation</h2> -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Update the location input -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Location *</label>
+                  <input type="text" name="location" required placeholder="e.g. New York, NY" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Salary </label>
+                  <input type="text" name="salary" required placeholder="e.g. 120000 Birr" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Qualifications and Requirements</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Education field -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Degree</label>
+                  <input type="text" name="degree" required placeholder="e.g. Bachelor's degree" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Field of Study</label>
+                  <input type="text" name="field_of_study" required placeholder="e.g. Computer Science or related field" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div class="space-y-2">
+
+                  <label class="text-sm font-medium text-gray-700">CGPA *</label>
+                  <input type="text" name="cgpa" required placeholder="e.g. 3.5/4.0" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div class="space-y-2">
+
+                  <label class="text-sm font-medium text-gray-700">Exit Exam Score *</label>
+                  <input type="text" name="exit_score" required placeholder="e.g. 50" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <!-- Experience field -->
+                <div class="space-y-2 md:col-span-2">
+                  <label class="text-sm font-medium text-gray-700">Experience *</label>
+                  <input type="text" name="experience" required placeholder="e.g. 3+ years of experience in software development" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+
+                <!-- Technical Skills field -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Technical Skills *</label>
+                  <textarea name="technical_skills" required placeholder="e.g. JavaScript, React, Node.js, SQL" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                </div>
+
+                <!-- Soft Skills field -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Soft Skills</label>
+                  <textarea name="soft_skills" placeholder="e.g. Communication, teamwork, problem-solving" rows="3" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                </div>
+
+                <!-- Additional Requirements field -->
+                <div class="space-y-2 md:col-span-2">
+                  <label class="text-sm font-medium text-gray-700">Additional Requirements</label>
+                  <textarea name="additional_requirements" placeholder="e.g. Willingness to travel, specific certifications, language proficiency" rows="2" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- Job Description -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Description</h2>
+              <!-- Update the textareas -->
+              <div class="space-y-6">
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Description *</label>
+                  <textarea name="description" required rows="4" placeholder="Describe the role and responsibilities" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Responsibilities *</label>
+                  <textarea name="responsibilities" required rows="4" placeholder="List the key responsibilities for this role" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Application Settings -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Application Settings</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <!-- Update the deadline field -->
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Application Deadline</label>
+                  <input type="date" name="end_date" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <div class="space-y-2">
+                  <label class="text-sm font-medium text-gray-700">Posted Date</label>
+                  <input type="date" name="posted_date" value="<%= new Date().toISOString().split('T')[0] %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                </div>
+                <!-- <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Posted Time</label>
+                <input type="time" name="posted_time" value="<%= new Date().toTimeString().split(' ')[0] %>" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+              </div> -->
+                <!-- <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Easy Apply</label>
+                <div class="flex items-center mt-2">
+                  <input type="checkbox" name="easy_apply" value="1" id="easy-apply" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                  <label for="easy-apply" class="ml-2 text-sm text-gray-700">Enable one-click applications</label>
+                </div>
+              </div> -->
+              </div>
+            </div>
+
+            <!-- Job Categories - CHANGED TO CHECKLIST -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Job Categories</h2>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Select Categories *</label>
+                <div class="category-grid mt-2 border border-gray-200 rounded-lg p-4 bg-white">
+
+
+                  <% categories.forEach(category => { %>
+                  <div class="category-item">
+                    <input type="checkbox" id="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" name="categories[]" value="<%= category.id %>" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <label for="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" class="ml-2 text-sm text-gray-700">
+                      <%= category.name %>
+                    </label>
+                  </div>
+                  <% }) %>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">Select all that apply</p>
+              </div>
+            </div>
+
+            <!-- Featured and Premium Options -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Listing Options</h2>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" name="featured" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <span class="text-sm text-gray-700">Featured Listing (+$49)</span>
+                  </label>
+                  <p class="text-xs text-gray-500 ml-6">Highlight your job at the top of search results</p>
+                </div>
+                <div class="space-y-2">
+                  <label class="flex items-center space-x-2">
+                    <input type="checkbox" name="premium" value="1" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                    <span class="text-sm text-gray-700">Premium Listing (+$99)</span>
+                  </label>
+                  <p class="text-xs text-gray-500 ml-6">Featured listing + social media promotion</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Company Image (renamed from Logo Upload) -->
+            <div class="space-y-6">
+              <h2 class="text-xl font-semibold text-gray-900 mb-4">Company Image</h2>
+              <div class="space-y-2">
+                <label class="text-sm font-medium text-gray-700">Upload Company Image (Optional)</label>
+                <div class="border-2 border-dashed border-gray-200 rounded-lg p-4">
+                  <input type="file" class="hidden" id="company-image" name="company_image" accept="image/*">
+                  <label for="company-image" class="cursor-pointer flex flex-col items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                     </svg>
-                </button>
-            </div>
-            
-            <div class="grid md:grid-cols-2 gap-6">
-                <!-- Company Name -->
-                <div class="space-y-2 md:col-span-2">
-                    <label for="company-name" class="text-sm font-medium text-gray-700">Company Name <span class="text-red-500">*</span></label>
-                    <input 
-                        type="text" 
-                        id="company-name" 
-                        name="company_name" 
-                        required
-                        placeholder="e.g. Acme Corporation"
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
+                    <span class="text-indigo-600 hover:text-indigo-700">Upload Image</span>
+                    <span class="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</span>
+                  </label>
                 </div>
+              </div>
+            </div>
 
-                <!-- Comapny Email -->
-                <div class="space-y-2">
-                    <label for="company-location" class="text-sm font-medium text-gray-700">Email</label>
-                    <input 
-                        type="email" 
-                        id="company-email" 
-                        name="company_email"
-                        value="beyene@email.com" 
-                        placeholder="e.g. example@email.com"
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                </div>
-                
-                <!-- Company Website -->
-                <div class="space-y-2">
-                    <label for="company-website" class="text-sm font-medium text-gray-700">Company Website</label>
-                    <input 
-                        type="url" 
-                        id="company-website" 
-                        name="company_website" 
-                        placeholder="e.g. https://www.acme.com"
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                </div>
-                
-                <!-- Company Industry -->
-                <div class="space-y-2">
-                    <label for="company-industry" class="text-sm font-medium text-gray-700">Industry</label>
-                    <select 
-                        id="company-industry" 
-                        name="company_industry" 
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                        <option value="">Select an industry</option>
-                        <option value="Technology">Technology</option>
-                        <option value="Healthcare">Healthcare</option>
-                        <option value="Finance">Finance</option>
-                        <option value="Education">Education</option>
-                        <option value="Retail">Retail</option>
-                        <option value="Manufacturing">Manufacturing</option>
-                        <option value="Media">Media</option>
-                        <option value="Other">Other</option>
-                    </select>
-                </div>
-                
-                <!-- Company Size -->
-                <div class="space-y-2">
-                    <label for="company-size" class="text-sm font-medium text-gray-700">Company Size</label>
-                    <select 
-                        id="company-size" 
-                        name="company_size" 
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                        <option value="">Select company size</option>
-                        <option value="1-10">1-10 employees</option>
-                        <option value="11-50">11-50 employees</option>
-                        <option value="51-200">51-200 employees</option>
-                        <option value="201-500">201-500 employees</option>
-                        <option value="501+">501+ employees</option>
-                    </select>
-                </div>
-                
-                <!-- Company Location -->
-                <div class="space-y-2">
-                    <label for="company-location" class="text-sm font-medium text-gray-700">Headquarters Location</label>
-                    <input 
-                        type="text" 
-                        id="company-location" 
-                        name="company_location" 
-                        placeholder="e.g. San Francisco, CA"
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    >
-                </div>
-                
-                <!-- Company Image (renamed from Company Logo) -->
-                <div class="space-y-2">
-                    <label for="company-image" class="text-sm font-medium text-gray-700">Company Image (Optional)</label>
-                    <div class="border-2 border-dashed border-gray-200 rounded-lg p-4">
-                        <input type="file" class="hidden" id="company-image" name="company_image" accept="image/*">
-                        <label for="company-image" class="cursor-pointer flex flex-col items-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                            </svg>
-                            <span class="text-indigo-600 hover:text-indigo-700">Upload Image</span>
-                            <span class="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- Company Description -->
-                <div class="space-y-2 md:col-span-2">
-                    <label for="company-description" class="text-sm font-medium text-gray-700">Company Description</label>
-                    <textarea 
-                        id="company-description" 
-                        name="company_description" 
-                        rows="3" 
-                        placeholder="Briefly describe the company, its mission, and culture..."
-                        class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    ></textarea>
-                </div>
+            <!-- Submit Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4">
+              <button type="button" name="action" value="draft" class="flex-1 px-8 py-4 border border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-colors">
+                Save as Draft
+              </button>
+              <button type="submit" name="action" value="publish" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-4 rounded-xl font-semibold hover:from-indigo-700 hover:to-purple-700 transition-colors shadow-lg">
+                Publish Job
+              </button>
             </div>
-            
-            <!-- Save Company Button -->
-            <div class="flex justify-end mt-6">
-                <button 
-                    type="button" 
-                    id="save-company-btn" 
-                    class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
-                >
-                    Save Company
-                </button>
-            </div>
-        </div>
+          </div>
+      </form>
     </div>
+  </div>
 
-    <%- include('../partials/footer') %>
+  <!-- Add Company Modal -->
+  <div id="company-modal" class="modal-overlay">
+    <div class="modal-content p-8 max-w-6xl">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-semibold text-gray-900">Add New Company</h3>
+        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
 
-    <!-- JavaScript for Company Form and Search -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Elements
-            const companySelect = document.getElementById('company-select');
-            const companySearchInput = document.getElementById('company-search');
-            const companyModal = document.getElementById('company-modal');
-            const closeModalBtn = document.getElementById('close-modal');
-            const saveCompanyBtn = document.getElementById('save-company-btn');
-            
-            // Show modal when "Add New Company" is selected
-            if (companySelect) {
-                companySelect.addEventListener('change', function() {
-                    if (this.value === 'new') {
-                        companyModal.classList.add('active');
-                        document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
-                    }
-                });
-            }
-            
-            // Close modal
-            if (closeModalBtn) {
-                closeModalBtn.addEventListener('click', function() {
-                    companyModal.classList.remove('active');
-                    document.body.style.overflow = ''; // Re-enable scrolling
-                    companySelect.value = ''; // Reset dropdown selection
-                });
-            }
-            
-            // Close modal when clicking outside
-            if (companyModal) {
-                companyModal.addEventListener('click', function(e) {
-                    if (e.target === companyModal) {
-                        companyModal.classList.remove('active');
-                        document.body.style.overflow = '';
-                        companySelect.value = '';
-                    }
-                });
-            }
-            
-            // Save company functionality
-            if (saveCompanyBtn) {
-                saveCompanyBtn.addEventListener('click', async function() {
-                    const companyName = document.getElementById('company-name').value;
-                    const companyWebsite = document.getElementById('company-website').value;
-                    const companyIndustry = document.getElementById('company-industry').value;
-                    const companySize = document.getElementById('company-size').value;
-                    const companyLocation = document.getElementById('company-location').value;
-                    const companyDescription = document.getElementById('company-description').value;
-                    const companyImage = document.getElementById('company-image').files[0];
-                    const companyEmail = document.getElementById('company-email').value;
-                    const companyData = {
-                        name: companyName,
-                        email: companyEmail,
-                        website: companyWebsite,
-                        industry: companyIndustry,
-                        size: companySize,
-                        location: companyLocation,
-                        description: companyDescription,
-                        image: companyImage
-                    };
-                    // Validate required fields
-                    
-                    if (!companyName) {
-                        alert('Company name is required');
-                        return;
-                    }
-                    
-                    // Here you would typically make an AJAX call to save the company
-                    // For demonstration, we'll simulate adding it to the dropdown
-                    
+      <div class="grid md:grid-cols-2 gap-6">
+        <!-- Company Name -->
+        <div class="space-y-2 md:col-span-2">
+          <label for="company-name" class="text-sm font-medium text-gray-700">Company Name <span class="text-red-500">*</span></label>
+          <input type="text" id="company-name" name="company_name" required placeholder="e.g. Acme Corporation" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
 
-                    const response = await fetch('http://localhost:3002/companies/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(companyData)
-                    });
-                    const data = await response.json();
-                    if (!data.success) {
-                        alert('Error adding company: ' + data.message);
-                        return;
-                    }
+        <!-- Comapny Email -->
+        <div class="space-y-2">
+          <label for="company-location" class="text-sm font-medium text-gray-700">Email</label>
+          <input type="email" id="company-email" name="company_email" value="beyene@email.com" placeholder="e.g. example@email.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
 
-                    // Create a new option with a temporary ID
-                    const newOption = document.createElement('option');
-                    newOption.value = data.companies[data.companies.length - 1].id // Temporary ID
-                    newOption.text = data.companies[data.companies.length - 1].name; // Use the name from the response
+        <!-- Company Website -->
+        <div class="space-y-2">
+          <label for="company-website" class="text-sm font-medium text-gray-700">Company Website</label>
+          <input type="url" id="company-website" name="company_website" placeholder="e.g. https://www.acme.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
 
-                    
-                    // Insert before the "Add New Company" option
-                    const addNewOption = companySelect.querySelector('option[value="new"]');
-                    companySelect.insertBefore(newOption, addNewOption);
-                    
-                    // Select the new company
-                    companySelect.value = newOption.value;
-                    
-                    // Close the modal
-                    companyModal.classList.remove('active');
-                    document.body.style.overflow = '';
-                    
-                    // Show success message
-                    alert('Company added successfully!');
-                });
-            }
-            
-            // Company search functionality
-            if (companySearchInput && companySelect) {
-                companySearchInput.addEventListener('input', function() {
-                    const searchTerm = this.value.toLowerCase();
-                    const options = Array.from(companySelect.options);
-                    
-                    options.forEach(option => {
-                        // Skip the "Select a company" and "Add New Company" options
-                        if (option.value === '' || option.value === 'new') return;
-                        
-                        const text = option.textContent.toLowerCase();
-                        if (text.includes(searchTerm)) {
-                            option.style.display = '';
-                        } else {
-                            option.style.display = 'none';
-                        }
-                    });
-                });
-            }
+        <!-- Company Industry -->
+        <div class="space-y-2">
+          <label for="company-industry" class="text-sm font-medium text-gray-700">Industry</label>
+          <select id="company-industry" name="company_industry" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <option value="">Select an industry</option>
+            <option value="Technology">Technology</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Finance">Finance</option>
+            <option value="Education">Education</option>
+            <option value="Retail">Retail</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Media">Media</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
 
-            const form = document.getElementById("post-job-form");
-            form.addEventListener("submit", async(e) => {
-                e.preventDefault()
-                const formData = new FormData(form);
-               const formDataObject = {};
+        <!-- Company Size -->
+        <div class="space-y-2">
+          <label for="company-size" class="text-sm font-medium text-gray-700">Company Size</label>
+          <select id="company-size" name="company_size" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+            <option value="">Select company size</option>
+            <option value="1-10">1-10 employees</option>
+            <option value="11-50">11-50 employees</option>
+            <option value="51-200">51-200 employees</option>
+            <option value="201-500">201-500 employees</option>
+            <option value="501+">501+ employees</option>
+          </select>
+        </div>
 
-                formData.forEach((value, key) => {
-                    const cleanKey = key.replace(/\[\]$/, '');
-                    if (formDataObject[cleanKey]) {
-                        if (Array.isArray(formDataObject[cleanKey])) {
-                            formDataObject[cleanKey].push(value);
-                        } else {
-                            formDataObject[cleanKey] = [formDataObject[cleanKey], value];
-                        }
-                    } else {
-                        formDataObject[cleanKey] = value;
-                    }
-                });
+        <!-- Company Location -->
+        <div class="space-y-2">
+          <label for="company-location" class="text-sm font-medium text-gray-700">Headquarters Location</label>
+          <input type="text" id="company-location" name="company_location" placeholder="e.g. San Francisco, CA" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+        </div>
 
+        <!-- Company Image (renamed from Company Logo) -->
+        <div class="space-y-2">
+          <label for="company-image" class="text-sm font-medium text-gray-700">Company Image (Optional)</label>
+          <div class="border-2 border-dashed border-gray-200 rounded-lg p-4">
+            <input type="file" class="hidden" id="company-image" name="company_image" accept="image/*">
+            <label for="company-image" class="cursor-pointer flex flex-col items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <span class="text-indigo-600 hover:text-indigo-700">Upload Image</span>
+              <span class="text-xs text-gray-500 mt-1">PNG, JPG up to 2MB</span>
+            </label>
+          </div>
+        </div>
 
+        <!-- Company Description -->
+        <div class="space-y-2 md:col-span-2">
+          <label for="company-description" class="text-sm font-medium text-gray-700">Company Description</label>
+          <textarea id="company-description" name="company_description" rows="3" placeholder="Briefly describe the company, its mission, and culture..." class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
+        </div>
+      </div>
 
-                const response = await fetch("http://localhost:3002/jobs/post", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formDataObject)
-                })
-                const { success, message } = await response.json();
-                if (success) {
-                    alert("Job posted successfully!");
-                    window.location.href = "/jobs";
-                } else {
-                    alert("Error posting job: " + message);
-                }
-            })
+      <!-- Save Company Button -->
+      <div class="flex justify-end mt-6">
+        <button type="button" id="save-company-btn" class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors">
+          Save Company
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <%- include('../partials/footer') %>
+
+  <!-- JavaScript for Company Form and Search -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Elements
+      const companySelect = document.getElementById('company-select');
+      const companySearchInput = document.getElementById('company-search');
+      const companyModal = document.getElementById('company-modal');
+      const closeModalBtn = document.getElementById('close-modal');
+      const saveCompanyBtn = document.getElementById('save-company-btn');
+
+      // Show modal when "Add New Company" is selected
+      if (companySelect) {
+        companySelect.addEventListener('change', function() {
+          if (this.value === 'new') {
+            companyModal.classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+          }
         });
-    </script>
+      }
+
+      // Close modal
+      if (closeModalBtn) {
+        closeModalBtn.addEventListener('click', function() {
+          companyModal.classList.remove('active');
+          document.body.style.overflow = ''; // Re-enable scrolling
+          companySelect.value = ''; // Reset dropdown selection
+        });
+      }
+
+      // Close modal when clicking outside
+      if (companyModal) {
+        companyModal.addEventListener('click', function(e) {
+          if (e.target === companyModal) {
+            companyModal.classList.remove('active');
+            document.body.style.overflow = '';
+            companySelect.value = '';
+          }
+        });
+      }
+
+      // Save company functionality
+      if (saveCompanyBtn) {
+        saveCompanyBtn.addEventListener('click', async function() {
+          const companyName = document.getElementById('company-name').value;
+          const companyWebsite = document.getElementById('company-website').value;
+          const companyIndustry = document.getElementById('company-industry').value;
+          const companySize = document.getElementById('company-size').value;
+          const companyLocation = document.getElementById('company-location').value;
+          const companyDescription = document.getElementById('company-description').value;
+          const companyImage = document.getElementById('company-image').files[0];
+          const companyEmail = document.getElementById('company-email').value;
+          const companyData = {
+            name: companyName,
+            email: companyEmail,
+            website: companyWebsite,
+            industry: companyIndustry,
+            size: companySize,
+            location: companyLocation,
+            description: companyDescription,
+            image: companyImage
+          };
+          // Validate required fields
+
+          if (!companyName) {
+            alert('Company name is required');
+            return;
+          }
+
+          // Here you would typically make an AJAX call to save the company
+          // For demonstration, we'll simulate adding it to the dropdown
+
+
+          const response = await fetch('http://localhost:3002/companies/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(companyData)
+          });
+          const data = await response.json();
+          if (!data.success) {
+            alert('Error adding company: ' + data.message);
+            return;
+          }
+
+          // Create a new option with a temporary ID
+          const newOption = document.createElement('option');
+          newOption.value = data.companies[data.companies.length - 1].id // Temporary ID
+          newOption.text = data.companies[data.companies.length - 1].name; // Use the name from the response
+
+
+          // Insert before the "Add New Company" option
+          const addNewOption = companySelect.querySelector('option[value="new"]');
+          companySelect.insertBefore(newOption, addNewOption);
+
+          // Select the new company
+          companySelect.value = newOption.value;
+
+          // Close the modal
+          companyModal.classList.remove('active');
+          document.body.style.overflow = '';
+
+          // Show success message
+          alert('Company added successfully!');
+        });
+      }
+
+      // Company search functionality
+      if (companySearchInput && companySelect) {
+        companySearchInput.addEventListener('input', function() {
+          const searchTerm = this.value.toLowerCase();
+          const options = Array.from(companySelect.options);
+
+          options.forEach(option => {
+            // Skip the "Select a company" and "Add New Company" options
+            if (option.value === '' || option.value === 'new') return;
+
+            const text = option.textContent.toLowerCase();
+            if (text.includes(searchTerm)) {
+              option.style.display = '';
+            } else {
+              option.style.display = 'none';
+            }
+          });
+        });
+      }
+
+      const form = document.getElementById("post-job-form");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault()
+        const formData = new FormData(form);
+        const formDataObject = {};
+
+        formData.forEach((value, key) => {
+          const cleanKey = key.replace(/\[\]$/, '');
+          if (formDataObject[cleanKey]) {
+            if (Array.isArray(formDataObject[cleanKey])) {
+              formDataObject[cleanKey].push(value);
+            } else {
+              formDataObject[cleanKey] = [formDataObject[cleanKey], value];
+            }
+          } else {
+            formDataObject[cleanKey] = value;
+          }
+        });
+
+
+
+        const response = await fetch("http://localhost:3002/jobs/post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(formDataObject)
+        })
+        const {
+          success,
+          message
+        } = await response.json();
+        if (success) {
+          alert("Job posted successfully!");
+          //   window.location.href = "/jobs";
+        } else {
+          alert("Error posting job: " + message);
+        }
+      })
+    });
+  </script>
 </body>
+
 </html>

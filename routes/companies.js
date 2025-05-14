@@ -2,16 +2,18 @@ import express from 'express';
 import { jobs } from "../db/jobs.js";
 import Company from '../models/Company.js';
 import { Category, Job } from '../models/Job.js';
+import checkAdmin from '../middlewares/checkAdmin.js';
 const router = express.Router();
 
 router.get('/', (req, res) => {
 	res.render('companies/index', {
-		user: req.isAuthenticated() ? { ...req.user._json } : null,
+		user: req.isAuthenticated() ? req.user : null,
 		title: "Companies - JobHub"
 	})
 })
 
 router.get('/register', (req, res) => {
+	
 	res.render('companies/register', {
 		user: req.isAuthenticated() ? user : null,
 		title: "Register for Companies - JobHub"
@@ -107,7 +109,7 @@ router.get("/:company/jobs/:job/edit", async (req, res) => {
 })
 
 
-router.get('/post-job', async (req, res) => {
+router.get('/post-job', checkAdmin, async (req, res) => {
 	const companies = await Company.findAll();
 	const categories = await Category.findAll();
 	res.render('companies/post-job-test', {

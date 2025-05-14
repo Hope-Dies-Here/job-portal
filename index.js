@@ -12,6 +12,7 @@ import flash from "connect-flash";
 import session from "express-session";
 import LocalStrategy from "passport-local";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import requestIp from 'request-ip';
 dotenv.config();
 
 //importing routes
@@ -21,12 +22,16 @@ import usersRoute from "./routes/users.js";
 import companiesRoute from "./routes/companies.js";
 import {User} from "./models/User.js";
 import bodyParser from "body-parser";
+import adminRoute from "./routes/admin.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 3002;
+
+
+app.use(requestIp.mw());
 
 // Middleware
 app.use(cors());
@@ -100,6 +105,11 @@ app.use((req, res, next) => {
   res.locals.error = req.flash("error");
   next();
 });
+
+app.use((req, res, next) => {
+  res.locals.admn = req.session.admn;
+  next();
+});
 // General Error Handling Middleware (catch-all)
 // Global error-handling middleware
 app.use((err, req, res, next) => {
@@ -128,7 +138,7 @@ app.use("/", indexRoute);
 app.use("/jobs", jobsRoute);
 app.use("/users", usersRoute);
 app.use("/companies", companiesRoute);
-
+app.use("/admin", adminRoute)
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

@@ -4,11 +4,13 @@ const Job = {
   async findAll() {
     const [rows] = await pool.execute(`
       SELECT 
-        jobs.*, 
+        jobs.*, companies.name AS company_name, companies.logo AS company_logo,
         GROUP_CONCAT(categories.name SEPARATOR ', ') AS categories
         FROM jobs
         LEFT JOIN job_categories ON jobs.id = job_categories.job_id
         LEFT JOIN categories ON job_categories.cat_id = categories.id
+        LEFT JOIN companies ON jobs.company = companies.id
+        
         GROUP BY jobs.id
     `);
 
@@ -16,7 +18,7 @@ const Job = {
     return rows;
   },
   async findById(id) {
-    const [rows] = await pool.execute("SELECT * FROM jobs WHERE id = ?", [id]);
+    const [rows] = await pool.execute("SELECT jobs.*, companies.name as company_name, companies.logo as company_logo, companies.industry as company_industry, companies.location as company_location, companies.size as company_size, companies.description as company_description, companies.website as company_website, companies.email as company_email, companies.phone as company_phone FROM jobs JOIN companies ON jobs.company = companies.id WHERE jobs.id = ?", [id]);
     return rows[0];
   },
 
@@ -32,11 +34,11 @@ const Job = {
   return rows;
   },
   async create(job) {
-      const { title, type, description, company = 0, location, salary = 0, responsibilities, requirements, end_date = '12-04-1900', posted_date } = job;
+      const { title, type, description, company, location, salary, responsibilities, end_date, posted_date } = job;
 
     const [rows] = await pool.execute(
-      "INSERT INTO jobs (title, type, location, salary, description, responsibilities, requirements, posted_date, end_date, company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [title, type, location, salary, description, responsibilities, requirements, posted_date, end_date, company]
+      "INSERT INTO jobs (title, type, location, salary, description, responsibilities, posted_date, end_date, company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, type, location, salary, description, responsibilities, posted_date, end_date, company]
     );
     
     return rows;

@@ -13,7 +13,14 @@ const Company = {
     return rows;
   },
 
-  async update(company) {},
+  async update(company) {
+    const { id, name, email, website, phone = null, logo = null, industry = null, location = null, size = null, description = null } = company;
+    const [rows] = await pool.execute(
+      "UPDATE companies SET name = ?, email = ?, website = ?, phone = ?, logo = ?, industry = ?, location = ?, size = ?, description = ? WHERE id = ?",
+      [name, email, website, phone, logo, industry, location, size, description, id]
+    );
+    return rows;
+  },
   async findAll() {
     const [rows] = await pool.execute("SELECT * FROM companies");
     return rows;

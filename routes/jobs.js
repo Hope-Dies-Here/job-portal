@@ -2,7 +2,6 @@ import express from "express";
 const router = express.Router();
 
 import { pool } from '../db/db.js'
-
 import checkLogin from "../middlewares/checkLogin.js";
 import { Job, Category, JobCategory } from "../models/Job.js";
 import { User } from "../models/User.js";
@@ -10,11 +9,10 @@ import { User } from "../models/User.js";
 router.get("/", async (req, res) => {
   try {
   const jobs = await Job.findAll();
-  
-  console.log("JOB",jobs);
+  console.log(jobs);
   res.render("index", {
     // jobs: temp_jobs.reverse(),
-    jobs,
+    jobs: jobs.reverse(),
     user: req.isAuthenticated() ? req.user : null,
     title: "JobHub - Listed Jobs",
   });
@@ -39,6 +37,7 @@ router.get("/search", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const jobId = req.params.id;
   const job = await Job.findById(jobId);
+  console.log(job);
   const similarJobs = await Job.findSimilarJobs(job.id);
   console.log(similarJobs);
 
@@ -93,17 +92,27 @@ router.post("/post", async (req, res) => {
       title: req.body.title,
       type: req.body.type,
       description: req.body.description,
-      company: 1,
+      company: parseInt(req.body.company),
       location: req.body.location,
       salary: req.body.salary,
-      responsibilities: req.body.responsibilities,
-      requirements: req.body.requirements,
+      responsibilities: req.body.responsibilities.replace(/\n/g, '.'),
       end_date: req.body.end_date,
       posted_date: new Date(),
     });
 
-    const categories = req.body.categories;
-    console.log(categories);
+    if(!job.insertId) {
+      return res.status(500).json({ success: false, message: "Job not posted" });
+    }
+
+    let categories = req.body.categories;
+    if(!categories) {
+      categories = [];
+    }
+
+    if(typeof categories === "string") {
+      categories = [categories];
+    }
+    console.log("Categories", categories);
     categories.forEach(async (tag) => {
       
       await JobCategory.create({
@@ -111,9 +120,29 @@ router.post("/post", async (req, res) => {
         cat_id: parseInt(tag),
       });
     });
+
+    // add requirements degree	field_of_study	cgpa	exit_score	experiance	skill	other	job_id	
+
+    // const requirements = {
+    //   degree: req.body.degree,
+    //   field_of_study: req.body.field_of_study,
+    //   cgpa: req.body.cgpa,
+    //   exit_score: req.body.exit_score,
+    //   experience: req.body.experience,
+    //   skill: req.body.skill,
+    //   other: req.body.other,
+    //   job_id: job.insertId,
+    // }
     
-    console.log(req.body);
-    console.log(JSON.stringify(req.body.categories))
+    console.log(job.insertId, req.body.degree, req.body.field_of_study, req.body.cgpa, req.body.exit_score, req.body.experience, req.body.technical_skill, req.body.additional_requirements);
+    const [data] = await pool.execute(
+      "INSERT INTO requirements (job_id, degree, field_of_study, cgpa, exit_score, experience, skill, other) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [job.insertId, req.body.degree, req.body.field_of_study, req.body.cgpa, req.body.exit_score, req.body.experience, req.body.technical_skills, req.body.additional_requirements]
+    );
+    console.log("Requirements", data);
+    // console.log(req.body);
+    // console.log(req.body.responsibilities.split("\n").map((item) => item.trim()).filter((i) => i !== ""));
+
     req.flash("success", "Job posted successfully");
     res.status(201).json({ success: true, message: "Job posted successfully" });
   } catch (error) {
@@ -122,5 +151,7 @@ router.post("/post", async (req, res) => {
   }
 }
 );
+
+
 
 export default router;

@@ -43,7 +43,7 @@
                                 <div class="flex items-start justify-between">
                                     <div>
                                         <h1 class="text-2xl font-bold text-gray-900 mb-1"><%= job.title %></h1>
-                                        <p class="text-lg text-gray-600 mb-2"><%= job.company %></p>
+                                        <p class="text-lg text-gray-600 mb-2"><%= job.company_name %></p>
                                     </div>
                                     <div class="flex items-center gap-2">
                                         <button class="p-2 hover:bg-gray-100 rounded-lg text-gray-400 hover:text-indigo-600" title="Share">
@@ -113,7 +113,7 @@
                         <h2 class="text-xl font-semibold text-gray-900 mb-4">Qualification</h2>
                         <ul class="space-y-3 text-gray-600">
                             <% const requirements = job.requirements?.split(', ') || []; %>
-                            <% const responsibilities = job.responsibilities?.split(', ') || []; %>
+                            <% const responsibilities = job.responsibilities?.split('.') || []; %>
                             <% requirements.forEach(req => { %>
                               <li class="flex items-start">
                                 <svg class="h-5 w-5 text-indigo-500 mr-3 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,7 +167,7 @@
                                         <h4 class="font-medium text-gray-900 mb-1">
                                             <a href="/jobs/<%=job.id%>" class="hover:text-indigo-600"><%= job.title %></a>
                                         </h4>
-                                        <p class="text-sm text-gray-600 mb-2"><%= job.company %> • <%= job.location %></p>
+                                        <p class="text-sm text-gray-600 mb-2"><%= job.company_name %> • <%= job.location %></p>
                                         <p class="text-xs text-gray-500"><%= job.date%></p>
                                     </div>
                                 <% }); %>
@@ -202,7 +202,7 @@
                         <div class="section-card p-6">
                             <h3 class="font-semibold text-gray-900 mb-4">About Company</h3>
                             <p class="text-gray-600 text-sm mb-4">
-                                Pixelz Studio is a leading digital product agency specializing in creating innovative user experiences for web and mobile applications.
+                                <%= job.company_description %>
                             </p>
                             <div class="space-y-3 text-sm">
                                 <div class="flex items-center text-gray-600">
@@ -215,13 +215,13 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
-                                    50-200 employees
+                                    <%= job.company_size %> employees
                                 </div>
                                 <div class="flex items-center text-gray-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-3 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                                     </svg>
-                                    www.pixelzstudio.com
+                                    <%= job.company_website %>
                                 </div>
                             </div>
                         </div>
