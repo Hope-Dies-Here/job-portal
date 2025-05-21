@@ -143,7 +143,21 @@ const Education = {
 
   async update(education) {},
 
-  async delete(education) {},
+  async delete(education) {
+    try {
+      const [rows] = await pool.execute(
+        "DELETE FROM educations WHERE id = ?",
+        [education]
+      );
+      if (rows.affectedRows === 0) {
+        return { error: "Education not found" };
+      }
+      return { message: "Education deleted successfully" };
+    } catch (error) {
+      console.log(error);
+      return { error: error.message };
+    }
+  },
 };
 
 const Resume = {

@@ -1,5 +1,5 @@
 <!-- Add Education Form -->
-<div class="section-card p-8">
+<div class="max-w-6xl mx-auto section-card p-8">
   <div class="flex justify-between items-center mb-6">
     <h2 class="text-xl font-semibold text-gray-900">Add Education</h2>
     <button onclick="closeEducationForm()" class="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2">
@@ -10,7 +10,7 @@
     </button>
   </div>
 
-  <form action="/profile/education/add" method="POST" class="space-y-6" id="education-form">
+  <form action="/profile/education/add" method="POST" class="space-y-6" id="education-form" enctype="multipart/form-data">
     <!-- School/Institution -->
     <div class="space-y-2">
       <label for="school" class="text-sm font-medium text-gray-700">School/Institution <span class="text-red-500">*</span></label>
@@ -97,6 +97,16 @@
       <textarea id="edu-description" name="description" rows="4" placeholder="Describe your studies, achievements, projects, or thesis..." class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent"></textarea>
     </div>
 
+    <!-- Image Upload & Preview -->
+    <div class="space-y-2">
+      <label for="edu-image" class="text-sm font-medium text-gray-700">Upload Certificate/Image</label>
+      <input type="file" id="edu-image" name="image" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+      <div id="image-preview" class="mt-4">
+        <!-- Preview will be shown here -->
+      </div>
+    </div>
+
+
     <!-- Buttons -->
     <div class="flex justify-end gap-3">
       <button onclick="closeEducationForm()" type="button" href="/profile" class="px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
@@ -107,7 +117,20 @@
       </button>
     </div>
   </form>
+  
+  
+  <div id="loading-spinner" class="max-w-6xl mx-auto hidden fixed inset-0 flex items-center justify-center bg-gray-100 z-50">
+  <div class="flex items-center space-x-2">
+    <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 1 1 16 0A8 8 0 0 1 4 12zm2.5 0a5.5 5.5 0 1 0 11 0A5.5 5.5 0 0 0 6.5 12z"></path>
+    </svg>
+    <span class="text-gray-700" id="loading-msg">Inserting data...</span>
+  </div>
+  </div>
 </div>
+
+<!-- a loading spinner saying "Matching your profile with inserted document"  -->
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -127,33 +150,110 @@
     }
 
     // add education
-    const educationForm = document.getElementById("education-form");
-    educationForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    // const educationForm = document.getElementById("education-form");
+    // educationForm.addEventListener("submit", async (e) => {
+    //   e.preventDefault();
 
-      const formData = new FormData(educationForm);
-      const formDataObject = {};
-      formData.forEach((value, key) => {
-        formDataObject[key] = value; // convert to plain object
-      });
+    //   const formData = new FormData(educationForm);
+    //   const formDataObject = {};
+    //   formData.forEach((value, key) => {
+    //     formDataObject[key] = value; // convert to plain object
+    //   });
 
-      const response = await fetch("http://localhost:3002/users/profile/education", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formDataObject)
-      })
-      const {
-        html,
-        success,
-        message
-      } = await response.json();
+    //   const response = await fetch("http://localhost:3002/users/profile/education", {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     },
+    //     body: JSON.stringify(formDataObject)
+    //   })
+    //   const {
+    //     html,
+    //     success,
+    //     message
+    //   } = await response.json();
 
-      if (success) {
-        document.querySelector("#education-list").innerHTML = html;
+    //   if (success) {
+    //     document.querySelector("#education-list").innerHTML = html;
+    //     closeEducationForm();
+    //   }
+    // })
+const eduImageInput = document.getElementById("edu-image");
+const imagePreview = document.getElementById("image-preview");
+const loadingMsg = document.getElementById("loading-msg");
+eduImageInput.addEventListener("change", function () {
+  const file = this.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      imagePreview.innerHTML = `
+        <img src="${e.target.result}" alt="Selected Image" class="max-w-xs rounded-lg shadow-md border border-gray-300" />
+      `;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    imagePreview.innerHTML = ""; // Clear if no image
+  }
+});
+
+    // add education
+const educationForm = document.getElementById("education-form");
+educationForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  try {
+     const loading = document.querySelector("#loading-spinner");
+     loadingMsg.innerText = "Inserting document...";
+      loading.classList.remove("hidden");
+      educationForm.classList.add("hidden");
+
+      setTimeout(() => {
+        loadingMsg.innerText = "Matching your profile with inserted document...";
+      }, 2000); // Hide after 2 seconds
+    const formData = new FormData(educationForm); // send FormData directly
+   const response = await fetch("http://localhost:3002/users/profile/education", {
+     method: "POST",
+     body: formData
+   });
+ 
+   const { html, success, message } = await response.json();
+ 
+   if (success) {
+    // create a new popup then add a succes msg to it then after 2 second close form
+      const popup = document.createElement("div");
+      popup.classList.add("fixed", "top-0", "left-0", "right-0", "bottom-0", "flex", "items-center", "justify-center", "z-50");
+      popup.innerHTML = `
+        <div class="bg-green-600 py-4 px-8 text-white font-bold rounded shadow-md">
+          <p class="text-white font-bold">${message}</p>
+        </div>
+      `;
+      
+      setTimeout(() => {
+        document.body.appendChild(popup);
+        loading.classList.add("hidden");
+       educationForm.classList.remove("hidden");
+       document.querySelector("#education-list").innerHTML = html;
+   
+        loading.classList.add("hidden");
+        educationForm.classList.remove("hidden");
         closeEducationForm();
-      }
-    })
+      }, 1500); // Hide after 1.5 seconds 
+      setTimeout(() => {
+        popup.remove();
+      }, 3000); // Remove after 2 seconds
+   } else {
+     // Handle error (e.g., show message)
+     const loading = document.querySelector("#loading-spinner");
+     
+     loading.classList.add("hidden");
+     educationForm.classList.remove("hidden");
+     alert(message);
+   }
+  } catch (error) {
+    console.error("Error:", error);
+    alert("An error occurred while adding education.");
+  }
+});
+
   });
 </script>

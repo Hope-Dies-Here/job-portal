@@ -3,6 +3,8 @@ import checkLogin from "../middlewares/checkLogin.js";
 import passport from "passport";
 import { jobs } from "../db/jobs.js";
 import { User, Experience, Education } from "../models/User.js";
+import { uploadMiddleware, upload } from "../middlewares/multer.js";
+import tesseract from "tesseract.js";
 const router = express.Router();
 
 router.get("/login", (req, res) => {
@@ -25,9 +27,22 @@ router.post(
 
 router.post("/profile/personal", checkLogin, async(req, res) => {
   const body = req.body;
-  console.log(body, "body");
+  // console.log(body, "body");
 
   const user = await User.findByIdAndUpdate(req.user.id, body);
+  if(!user) {
+    return res.status(400).json({ success: false, message: "User not found" })
+  }
+  // console.log("ere beyene", await User.findById(req.user.id))
+  req.user = await User.findById(req.user.id);
+  // console.log(req.user, "user");
+  // console.log(req.user.last_name, "user");
+
+  console.log("------------------------------");
+  console.log(req.user.last_name);
+  console.log("------------------------------");
+
+  req.flash("success", "User updated");
   res.status(200).json({ success: true, data: user })
 })
 
@@ -123,10 +138,19 @@ router.post("/profile/experience", async(req, res) => {
   }
 })
 
-router.post("/profile/education", async(req, res) => {
+router.post("/profile/education", upload.single('image'), async(req, res) => {
   try {
+    console.log(req.file, "file");
+    const { path: imagePath } = req.file;
+    const { data: { text } } = await tesseract.recognize(imagePath, 'eng', {
+        // logger: m => console.log(m)
+    });
+    console.log(text);
     
-    console.log(req.body, "body");
+    if(!text.toLocaleLowerCase().includes(`${req.user.first_name.toLocaleLowerCase()} ${req.user.last_name.toLocaleLowerCase()}`)) {
+      return res.status(400).json({ success: false, message: "We couldn't detect your name on your tempo." });
+    }
+
     await Education.create({
       ...req.body,
       user_id: req.user.id
@@ -142,12 +166,34 @@ router.post("/profile/education", async(req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      message: "error.message",
+      message: "Error try again.",
     });
     
   }
   
 })
+
+router.delete("/profile/educations/:id", async(req, res) => {
+  try {
+    const deleted = await Education.delete(req.params.id);
+    console.log(req.params.id);
+    console.log(deleted);
+    const educations = await Education.findAll(req.user.id);
+
+    res.status(200).render("partials/educations-list",{
+      educations,
+      success: true,
+      message: "Education deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error deleting experience",
+    });
+    console.log(error);
+  }
+})
+
 
 router.get("/saved-jobs", (req, res) => {
   const user = req.user;

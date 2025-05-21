@@ -71,10 +71,20 @@ router.get("/:id", async (req, res) => {
 
 // apply for a job
 router.get("/:id/apply", checkLogin, async (req, res) => {
-  const [jobs] = await pool.execute('SELECT * FROM jobs ORDER BY id ASC')
-  const job = jobs.find((job) => job.id == req.params.id);
+  const [jobs] = await Job.findAll();
+  const job = await Job.findById(req.params.id);
+  console.log("---------------------");
+  console.log(job);
+  console.log("---------------------");
+
+  if (!job) {
+    return res.status(404).render("404", {
+      title: "Job Not Found",
+      user: req.isAuthenticated() ? req.user : null,
+    });
+  }
   const profile = await User.findById(req.user.id)
-  console.log(profile);
+  // console.log(profile);
   res.render("apply", {
     job,
     jobs,

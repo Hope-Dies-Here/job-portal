@@ -8,3 +8,5 @@ postcss.config,mjs
 public/css/input.css
 .sql
 package-lock.json
+multer
+eng.traineddata

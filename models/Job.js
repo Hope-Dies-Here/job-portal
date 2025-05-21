@@ -18,7 +18,24 @@ const Job = {
     return rows;
   },
   async findById(id) {
-    const [rows] = await pool.execute("SELECT jobs.*, companies.name as company_name, companies.logo as company_logo, companies.industry as company_industry, companies.location as company_location, companies.size as company_size, companies.description as company_description, companies.website as company_website, companies.email as company_email, companies.phone as company_phone FROM jobs JOIN companies ON jobs.company = companies.id WHERE jobs.id = ?", [id]);
+    const [rows] = await pool.execute(`
+      SELECT 
+        jobs.*, 
+        companies.name as company_name, 
+        companies.logo as company_logo, 
+        companies.industry as company_industry, 
+        companies.location as company_location, 
+        companies.size as company_size, 
+        companies.description as company_description, 
+        companies.website as company_website, 
+        companies.email as company_email, 
+        companies.phone as company_phone,
+        GROUP_CONCAT(categories.name SEPARATOR ', ') AS categories FROM jobs 
+        LEFT JOIN job_categories ON jobs.id = job_categories.job_id
+        LEFT JOIN categories ON job_categories.cat_id = categories.id
+        JOIN companies ON jobs.company = companies.id WHERE jobs.id = ?
+        GROUP BY jobs.id
+        `, [id]);
     return rows[0];
   },
 

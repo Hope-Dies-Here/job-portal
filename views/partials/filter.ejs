@@ -1,26 +1,42 @@
-<div class="relative" x-data="{ open: false }">
-
+<div class="flex gap-5">
+<button
+   id="filterBtn"
+       class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50">
+       Clear Sort
+</button>   
+<div class="relative" x-data="{ open: false }" id="filterContainer">
+    <!-- Filter Button -->
   <button
+  id="filterBtn"
     @click="open = !open"
     class="flex items-center gap-2 px-4 py-2 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50">
       <svg class="h-5 w-5" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
           </path>
       </svg>
-      Filter
+      Sort - <span id="filterValue">Default</span>
   </button>
   <!-- Dropdown List -->
-    <div @click.outside="open = false" class="absolute right-0 w-60 mt-4 bg-white border border-gray-200 rounded-md shadow-md" x-show="open">
+    <div @click.outside="open = false" class="absolute right-0 w-72 mt-4 bg-blue-200/30 backdrop-blur-md border border-gray-200 rounded-md shadow-md" x-show="open">
         <ul class=" text-md text-gray-700">
-            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <li onclick="filterJobs('newest')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer" id="filterByNewest">
                 Newest
             </li>
-            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                Relevant
+            <li onclick="filterJobs('oldest')" class="px-4 py-2 hover:bg-gray-100 cursor-pointer" id="filterByOldest">
+                Oldest
             </li>
-            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" id="filterByMostApplied">
+                Most Applied
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" id="filterByMostSaved">
+                Most Saved
+            </li>
+            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer" id="filterByTrending">
                 Trending This Week
             </li>
         </ul>
     </div>
+
+</div>
+
 </div>
