@@ -30,7 +30,6 @@ const __dirname = dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3002;
 
-
 app.use(requestIp.mw());
 
 // Middleware
@@ -138,7 +137,8 @@ app.use("/", indexRoute);
 app.use("/jobs", jobsRoute);
 app.use("/users", usersRoute);
 app.use("/companies", companiesRoute);
-app.use("/admin", adminRoute)
+app.use("/admin", adminRoute);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });

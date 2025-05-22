@@ -416,7 +416,7 @@
                     </div>
                   <!-- <textarea id="cover-letter" label class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Tell us why you're perfect for this role..." rows="12"> -->
                                         <!-- </textarea> -->
-                  <sl-textarea id="cover-letter" label="Message" placeholder="Type your message..."></sl-textarea>
+                  <sl-textarea id="cover-letter" placeholder="Type/paste your cover letter here..."></sl-textarea>
 
                 </div>
                 
@@ -439,39 +439,47 @@
     let blobObject
     // ai function
     async function aks(aks, input) {
-  
-      const wubshet = {
-          name: "Wubshet Adane",
-          age: 69,
-          positionName: "Software Engineer",
-          location: "Addis Ababa, Ethiopia",
-          occupation: "Software Engineer",
-          hobbies: ["Reading", "Traveling", "Cooking"],
-          skills: ["JavaScript", "Python", "React", "Node.js"],
-      }
-  
-      
-      const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Authorization": "Bearer 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",
-  
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          "model": "openai/gpt-3.5-turbo-0613",
-          "messages": [{
-            "role": "user",
-            "content": [{
-              "type": "text",
-              "text": `${aks} - ${JSON.stringify(input)}`
+      try {
+
+        const wubshet = {
+            name: "Wubshet Adane",
+            age: 69,
+            positionName: "Software Engineer",
+            location: "Addis Ababa, Ethiopia",
+            occupation: "Software Engineer",
+            hobbies: ["Reading", "Traveling", "Cooking"],
+            skills: ["JavaScript", "Python", "React", "Node.js"],
+        }
+    
+        
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer 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",
+    
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "openai/gpt-3.5-turbo-0613",
+            "messages": [{
+              "role": "user",
+              "content": [{
+                "type": "text",
+                "text": `${aks} - data = ${JSON.stringify(input)}`
+              }]
             }]
-          }]
-        })
-      });
-  
-      const data = await response.json();
-      return data.choices[0].message.content;
+          })
+        });
+    
+        const data = await response.json();
+        if(data) {
+          console.log(data);
+          return data.choices[0].message.content;
+        }
+      } catch(e) {
+        alert("try again");
+        console.log(e)
+      }
     }
     
     const resume = document.getElementById("resume");
@@ -539,7 +547,7 @@
   }
     document.getElementById("generate-cover-letter").addEventListener("click", function() {
       console.log("requesting...");
-      document.getElementById("cover-letter").innerText = "Generating your cover letter...";
+      document.getElementById("cover-letter").placeholder = "Generating your cover letter...";
       document.getElementById("cover-letter").classList.add("text-gray-400"); 
       
       const formData = document.getElementById("apply-form");
@@ -550,7 +558,7 @@
           formDataObject[key] = value;
         })
           console.log(formDataObject);
-          aks("who is yu", {})
+          aks("Generate a simple cover letter usig this data to apply for job. fill the credentials like [your name], age and more using this data", formDataObject)
             .then(data => {
               console.log(data);
               document.getElementById("cover-letter").value = data;
@@ -622,8 +630,12 @@
       dropzone.classList.add('hidden');
     }
 
-    filePreview.addEventListener("click", function() {
-      downloadBlob(blobObject, "resume.docx");
+    filePreview.addEventListener("click", function(e) {
+      console.log(e.target);
+        if (e.target.id !== 'remove-file') {
+          downloadBlob(blobObject, "resume.docx");
+        }
+
     })
 
     
