@@ -114,11 +114,8 @@
 
               <!-- Company Dropdown -->
               <select id="company-select" name="company" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
-                <option value="" disabled selected hidden>Select a company</option>
-                <% companies.forEach(company => { %>
-                <option value="<%= company.id %>"><%= company.name %></option>
-                <% }) %>
-                <option value="new">Add New Company</option>
+                
+                <option value="<%= job.company %>"><%= job.company_name %></option>
               </select>
             </div>
           </div>
@@ -159,7 +156,7 @@
                 <!-- Update the location input -->
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">Location *</label>
-                  <input type="text" name="location" required placeholder="e.g. Adiss Ababa" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                  <input type="text" name="location" required placeholder="e.g. New York, NY" class="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
                 </div>
                 <div class="space-y-2">
                   <label class="text-sm font-medium text-gray-700">Salary </label>
@@ -265,22 +262,13 @@
                 <label class="text-sm font-medium text-gray-700">Select Categories *</label>
                 <div class="category-grid mt-2 border border-gray-200 rounded-lg p-4 bg-white">
 
-
-                  <% categories.forEach(category => { %>
-                  <div class="category-item">
-                    <input type="checkbox" id="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" name="categories[]" value="<%= category.id %>" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                    <label for="category-<%= category.name.toLowerCase().replace(/\s+/g, '-') %>" class="ml-2 text-sm text-gray-700">
-                      <%= category.name %>
-                    </label>
-                  </div>
-                  <% }) %>
                 </div>
                 <p class="text-xs text-gray-500 mt-1">Select all that apply</p>
               </div>
             </div>
 
             <!-- Featured and Premium Options -->
-            <!-- <div class="space-y-6">
+            <div class="space-y-6">
               <h2 class="text-xl font-semibold text-gray-900 mb-4">Listing Options</h2>
               <div class="grid md:grid-cols-2 gap-6">
                 <div class="space-y-2">
@@ -298,10 +286,10 @@
                   <p class="text-xs text-gray-500 ml-6">Featured listing + social media promotion</p>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- Company Image (renamed from Logo Upload) -->
-            <!-- <div class="space-y-6">
+            <div class="space-y-6">
               <h2 class="text-xl font-semibold text-gray-900 mb-4">Company Image</h2>
               <div class="space-y-2">
                 <label class="text-sm font-medium text-gray-700">Upload Company Image (Optional)</label>
@@ -316,7 +304,7 @@
                   </label>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- Submit Buttons -->
             <div class="flex flex-col sm:flex-row gap-4">

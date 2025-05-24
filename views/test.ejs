@@ -82,10 +82,18 @@
                             </div>
                         </div>
                         <div class="mt-8 flex flex-col sm:flex-row gap-4">
-                            <a href="/jobs/<%= job.id %>/apply" 
-                               class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold text-center hover:from-indigo-700 hover:to-purple-700 transition-all">
-                                Apply Now
-                            </a>
+                            <% if(existingApplication && existingApplication.length > 0) { %>
+                                <a href="/jobs/<%= job.id %>/apply" 
+                                   class="flex-1 bg-gray-200  border px-8 py-3 rounded-xl font-semibold text-center  transition-all">
+                                    Already Applied
+                                </a>
+                            <% } else { %>
+                                <a href="/jobs/<%= job.id %>/apply" 
+                                   class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold text-center hover:from-indigo-700 hover:to-purple-700 transition-all">
+                                    Apply Now
+                                </a>
+
+                            <% } %>
                             <button class="px-8 py-3 border border-gray-200 rounded-xl font-semibold text-gray-700 hover:bg-gray-50 transition-all"
                             @click="
                                 showMsg = true; 

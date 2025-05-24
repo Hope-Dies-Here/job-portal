@@ -428,7 +428,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-200">
-                                    <% for(let i = 0; i < 10; i++) { %>
+                                    <% companies.forEach(company => { %>
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
@@ -439,19 +439,19 @@
                                                         </svg>
                                                     </div>
                                                     <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-900">Tech Solutions</div>
-                                                        <div class="text-sm text-gray-500">tech@example.com</div>
+                                                        <a href="/companies/<%= company.id %>/jobs" class="text-sm font-medium text-gray-900"><%= company.name %></a>
+                                                        <div class="text-sm text-gray-500"><%= company.email %></div>
                                                     </div>
                                                 </div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900">Technology</div>
+                                                <div class="text-sm text-gray-900"><%= company.industry %></div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900">San Francisco, CA</div>
+                                                <div class="text-sm text-gray-900"><%= company.location %></div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm text-gray-900">12</div>
+                                                <div class="text-sm text-gray-900"><%= jobs.filter(job => job.company == company.id).length%></div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900">Jan 15, 2023</div>
@@ -466,7 +466,7 @@
                                                 </div>
                                             </td>
                                         </tr>
-                                    <% } %>
+                                    <% }) %>
                                 </tbody>
                             </table>
                         </div>

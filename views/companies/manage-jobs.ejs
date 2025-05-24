@@ -37,14 +37,14 @@
                 <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                     <div class="flex items-start gap-4">
                         <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <span class="text-xl font-bold text-blue-600">G</span>
+                            <span class="text-xl font-bold text-blue-600"><%= company.name.charAt(0) %></span>
                         </div>
                         <div>
                             <div class="flex items-center gap-2 mb-1">
-                                <h1 class="text-2xl font-bold text-gray-900">Google</h1>
+                                <h1 class="text-2xl font-bold text-gray-900"><%= company.name %></h1>
                                 <span class="status-badge status-active">Active</span>
                             </div>
-                            <p class="text-gray-600 mb-2">Technology • San Francisco, CA</p>
+                            <p class="text-gray-600 mb-2"><%= company.industry %> • <%= company.location %></p>
                             <div class="flex flex-wrap gap-2">
                                 <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">12 Active Jobs</span>
                                 <span class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">248 Applications</span>
@@ -59,15 +59,18 @@
                             </svg>
                             All Companies
                         </a>
+                        <% if(admin) { %>
                         <a href="/companies/1/edit" class="inline-flex items-center px-4 py-2 border border-gray-200 bg-white text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                             Edit Company
                         </a>
+                        <% } %>
                     </div>
                 </div>
             </div>
+            <% if(admin) { %>
 
             <!-- Page Header -->
             <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
@@ -162,6 +165,8 @@
                     </div>
                 </div>
             </div>
+        <% } %>
+
 
             <!-- Jobs Table -->
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-8">
@@ -187,28 +192,50 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Views
                                 </th>
+                        <% if(admin) { %>
+                                
                                 <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions
                                 </th>
+                        <% } %>
+
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             <!-- Job Row 1 -->
+                             <% jobs.forEach(job => { %>
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div>
-                                            <div class="text-sm font-medium text-gray-900">Senior Frontend Developer</div>
-                                            <div class="text-sm text-gray-500">San Francisco, CA • Full-time</div>
+                                            <a href="/jobs/<%= job.id %>" class="text-sm font-medium text-gray-900"><%= job.title %></a>
+                                            <div class="text-sm text-gray-500"><%= job.location %> • <%= job.type %></div>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Engineering</div>
+                                    <div class="text-sm text-gray-900"><%= company.industry %></div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">May 1, 2023</div>
-                                    <div class="text-sm text-gray-500">14 days ago</div>
+                                   <% 
+                                   const now = new Date();
+                                   const date = new Date(job.posted_date);
+
+                                    const diffTime = now - date; // in milliseconds
+                                    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+                                    if (diffDays > 0) {
+                                    console.log(`${diffDays} days ago`);
+                                    } else {
+                                    console.log(`In ${Math.abs(diffDays)} days`);
+                                    } %>
+                                    <div class="text-sm text-gray-900"><%= date.toISOString().split('T')[0] %></div>
+                                    <% if (diffDays > 0) { %>
+
+                                    <div class="text-sm text-gray-500"><%= diffDays %> days ago</div>
+                                    <% } else { %>
+                                    <div class="text-sm text-gray-500">In <%= Math.abs(diffDays) %> days</div>
+                                    <% } %>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="status-badge status-active">Active</span>
@@ -219,6 +246,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     1,245
                                 </td>
+                        <% if(admin) { %>
+
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <div class="flex justify-end space-x-2">
                                         <a href="/companies/1/jobs/1/applicants" class="text-indigo-600 hover:text-indigo-900">
@@ -243,68 +272,20 @@
                                         </button>
                                     </div>
                                 </td>
-                            </tr>
+                        <% } %>
 
-                            <!-- Job Row 2 -->
-                            <tr>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div>
-                                            <div class="text-sm font-medium text-gray-900">Product Designer</div>
-                                            <div class="text-sm text-gray-500">Remote • Full-time</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Design</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">Apr 25, 2023</div>
-                                    <div class="text-sm text-gray-500">20 days ago</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="status-badge status-active">Active</span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    36
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    982
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex justify-end space-x-2">
-                                        <a href="/companies/1/jobs/2/applicants" class="text-indigo-600 hover:text-indigo-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
-                                        </a>
-                                        <a href="/companies/1/jobs/2/edit" class="text-blue-600 hover:text-blue-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                                            </svg>
-                                        </a>
-                                        <button class="text-red-600 hover:text-red-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                                            </svg>
-                                        </button>
-                                        <button class="text-gray-600 hover:text-gray-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </td>
                             </tr>
+                            <% }) %>
+                          
 
-                            <!-- Additional job rows would follow the same pattern -->
+                            
                         </tbody>
                     </table>
                 </div>
             </div>
 
             <!-- Pagination -->
-            <div class="flex justify-between items-center">
+          <!--  <div class="flex justify-between items-center">
                 <div class="text-sm text-gray-600">
                     Showing <span class="font-medium">1-2</span> of <span class="font-medium">12</span> jobs
                 </div>
@@ -325,7 +306,7 @@
                         Next
                     </button>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 

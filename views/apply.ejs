@@ -455,7 +455,7 @@
         const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
           method: "POST",
           headers: {
-            "Authorization": "Bearer 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",
+            "Authorization": "Bearer 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",
     
             "Content-Type": "application/json"
           },
@@ -641,7 +641,52 @@
     
     
     
+
+    // const apiKey = import.meta.env.VITE_GEMINI_API_KEY; // or process.env.GEMINI_API_KEY if using Node
+    const apiKey = "AIzaSyC7_Mqx2lJLmLoI-GlL-_QyxU16jGqsei8"
+
+async function queryGemini(prompt) {
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`;
+
+  const body = {
+    contents: [
+      {
+        parts: [{ text: prompt }]
+      }
+    ]
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+
+    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+    const data = await response.json();
+    console.log('Gemini Response:', data);
+    return data;
+  } catch (error) {
+    console.error('Error querying Gemini:', error);
+  }
+}
+
+// Example usage
+queryGemini("What's the capital of Ethiopia?").then(data => console.log("beyee"));
+
   });
+
+  const data = fetch("http://localhost:3002/jobs/generate-cv", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: "who are you?"
+  }).then(data => console.log(data.data))
 </script>
 </body>
 

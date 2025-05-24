@@ -4,6 +4,8 @@ import { dirname } from "path";
 import path from "path";
 import { jobs } from "./db/jobs.js";
 import { pool, connectDb } from "./db/db.js";
+import { errorHandler } from './middlewares/errorHandler.js';
+
 import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import cors from "cors";
@@ -71,6 +73,7 @@ passport.use(
     (accessToken, refreshToken, profile, done) => {
       try {
         if (!profile) {
+          console.log("faild here");
           return done(new Error("Faild to fetch user profile"));
         }
         return done(null, profile);
@@ -89,9 +92,10 @@ passport.use(
       const user = await User.findByEmail(email);
       if (!user) return done(null, false, "Email not found");
 
-      let match;
-      // const match = await bcrypt.compare(password, user.password);
-      password === user.password ? (match = true) : (match = null);
+      if(user.auth_provider == 'google') return done(null, false, "Email not found");
+      // let match;
+      const match = await bcrypt.compare(password, user.password);
+      // password === user.password ? (match = true) : (match = null);
       if (!match) return done(null, false, "Password not correct");
 
       const { password: uhoh, ...safeData } = user;
@@ -138,6 +142,9 @@ app.use("/jobs", jobsRoute);
 app.use("/users", usersRoute);
 app.use("/companies", companiesRoute);
 app.use("/admin", adminRoute);
+
+
+// app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

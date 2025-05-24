@@ -30,6 +30,12 @@
     <!-- Companies List Section -->
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-7xl mx-auto">
+                    <% if(!admin) { %>
+          <h1 class="text-2xl font-bold text-gray-900 my-8">Companies</h1>
+              <% } %>
+
+              <% if(admin) { %>
+
       <!-- Header with actions -->
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
         <div>
@@ -128,14 +134,8 @@
           </div>
         </div>
       </div>
-    <% const companies = [
-        { id: 1, name: 'Google', logo: '/images/companies/google.png', cover: '/images/companies/google-cover.png', location: 'Mountain View, CA', jobCount: 12, applicantCount: 345, hireCount: 5, industries: ['Technology', 'AI'], verified: true },
-        { id: 2, name: 'Commercial Bank of Ethiopia', logo: '/images/companies/cbe.png', cover: '/images/companies/cbe-cover.png', location: 'Redmond, WA', jobCount: 8, applicantCount: 200, hireCount: 3, industries: ['Technology'], verified: false },
-        { id: 3, name: 'Coca Cola', logo: '/images/companies/coca-cola.png', cover: '/images/companies/coca-cola-cover.png', location: 'Seattle, WA', jobCount: 15, applicantCount: 500, hireCount: 10, industries: ['E-commerce'], verified: true },
-        { id: 4, name: 'Netflix', location: 'Los Gatos, CA', jobCount: 5, applicantCount: 100, hireCount: 2, industries: ['Entertainment'], verified: false },
-        { id: 5, name: 'Facebook', location: 'Menlo Park, CA', jobCount: 20, applicantCount: 600, hireCount: 8, industries: ['Social Media'], verified: true },
-        { id: 6, name: 'Apple', location: 'Cupertino, CA', jobCount: 0, applicantCount: 0, hireCount: 0, industries: ['Technology'], verified: false }
-      ]; %>
+              <% } %>
+      
       <!-- Companies grid -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <% companies.forEach(function(company) { %>
@@ -163,15 +163,16 @@
             
             <!-- Company details -->
             <div class="p-4 pt-12">
-              <h3 class="text-lg font-bold text-gray-900 mb-1"><%= company.name %></h3>
+              <a href="/companies/<%= company.id %>/jobs" class="text-lg font-bold text-gray-900 mb-1 underline"><%= company.name %></a>
               <p class="text-gray-500 text-sm mb-4"><%= company.location %></p>
               
               <!-- Company metrics -->
               <div class="grid grid-cols-3 gap-2 mb-4">
                 <div class="text-center p-2 bg-gray-50 rounded-lg">
                   <p class="text-xs text-gray-500">Jobs</p>
-                  <p class="font-bold text-gray-900"><%= company.jobCount %></p>
+                  <p class="font-bold text-gray-900"><%= jobs.filter(function(job) { return job.company === company.id }).length %></p>
                 </div>
+                <% if(admin) {%>
                 <div class="text-center p-2 bg-gray-50 rounded-lg">
                   <p class="text-xs text-gray-500">Applicants</p>
                   <p class="font-bold text-gray-900"><%= company.applicantCount %></p>
@@ -180,6 +181,8 @@
                   <p class="text-xs text-gray-500">Hires</p>
                   <p class="font-bold text-gray-900"><%= company.hireCount || 0 %></p>
                 </div>
+                <% } %>
+
               </div>
               
               <!-- Industry tags -->
@@ -195,7 +198,7 @@
                   </span>
                 <% } %>
               </div>
-              
+              <% if(admin) { %>
               <!-- Actions -->
               <div class="flex justify-between items-center">
                 <a href="/companies/<%= company.id %>/jobs" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
@@ -210,6 +213,7 @@
                   </button>
                 </div>
               </div>
+              <% } %>
             </div>
           </div>
         <% }); %>

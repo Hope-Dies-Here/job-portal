@@ -1,17 +1,21 @@
+import bcrypt from 'bcrypt';
+
 import express from "express";
 import checkLogin from "../middlewares/checkLogin.js";
 import passport from "passport";
 import { jobs } from "../db/jobs.js";
-import { User, Experience, Education } from "../models/User.js";
+import { User, Experience, Education, Adress } from "../models/User.js";
 import { uploadMiddleware, upload } from "../middlewares/multer.js";
 import tesseract from "tesseract.js";
+import { Application } from "../models/Application.js";
+import { pool } from "../db/db.js";
 const router = express.Router();
 
 router.get("/login", (req, res) => {
   res.render("login", {
     job: jobs[0],
     jobs,
-    user: req.isAuthenticated() ? user : null,
+    user: req.isAuthenticated() ? req.user : null,
     title: "JobHub - Find Your Dream Job",
   });
 });
@@ -27,7 +31,7 @@ router.post(
 
 router.post("/profile/personal", checkLogin, async(req, res) => {
   const body = req.body;
-  // console.log(body, "body");
+  console.log(body, "body");
 
   const user = await User.findByIdAndUpdate(req.user.id, body);
   if(!user) {
@@ -37,10 +41,6 @@ router.post("/profile/personal", checkLogin, async(req, res) => {
   req.user = await User.findById(req.user.id);
   // console.log(req.user, "user");
   // console.log(req.user.last_name, "user");
-
-  console.log("------------------------------");
-  console.log(req.user.last_name);
-  console.log("------------------------------");
 
   req.flash("success", "User updated");
   res.status(200).json({ success: true, data: user })
@@ -61,9 +61,16 @@ router.post("/register", async (req, res) => {
   const { first_name, last_name, email, password } = req.body;
   console.log(body);
 
+  const hashedPassword = await bcrypt.hash(password, 10);
+  req.body.password = hashedPassword;
+
   const data = await User.create(req.body)
+  console.log(data);
+  await pool.execute(
+    "INSERT INTO address(user_id) VALUES (?)", [data.insertId]
+  )
   if(!data) {
-    res.redirect("/reister")
+    return res.redirect("/users/register")
   }
 
   req.flash("success", "User created");
@@ -72,15 +79,30 @@ router.post("/register", async (req, res) => {
 
 });
 
+router.get("/applications", checkLogin, async (req, res) => {
+  const applications = await Application.findAll(req.user.id);
+  
+  res.render("applications", {
+    applications,
+    user: req.isAuthenticated() ? req.user : null,
+    title: "Applications - JobHub",
+  });
+})
+
+
 router.get("/profile", checkLogin, async (req, res) => {
+  console.log(req.user.id);
   const user = await User.findById(req.user.id);
-  const experiences = await Experience.findAll(user.id);
-  const educations = await Education.findAll(user.id);
-  console.log(user);
+  console.log(user, "beyene");
+  const experiences = await Experience.findByUserId(req.user.id);
+  const educations = await Education.findByUserId(req.user.id);
+  const applications = await Application.findByUserId(req.user.id);
+  console.log(user, "BEYENEN");
   res.render("profile", {
     user: req.isAuthenticated() ? user : null,
-    experiences,
-    educations,
+    experiences: experiences || [],
+    educations: educations || [],
+    applications: applications || [],
     title: "Profile - JobHub",
   });
 });
@@ -194,7 +216,6 @@ router.delete("/profile/educations/:id", async(req, res) => {
   }
 })
 
-
 router.get("/saved-jobs", (req, res) => {
   const user = req.user;
   res.render("saved-jobs", {
@@ -212,7 +233,8 @@ router.get("/applied-jobs", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  req.logout();
+  // req.logout();
+  req.session.destroy();
   res.redirect("/users/login");
 });
 

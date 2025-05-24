@@ -8,7 +8,7 @@ const User = {
   async findById(id) {
     const [rows] = await pool.execute(
       `
-      SELECT * 
+      SELECT user.*, address.* 
       FROM users as user
       JOIN address ON address.user_id = user.id 
       WHERE user.id = ?`,
@@ -30,7 +30,7 @@ const User = {
   },
 
   async create(user) {
-    const { first_name, last_name, email, password } = user;
+    const { first_name, last_name, email, password=null } = user;
     const picture = "/images/emp.png";
 
     const [rows] = await pool.execute(
@@ -42,17 +42,26 @@ const User = {
 
   // update user data
   async findByIdAndUpdate(id, user) {
-    const { first_name, last_name, email, birth_date, phone, bio } = user;
+    const { first_name, last_name, email, birth_date, phone, bio, region, zone, city, gender } = user;
     const [rows] = await pool.execute(
       "UPDATE users SET first_name = ?, last_name = ?, email = ?, birth_date = ?, phone = ?, bio = ? WHERE id = ?",
       [first_name, last_name, email, birth_date, phone, bio, id]
     );
 
-    const [rows2] = await pool.execute(
-      "UPDATE address SET country = ?, region = ?, zone = ?, city = ? WHERE user_id = ?",
-      [user.country, user.region, user.zone, user.city, id]
-    )
-    return {...rows, ...rows2};
+    const existingUser = await User.findById(id);
+    if(existingUser) {
+
+      const [rows_two] = await pool.execute(
+        "UPDATE address SET country = ?, region = ?, zone = ?, city = ? WHERE user_id = ?",
+        [user.country, user.region, user.zone, user.city, id]
+      )
+      return {...rows, ...rows_two};
+    } else {
+      const [rows_new] = await pool.execute(
+        "INSERT INTO address (country, region, zone, city, user_id) values(?, ?, ?, ?, ?)",
+        [user.country, user.region, user.zone, user.city, id]
+      )
+    }
   },
   async update(user) {},
 
@@ -84,6 +93,13 @@ const Skill = {
 };
 
 const Experience = {
+  async findByUserId(id) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM experiences WHERE user_id = ?",
+      [id]
+    );
+    return rows[0];
+  },
   async findAll(userId) {
     const [rows] = await pool.execute(
       "SELECT * FROM experiences WHERE user_id = ?",
@@ -121,6 +137,13 @@ const Experience = {
 };
 
 const Education = {
+  async findByUserId(id) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM educations WHERE user_id = ?",
+      [id]
+    );
+    return rows[0];
+  },
   async findAll(userId) {
     const [rows] = await pool.execute(
       "SELECT * FROM educations WHERE user_id = ?",
@@ -183,4 +206,22 @@ const Resume = {
   async delete(resume) {},
 };
 
-export { User, Skill, Experience, Education, Resume };
+const Adress = {
+  async findAll(userId) {
+    const [rows] = await pool.execute(
+      "SELECT * FROM address WHERE user_id = ?",
+      [userId]
+    );
+    return rows;
+  },
+  async create(data) {
+    const { country=null, city=null, region=null, zone=null, user_id } = data;
+    const [rows] = await pool.execute(
+      "INSERT INTO address (country, region, zone, city, user_id) values(?, ?, ?, ?, ?, ?)",
+      [country, region, zone, city, user_id]
+    );
+    return rows;
+  }
+}
+
+export { User, Skill, Experience, Education, Resume, Adress };

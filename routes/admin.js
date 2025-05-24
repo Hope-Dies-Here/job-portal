@@ -49,8 +49,10 @@ router.get("/", async (req, res) => {
 
 router.get("/jobs/edit/:id", async(req, res) => {
     const job = await Job.findById(req.params.id);
+    console.log(job);
     res.render("admin/edit-job", {
         admin: req.session.admin,
+        user: null,
         title: "Edit Job - JobHub",
         job
     });

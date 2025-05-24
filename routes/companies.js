@@ -3,12 +3,20 @@ import { jobs } from "../db/jobs.js";
 import Company from '../models/Company.js';
 import { Category, Job } from '../models/Job.js';
 import checkAdmin from '../middlewares/checkAdmin.js';
+import { pool } from '../db/db.js';
 const router = express.Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+	const companies = await Company.findAll();
+	const [jobs] = await pool.execute('SELECT companies.*, jobs.* FROM companies JOIN jobs ON companies.id = jobs.company');
+	
+	console.log(companies);
 	res.render('companies/index', {
 		user: req.isAuthenticated() ? req.user : null,
-		title: "Companies - JobHub"
+		admin: req.session.admin,
+		title: "Companies - JobHub",
+		companies,
+		jobs
 	})
 })
 
@@ -54,11 +62,18 @@ router.get('/manage-jobs', (req, res) => {
 	})
 })
 
-router.get('/:company/jobs', (req, res) => {
+router.get('/:company/jobs', async (req, res) => {
 
+	const [jobs] = await pool.execute('SELECT * FROM jobs WHERE company = ?', [req.params.company]);
+	const [company] = await pool.execute('SELECT * FROM companies WHERE id = ?', [req.params.company]);
+	console.log(company);
+	console.log(jobs, "jobs");
 	res.render('companies/manage-jobs', {
-		user: req.isAuthenticated() ? { ...req.user._json } : null,
-		title: "Post Job - JobHub"
+		user: req.isAuthenticated() ? req.user : null,
+		admin: req.session.admin,
+		jobs,
+		company: company[0],
+		title: company[0].name + " - JobHub"
 	})
 })
 
@@ -72,11 +87,17 @@ router.get('/manage-jobs/:id/applicants', (req, res) => {
 
 router.get("/:company/jobs/:job/applicants", async (req, res) => {
 	// const [temp_jobs] = await pool.execute('SELECT * FROM jobs ORDER BY id ASC')
-	const job = jobs.find((job) => job.id == req.params.job);
-  
+	// const job = jobs.find((job) => job.id == req.params.job);
+
+	const [applicants] = await pool.execute(`SELECT * FROM applications WHERE job_id = ?`, [req.params.job]);
+	const [job] = await pool.execute(`SELECT * FROM jobs WHERE id = ?`, [req.params.job]);
+	const [jobs] = await pool.execute(`SELECT * FROM jobs WHERE company = ?`, [req.params.company]);
+	
+	console.log(applicants, job, jobs);
 	res.render("companies/applicants", {
 	  job,
 	  jobs,
+	  admin: req.session.admin,
 	  user: req.isAuthenticated() ? req.user : null,
 	  title: `${job.title} - JobHub`,
 	});

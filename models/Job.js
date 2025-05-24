@@ -51,11 +51,11 @@ const Job = {
   return rows;
   },
   async create(job) {
-      const { title, type, description, company, location, salary, responsibilities, end_date, posted_date } = job;
+      const { title, type, description, company, location, salary, responsibilities, end_date, posted_date, requirements } = job;
 
     const [rows] = await pool.execute(
-      "INSERT INTO jobs (title, type, location, salary, description, responsibilities, posted_date, end_date, company) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-      [title, type, location, salary, description, responsibilities, posted_date, end_date, company]
+      "INSERT INTO jobs (title, type, location, salary, description, responsibilities, posted_date, end_date, company, requirements) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+      [title, type, location, salary, description, responsibilities, posted_date, end_date, company, requirements]
     );
     
     return rows;
@@ -73,7 +73,13 @@ const Category = {
       [id]
     );
     return rows[0];
-  }
+  }, 
+  async findByJobId(id) {
+    const [rows] = await pool.execute("SELECT * FROM job_categories WHERE job_id = ?", [
+      id,
+    ]);
+    return rows[0];
+  },
 }
 
 const JobCategory = {

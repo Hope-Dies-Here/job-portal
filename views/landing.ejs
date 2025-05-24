@@ -22,7 +22,7 @@
     <!-- Hero Section -->
     <div class="relative min-h-[90vh] bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center">
         <div class="absolute inset-0">
-            <img src="https://images.unsplash.com/photo-1664575602554-2087b04935a5?q=80&w=2070&auto=format&fit=crop" 
+            <img src="" 
                  alt="Background pattern" 
                  class="w-full h-full object-cover mix-blend-overlay opacity-10">
         </div>
@@ -40,7 +40,7 @@
 
                     <!-- Search Section -->
                     <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-8">
-                        <form action="/search" method="GET" class="grid md:grid-cols-[1fr,auto,auto] gap-4">
+                        <form action="/jobs/search" method="GET" class="grid md:grid-cols-[1fr,auto,auto] gap-4">
                             <div class="relative">
                                 <i class="absolute left-3 top-3 text-gray-400">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -99,12 +99,12 @@
 
             <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                 <% const companies = [
-                    { name: 'Google', logo: 'G', color: 'bg-blue-500' },
-                    { name: 'Microsoft', logo: 'M', color: 'bg-emerald-500' },
-                    { name: 'Apple', logo: 'A', color: 'bg-gray-900' },
-                    { name: 'Meta', logo: 'M', color: 'bg-indigo-500' },
-                    { name: 'Amazon', logo: 'A', color: 'bg-orange-500' },
-                    { name: 'Netflix', logo: 'N', color: 'bg-red-600' }
+                    { name: 'Debre Markos University', logo: 'D', color: 'bg-blue-500' },
+                    { name: 'Commercial Bank of Ethiopia', logo: 'C', color: 'bg-emerald-500' },
+                    { name: 'Ethiopian Airlines', logo: 'E', color: 'bg-gray-900' },
+                    { name: 'Ethio Telecom', logo: 'E', color: 'bg-indigo-500' },
+                    { name: 'Gebeya', logo: 'G', color: 'bg-orange-500' },
+                    { name: 'Ride', logo: 'R', color: 'bg-red-600' }
                 ] %>
 
                 <% companies.forEach(function(company) { %>
